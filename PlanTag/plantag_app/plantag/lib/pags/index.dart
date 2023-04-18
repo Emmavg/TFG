@@ -30,35 +30,30 @@ class _IndexState extends State<Index> {
     return Scaffold(
       // Barra superior
       appBar: AppBar(
-        title:
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Le ponemos el título asignado arriba en el widget
-              Text(widget.widget.title, style: const TextStyle(fontSize: 20, color: Colors.white, fontFamily: 'Trajan Pro'),),
-              Text('App', style: const TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'Trajan Pro'),),
-            ],
-          ),
-          actions: [
-            Row(
-              children: [
-                DropdownButton(items: <String>["Por fecha", "Por creación"].map((i) => DropdownMenuItem<String>(value: i, child: Text(i, style: const TextStyle(color: Colors.deepOrange)))).toList(), 
-                // Le colocamos texto inicial al menú deslegable, si la propiedad orderselected es "" entonces le ponemos el txt de la const
-                hint: _orderSelected == "" ? const Text("Seleccionar", style: TextStyle(color: Colors.black),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Le ponemos el título asignado arriba en el widget
+            Text(widget.widget.title, style: const TextStyle(fontSize: 20, color: Colors.white, fontFamily: 'Trajan Pro'),),
+            Text('App', style: const TextStyle(fontSize: 20, color: Colors.grey, fontFamily: 'Trajan Pro'),),
+          ],
+        ),
+        actions: [Row(children: [
+          DropdownButton(items: <String>["Por fecha", "Por creación"].map((i) => DropdownMenuItem<String>(value: i, child: Text(i, style: const TextStyle(color: Colors.deepOrange)))).toList(), 
+          // Le colocamos texto inicial al menú deslegable, si la propiedad orderselected es "" entonces le ponemos el txt de la const
+          hint: _orderSelected == "" ? const Text("Seleccionar", style: TextStyle(color: Colors.black),
 
-                // Sino
-                ): Text(_orderSelected, style: const TextStyle(color: Colors.black)),
-                onChanged: (value){
-                  setState(() {
-                     _orderSelected = value.toString(); 
-                  });
-                }),
+          // Sino
+          ): Text(_orderSelected, style: const TextStyle(color: Colors.black)),
+          onChanged: (value){
+            setState(() {
+                _orderSelected = value.toString(); 
+            });
+          }),
 
-                // ---------------------------------------- Colocamos un logo al lado del desplegable -------------------
-                const _LogoSettings(),
-              ],
-            )
-          ], 
+          // ---------------------------------------- Colocamos un logo al lado del desplegable -------------------
+          const _LogoSettings(),
+        ],)], 
        
         backgroundColor: const Color.fromARGB(255, 78, 241, 190),
         toolbarHeight: 60,
@@ -155,7 +150,7 @@ class _LogoSettings extends StatelessWidget{
         showCupertinoDialog(
           context: context, 
           builder: (context) {
-          return const _Dialogo();
+          return _Dialogo();
         } );
       },
     );
@@ -165,18 +160,60 @@ class _LogoSettings extends StatelessWidget{
 // ********************************************************** CLASE DIALOGO **********************************************
 
 class _Dialogo extends StatelessWidget{
-  const _Dialogo ({Key? key}) : super (key:key);
+
+  final _key = GlobalKey<FormState>();
+
+  final _nomFld = TextEditingController();
+  final _imgFld = TextEditingController();
+  _Dialogo ({Key? key}) : super (key:key);
 
   @override
   Widget build (BuildContext context){
 
-    return CupertinoAlertDialog(
-      content: Container(
-        
-        child: Text("Hola"),
+    return AlertDialog(
+      content: SizedBox(
         // Sacamos la altura y anchura del padre o de la ventana principal en este caso y le decimos que queremos ocupar un 40% de la misma  
         width: MediaQuery.of(context).size.width* .4,
         height: MediaQuery.of(context).size.height* .4,
+        child: Form(
+          key: _key,
+          child: Column(children: [
+
+            // Logo  
+            const _LogoSettings(),
+
+            // TxtFld Nombre
+            TextFormField(
+              controller: _nomFld,
+              decoration: const InputDecoration(labelText: "Nombre", border: OutlineInputBorder()),
+            ),
+
+            // Le añadimos un espacio para que no estén tan pegados como si fuera un br
+            const SizedBox(height: 10),
+
+             // TxtFld img
+            TextFormField(
+              controller: _imgFld,
+              decoration: const InputDecoration(labelText: "Nombre", border: OutlineInputBorder()),
+            ),
+
+            // Le añadimos un espacio para que no estén tan pegados como si fuera un br
+            const SizedBox(height: 15),
+
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.amber,
+                // Color del texto
+                foregroundColor: Colors.black,
+                elevation: 4
+              ),
+              onPressed: (){
+              print("object");
+            },
+            //Boton y txt del boton
+            child: const Text("Plantar")),
+          ],),
+        ),
       ),
     );
   }
