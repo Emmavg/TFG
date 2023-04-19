@@ -178,6 +178,8 @@ class _LogoSettings extends StatelessWidget {
       // ------------------------------------- Metodo cuando pulsas el logo muestra dialogo  ---------------------------------
       onTap: () {
         showCupertinoDialog(
+            // El barrier es para especificar que cuando toque otra zona de la pantalla se cierra
+            barrierDismissible: false,
             context: context,
             builder: (context) {
               return _Dialogo();
@@ -201,7 +203,9 @@ class _Dialogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-
+      title: const Text("Nueva categoría", textAlign: TextAlign.center,),
+      backgroundColor: const Color.fromARGB(255, 238, 255, 183), // your color
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)), // change 40 to your desired radius
       // ------------------------------------------- CONSTRAINT LAYOUT  -------------------------------------------
       // Dependiendo de la pantalla, especificamos los tamaños estandar
       content: ConstrainedBox(
@@ -220,7 +224,7 @@ class _Dialogo extends StatelessWidget {
           
           child: Form(
             // Le decimos a flutter que efectivamente le asignamos esta key al componente Form para poderlo evaluar abajo en el método de presionar el botón
-            key: true ? _key: _keyTamColum,
+            key:_key,
             // Para que sea más responsive, si no entra en la pantalla le metemos un scroll view al diálogo que solo aparece cuando sea necesario de forma automática
             child: SingleChildScrollView(
               child: Column(
@@ -234,7 +238,15 @@ class _Dialogo extends StatelessWidget {
                   TextFormField(
                     controller: _nomFld,
                     decoration: const InputDecoration(
-                        labelText: "Nombre", border: OutlineInputBorder()),
+                    labelText: "Nombre", border: OutlineInputBorder()),
+
+                    // Validamos si es correcto ese campo o si está relleno en caso de ser obligatorio (Cuando se pulsa el botón abajo se valida)
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor introduce algo';
+                      }
+                      return null;
+                    },
                   ),
             
                   // Le añadimos un espacio para que no estén tan pegados como si fuera un br
@@ -244,29 +256,70 @@ class _Dialogo extends StatelessWidget {
                   TextFormField(
                     controller: _imgFld,
                     decoration: const InputDecoration(
-                        labelText: "Imagen", border: OutlineInputBorder()),
+                    labelText: "Imagen", border: OutlineInputBorder()),
                   ),
             
                   // Le añadimos un espacio para que no estén tan pegados como si fuera un br
                   const SizedBox(height: 15),
             
-                  // -------------------------------------- Btn Formulario ----------------------------------------
-                  TextButton(
-                      style: TextButton.styleFrom(
+                  // -------------------------------------- Btns Formulario ----------------------------------------
+                    
+                  Row (
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+
+
+                      // ---------------------------------------- Btn Cancel --------------------------------------
+                      TextButton(
+                        style: TextButton.styleFrom(
                           backgroundColor: Colors.amber,
                           // Color del texto
                           foregroundColor: Colors.black,
-                          elevation: 4),
+                          elevation: 4
+                        ),
       
-                      // --------------------------------- Metodo pulsar btn --------------------------------------
-                      onPressed: () {
-                        // Depende de si está definido el contexto o no y de si está o no asignada la key a este componente por lo que arriba lo evaluamos con una condicion
-                        // y ponemos la ! para decirle a flutter que nos aseguramos que recibe esa variable
-                       
-                        print( _key.currentContext!.size);
-                      },
-                      //Boton y txt del boton
-                      child: const Text("Plantar")),
+                        // --------------------------------- Metodo pulsar btn --------------------------------------
+                        onPressed: () {
+                          // Cerramos la ventana cuando pulsemos el botón
+                          Navigator.pop(context);
+                        },
+                        //Boton y txt del boton
+                        child: const Text("Cancelar")
+                      ),
+
+
+                      // Le añadimos un espacio para que no estén tan pegados como si fuera un br
+                      const SizedBox(width: 10),
+
+
+                      // ---------------------------------------- Btn Ok --------------------------------------
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.amber,
+                          // Color del texto
+                          foregroundColor: Colors.black,
+                          elevation: 4
+                        ),
+      
+                        // --------------------------------- Metodo pulsar btn --------------------------------------
+                        onPressed: () {
+                          // Depende de si está definido el contexto o no y de si está o no asignada la key a este componente por lo que arriba lo evaluamos con una condicion
+                          // y ponemos la ! para decirle a flutter que nos aseguramos que recibe esa variable
+                        
+                          print( _key.currentContext!.size);
+                          // Validamos si es correcto el formulario y están todos los campos rellenos o falta alguno obligatorio
+                          if (_key.currentState!.validate()) {
+                            // Process data.
+                            // Cerramos la ventana cuando pulsemos el botón
+                            Navigator.pop(context);
+                          }
+                        },
+                        //Boton y txt del boton
+                        child: const Text("Plantar")
+                      ),
+                    ],
+                  )
+                 
                 ],
               ),
             ),
