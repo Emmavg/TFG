@@ -113,7 +113,8 @@ class _IndexState extends State<Index> {
             // Parte del calendario
             Expanded(
               child: Container(
-                color: const Color.fromARGB(255, 185, 249, 243),
+                // Verde menta
+                color: const Color.fromARGB(255, 203, 255, 202),
                 child: SfDateRangePicker(
                   monthViewSettings:
                       const DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
@@ -203,17 +204,17 @@ class _Dialogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Nueva categoría", textAlign: TextAlign.center,),
-      backgroundColor: const Color.fromARGB(255, 238, 255, 183), // your color
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)), // change 40 to your desired radius
+      title: const Text("Nueva categoría", textAlign: TextAlign.left,),
+      backgroundColor: Color.fromARGB(255, 223, 255, 222), // your color
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),// change 40 to your desired radius
       // ------------------------------------------- CONSTRAINT LAYOUT  -------------------------------------------
       // Dependiendo de la pantalla, especificamos los tamaños estandar
       content: ConstrainedBox(
         constraints: const BoxConstraints(
-          minWidth: 200,
-          maxWidth: 600,
-          minHeight: 100,
-          maxHeight: 250,
+          minWidth: 100,
+          maxWidth: 800,
+          minHeight: 200,
+          maxHeight: 300,
         ),
         child: SizedBox(
           // Sacamos la altura y anchura del padre o de la ventana principal en este caso y le decimos que queremos ocupar un 40% de la misma
@@ -260,47 +261,48 @@ class _Dialogo extends StatelessWidget {
                   ),
             
                   // Le añadimos un espacio para que no estén tan pegados como si fuera un br
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 35),
             
                   // -------------------------------------- Btns Formulario ----------------------------------------
                     
                   Row (
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween, 
                     children: [
 
-
                       // ---------------------------------------- Btn Cancel --------------------------------------
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          // Color del texto
-                          foregroundColor: Colors.black,
-                          elevation: 4
-                        ),
-      
-                        // --------------------------------- Metodo pulsar btn --------------------------------------
+                      OutlinedButton.icon(
+                        icon: const Icon(Icons.close),
+                        label: const Text("Cancelar"),
                         onPressed: () {
                           // Cerramos la ventana cuando pulsemos el botón
                           Navigator.pop(context);
                         },
-                        //Boton y txt del boton
-                        child: const Text("Cancelar")
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                          side: const BorderSide(width: 2.0, color:Color.fromARGB(255, 255, 9, 9)),
+                          foregroundColor: Color.fromARGB(255, 255, 9, 9),
+                          // Forma de cuadrado circular al botón
+                          shape: const StadiumBorder(),
+                        ),
                       ),
 
-
                       // Le añadimos un espacio para que no estén tan pegados como si fuera un br
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 30),
 
 
                       // ---------------------------------------- Btn Ok --------------------------------------
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.amber,
+                      OutlinedButton.icon(
+                        icon: const Icon(Icons.done),
+                        label: const Text("Aceptar"),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                          // Forma de cuadrado circular al botón
+                          shape: const StadiumBorder(),
+                          side: const BorderSide(width: 2.0, color:Color.fromARGB(255, 3, 223, 25)),
+                          //backgroundColor: Color.fromARGB(255, 94, 255, 110),
                           // Color del texto
-                          foregroundColor: Colors.black,
-                          elevation: 4
+                          foregroundColor: Color.fromARGB(255, 5, 177, 22),
                         ),
-      
                         // --------------------------------- Metodo pulsar btn --------------------------------------
                         onPressed: () {
                           // Depende de si está definido el contexto o no y de si está o no asignada la key a este componente por lo que arriba lo evaluamos con una condicion
@@ -314,8 +316,6 @@ class _Dialogo extends StatelessWidget {
                             Navigator.pop(context);
                           }
                         },
-                        //Boton y txt del boton
-                        child: const Text("Plantar")
                       ),
                     ],
                   )
