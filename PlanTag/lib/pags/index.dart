@@ -26,27 +26,31 @@ class _IndexState extends State<Index> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Barra superior
+      // --------------------------------------------------- Barra superior ---------------------------------------------
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Le ponemos el título asignado arriba en el widget
+            // Le ponemos el título asignado arriba en el widget + "app"
             Text(
               widget.widget.title,
               style: const TextStyle(
                   fontSize: 20, color: Colors.white, fontFamily: 'Trajan Pro'),
             ),
-            Text(
+            const Text(
               'App',
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 20, color: Colors.grey, fontFamily: 'Trajan Pro'),
             ),
           ],
         ),
+
+        // -------------------------------------------- ELEMENTOS QUE TIENEN ACCIONES ---------------------------------------
         actions: [
           Row(
             children: [
+
+              // ------------------------------ Lista desplegable seleccionar que tiene un filtro -------------------------
               DropdownButton(
                   items: <String>["Por fecha", "Por creación"]
                       .map((i) => DropdownMenuItem<String>(
@@ -64,6 +68,8 @@ class _IndexState extends State<Index> {
                         )
                       : Text(_orderSelected,
                           style: const TextStyle(color: Colors.black)),
+                  
+                  // --------------------------------------- ACCION CUANDO SE SELECCIONE UN VALOR --------------------------
                   onChanged: (value) {
                     setState(() {
                       _orderSelected = value.toString();
@@ -82,6 +88,7 @@ class _IndexState extends State<Index> {
         elevation: 5,
       ),
 
+      
       // ----------------------------------------------------- BODY ------------------------------------------------------
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -167,6 +174,8 @@ class _LogoSettings extends StatelessWidget {
         child:
             CircleAvatar(backgroundImage: AssetImage("assets/images/logo.jpg")),
       ),
+
+      // ------------------------------------- Metodo cuando pulsas el logo muestra dialogo  ---------------------------------
       onTap: () {
         showCupertinoDialog(
             context: context,
@@ -182,6 +191,8 @@ class _LogoSettings extends StatelessWidget {
 
 class _Dialogo extends StatelessWidget {
   final _key = GlobalKey<FormState>();
+  // Para saber siempre el tamaño de la columna del formulario de forma dinámica aunque vaya cambiando por la panatalla
+  final _keyTamColum = GlobalKey<FormState>();
 
   final _nomFld = TextEditingController();
   final _imgFld = TextEditingController();
@@ -190,49 +201,75 @@ class _Dialogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: SizedBox(
-        // Sacamos la altura y anchura del padre o de la ventana principal en este caso y le decimos que queremos ocupar un 40% de la misma
-        width: MediaQuery.of(context).size.width * .4,
-        height: MediaQuery.of(context).size.height * .4,
-        child: Form(
-          key: _key,
-          child: Column(
-            children: [
-              // Logo
-              const _LogoSettings(),
 
-              // TxtFld Nombre
-              TextFormField(
-                controller: _nomFld,
-                decoration: const InputDecoration(
-                    labelText: "Nombre", border: OutlineInputBorder()),
+      // ------------------------------------------- CONSTRAINT LAYOUT  -------------------------------------------
+      // Dependiendo de la pantalla, especificamos los tamaños estandar
+      content: ConstrainedBox(
+        constraints: const BoxConstraints(
+          minWidth: 200,
+          maxWidth: 600,
+          minHeight: 100,
+          maxHeight: 250,
+        ),
+        child: SizedBox(
+          // Sacamos la altura y anchura del padre o de la ventana principal en este caso y le decimos que queremos ocupar un 40% de la misma
+          width: MediaQuery.of(context).size.width * .4,
+          height: MediaQuery.of(context).size.height * .4,
+          
+          // ----------------------------------------- FORMULARIO DEL DIALOGO ------------------------------------
+          
+          child: Form(
+            // Le decimos a flutter que efectivamente le asignamos esta key al componente Form para poderlo evaluar abajo en el método de presionar el botón
+            key: true ? _key: _keyTamColum,
+            // Para que sea más responsive, si no entra en la pantalla le metemos un scroll view al diálogo que solo aparece cuando sea necesario de forma automática
+            child: SingleChildScrollView(
+              child: Column(
+                // Para saber el tamaño de un componente en particular solamente le estableces su key y lo evaluamos al presionar el botón por ejemplo
+                key: _keyTamColum,
+                children: [
+                  // ------------------------------------------- Logo --------------------------------------------
+                  const _LogoSettings(),
+            
+                  // -------------------------------------- TxtFld Nombre ----------------------------------------
+                  TextFormField(
+                    controller: _nomFld,
+                    decoration: const InputDecoration(
+                        labelText: "Nombre", border: OutlineInputBorder()),
+                  ),
+            
+                  // Le añadimos un espacio para que no estén tan pegados como si fuera un br
+                  const SizedBox(height: 10),
+                  
+                  // ---------------------------------------- TxtFld Img ----------------------------------------
+                  TextFormField(
+                    controller: _imgFld,
+                    decoration: const InputDecoration(
+                        labelText: "Imagen", border: OutlineInputBorder()),
+                  ),
+            
+                  // Le añadimos un espacio para que no estén tan pegados como si fuera un br
+                  const SizedBox(height: 15),
+            
+                  // -------------------------------------- Btn Formulario ----------------------------------------
+                  TextButton(
+                      style: TextButton.styleFrom(
+                          backgroundColor: Colors.amber,
+                          // Color del texto
+                          foregroundColor: Colors.black,
+                          elevation: 4),
+      
+                      // --------------------------------- Metodo pulsar btn --------------------------------------
+                      onPressed: () {
+                        // Depende de si está definido el contexto o no y de si está o no asignada la key a este componente por lo que arriba lo evaluamos con una condicion
+                        // y ponemos la ! para decirle a flutter que nos aseguramos que recibe esa variable
+                       
+                        print( _key.currentContext!.size);
+                      },
+                      //Boton y txt del boton
+                      child: const Text("Plantar")),
+                ],
               ),
-
-              // Le añadimos un espacio para que no estén tan pegados como si fuera un br
-              const SizedBox(height: 10),
-
-              // TxtFld img
-              TextFormField(
-                controller: _imgFld,
-                decoration: const InputDecoration(
-                    labelText: "Nombre", border: OutlineInputBorder()),
-              ),
-
-              // Le añadimos un espacio para que no estén tan pegados como si fuera un br
-              const SizedBox(height: 15),
-
-              TextButton(
-                  style: TextButton.styleFrom(
-                      backgroundColor: Colors.amber,
-                      // Color del texto
-                      foregroundColor: Colors.black,
-                      elevation: 4),
-                  onPressed: () {
-                    print("object");
-                  },
-                  //Boton y txt del boton
-                  child: const Text("Plantar")),
-            ],
+            ),
           ),
         ),
       ),
