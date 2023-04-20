@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
-import 'pags/index.dart';
 import 'database_helper.dart';
+import 'pags/index.dart';
 
-void main() {
-  runApp(const MyApp());
-  
+void main() /*async */ {
+ // WidgetsFlutterBinding.ensureInitialized();
+ // await SQLHelper.db();
+  runApp(MyApp());
+}
+
+
+Future<void> addTarea() async {
+  final tarea = {
+    'titulo': 'Example Title',
+    'descripcion': 'Example Description',
+    'fechaInicio': '2023-04-20',
+    'fechaFin': '2023-04-21',
+    'categoria': 'Example Category',
+    'dificultad': 1,
+    'imagen': null, // Replace with a valid BLOB for image data
+    'prioridad': 1,
+  };
+  await SQLHelper.insertarTarea(tarea);
 }
 
 class MyApp extends StatelessWidget {

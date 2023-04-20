@@ -40,5 +40,4 @@ class SQLHelper {
     return id;
   }
 
-  // Other CRUD operations (read, update, delete) can be implemented in a similar manner
 }
