@@ -47,7 +47,7 @@ class DatabaseHelper {
         $columnFechaFin TEXT NOT NULL,
         $columnCategoria TEXT NOT NULL,
         $columnDificultad INTEGER NOT NULL,
-        $columnImagen TEXT,
+        $columnImagen BLOB,
         $columnPrioridad INTEGER NOT NULL
       )
       ''');
