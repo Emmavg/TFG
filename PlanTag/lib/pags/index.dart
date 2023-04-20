@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:plantag/pags/vista_lista.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../main.dart';
 
@@ -152,6 +153,19 @@ class _IndexState extends State<Index> {
           ],
         ),
       ),
+      // ------------------------------boton de irune ---------------------------//
+           floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => VistaLista()),
+          );
+        },
+        child: const Icon(Icons.list_alt_outlined),
+        backgroundColor: Colors.deepPurple,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+
       // floatingActionButton: FloatingActionButton(
       //   onPressed: _incrementCounter,
       //   tooltip: 'Increment',
