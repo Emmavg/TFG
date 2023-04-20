@@ -1,7 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-
 class DatabaseHelper {
   static const _databaseName = "tareas_database.db";
   static const _databaseVersion = 1;
