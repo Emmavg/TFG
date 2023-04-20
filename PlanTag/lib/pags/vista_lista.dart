@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 // ------------------------------------- Clase para la lista-------------------------------------------------//
 class VistaLista extends StatelessWidget {
-  
   //-------------------------------------Por ahora elementos de prueba-----------------------------------------//
   final List<Map<String, dynamic>> items = [
     {
@@ -31,7 +30,7 @@ class VistaLista extends StatelessWidget {
         title: Text('Lista'),
       ),
       body: ListView.builder(
-        // -------------------------- aqui la lista ---------------------------------------//
+        // -------------------------- Lista ---------------------------------------//
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           return Card(
@@ -51,7 +50,7 @@ class VistaLista extends StatelessWidget {
         },
       ),
 
-      // ---------------------- el boton para añadir --------------------//
+      // ---------------------- Boton para añadir tareas --------------------//
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: Icon(Icons.add_task),
