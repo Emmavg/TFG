@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'pags/index.dart';
 import 'database_helper.dart';
 
-
 void main() {
   runApp(const MyApp());
+  
 }
 
 class MyApp extends StatelessWidget {
@@ -48,6 +48,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  
   int _counter = 0;
 
   void _incrementCounter() {
@@ -60,23 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
-  final dbHelper = DatabaseHelper.instance;
 
-  @override
-  void initState() {
-    super.initState();
-    _createDatabase();
-  }
-
-  void _createDatabase() async {
-  final db = await dbHelper.database;
-  try {
-    await dbHelper.insertar({'titulo': 'Tarea de prueba', 'descripcion': 'Algo super interesante'});
-    print(dbHelper.listarTodas().toString());
-  } catch (e) {
-    print('Error insertando: $e');
-  }
-}
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done

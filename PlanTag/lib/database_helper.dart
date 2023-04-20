@@ -6,7 +6,7 @@ class DatabaseHelper {
   static const _databaseName = "tareas_database.db";
   static const _databaseVersion = 1;
 
-  static const table = 'todos';
+  static const table = 'tareas';
 
   static const columnId = '_id';
   static const columnTitulo = 'titulo';
