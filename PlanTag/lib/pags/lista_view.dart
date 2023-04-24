@@ -1,5 +1,4 @@
 // ignore_for_file: dead_code
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:plantag/widgets/calendario.dart';
 
@@ -19,6 +18,7 @@ class _VistaLista2State extends State<VistaLista2> {
 
   // Creamos la propiedad para que el valor del dropdown item cambie cuando se selecciona
   String _orderSelected = "";
+  bool _mostrarImg = true;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +32,24 @@ class _VistaLista2State extends State<VistaLista2> {
         actions: [
           Row(
             children: [
+
+              // ------------------------------------- Checkbox mostrar imagen ----------------------------------------
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Mostrar Imagen"),
+                  Checkbox(
+                    value: _mostrarImg, 
+                    onChanged: (value){
+                      _mostrarImg = value!;
+                      setState(() {
+                        
+                      });
+                  }),
+                ],
+              ),
+
+              const SizedBox(width: 50),
               // ------------------------------ Lista desplegable seleccionar que tiene un filtro -------------------------
               DropdownButton(
                   items: <String>["Por fecha", "Por creación"]
@@ -58,9 +76,11 @@ class _VistaLista2State extends State<VistaLista2> {
                     });
                   }),
 
+              
               // ---------------------- Colocamos un logo al lado del desplegable importando la clase-------------------
               //Expanded(child: LogoSettings())
             ],
+
           )
         ],
 
@@ -92,20 +112,45 @@ class _VistaLista2State extends State<VistaLista2> {
             // Numero de tareas
             itemCount: 10,
             itemBuilder:((context, index) => ListTile(
-            title: Text("Tarea $index"),
-            leading: const Icon(Icons.check_circle_outline_outlined, color:  Colors.green,),
-            trailing: const Icon(Icons.delete, color:  Colors.red,),
-            subtitle: Padding(
-              padding: const EdgeInsets.only(left: 8.0),
+            title: Card(
               child: Row(
-                children: const [
-                  Text("date ", style: TextStyle(fontWeight: FontWeight.bold),),
-                  Text("Contenido")
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image(
+                      width: _mostrarImg ? 58 : 0,
+                      image: const AssetImage("assets/images/rosa.png")
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Tarea $index", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+                        Row(
+                          children: const [
+                            Text("date ", style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 90, 90, 90)),),
+                            SizedBox(height: 30),
+                            Text("Contenido", style: TextStyle(color: Color.fromARGB(255, 90, 90, 90)),)
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          
-          )))
+            leading: const Padding(
+              padding: EdgeInsets.only(top: 8),
+              child: Icon(Icons.check_circle_outline_outlined, color:  Colors.green,),
+            ),
+            trailing: const Padding(
+              padding: EdgeInsets.only(top: 8),
+              child: Icon(Icons.delete, color:  Colors.red,),
+            ),
+            ))
+          )
         ),
       ],
     ),
