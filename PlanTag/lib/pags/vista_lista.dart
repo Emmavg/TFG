@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:plantag/models/tarea.dart';
+import 'package:plantag/database_helper.dart';
 // ------------------------------------- Clase para la lista-------------------------------------------------//
 class VistaLista extends StatelessWidget {
   //-------------------------------------Por ahora elementos de prueba-----------------------------------------//
@@ -53,7 +54,21 @@ class VistaLista extends StatelessWidget {
 
       // ---------------------- Boton para añadir tareas --------------------//
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+            Tarea tarea = Tarea(
+              id: 1,
+              titulo: "Comprar comida",
+              descripcion: "Comprar comida para la semana",
+              fechaInicio: DateTime(2023, 4, 24),
+              fechaFin: DateTime(2023, 4, 30),
+              categoria: "Compras",
+              dificultad: 3,
+              imagen: "https://example.com/image.png",
+              prioridad: 2,
+            );
+        SQLHelper.insertarTarea(tarea);
+
+        },
         backgroundColor: Colors.deepPurple,
         child: const Icon(Icons.add_task)
       ),
