@@ -33,14 +33,34 @@ class SQLHelper {
     );
   }
 
+ // --------------------------- lista de tareas  ------------------------//
+ static Future<List<Tarea>> tareas() async {
+    final db = await _db();
+    final List<Map<String, dynamic>> tareasMap = await db.query("tareas");
+
+    return List.generate(tareasMap.length,
+            (i) => Tarea(
+              id: tareasMap[i]['id'],
+              titulo: tareasMap[i]['titulo'],
+              descripcion: tareasMap[i]['descripcion'],
+              fechaInicio: tareasMap[i]['fechaInicio'],
+              fechaFin: tareasMap[i]['fechaFin'],
+              categoria: tareasMap[i]['categoria'],
+              dificultad: tareasMap[i]['dificultad'],
+              imagen: tareasMap[i]['imagen'],
+              prioridad: tareasMap[i]['prioridad'],
+            ));
+  }
+
   // --------------------------- Insertar tarea  ------------------------//
 
   static Future<int> insertarTarea(Tarea tarea) async {
-    final db = await SQLHelper._db();
+    final db = await _db();
     final id = await db.insert('tareas', tarea.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
         
     return id;
   }
+
 
 }
