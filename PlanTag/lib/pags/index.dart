@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:plantag/widgets/calendario.dart';
 import 'package:plantag/pags/vista_lista.dart';
 import '../main.dart';
+import '../widgets/logo.dart';
 import 'lista_view.dart';
-import 'logo.dart';
 
 class Index extends StatefulWidget {
   const Index({
@@ -80,7 +80,7 @@ class _IndexState extends State<Index> {
                   }),
 
               // ---------------------- Colocamos un logo al lado del desplegable importando la clase-------------------
-              const Expanded(child: LogoSettings())
+              //Expanded(child: LogoSettings())
             ],
           )
         ],

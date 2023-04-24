@@ -1,9 +1,7 @@
 // ********************************************************** CLASE DIALOGO **********************************************
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:plantag/widgets/logo.dart';
 
-import '../pags/logo.dart';
 
 class Dialogo extends StatelessWidget {
   final _key = GlobalKey<FormState>();
