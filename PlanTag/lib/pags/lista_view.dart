@@ -161,7 +161,7 @@ class _VistaLista2State extends State<VistaLista2> {
       onPressed: () {
         Tarea tarea = Tarea(
               id: 1,
-              titulo: "Comprar comida",
+              titulo: "Comprar agua",
               descripcion: "Comprar comida para la semana",
               fechaInicio: DateTime(2023, 4, 24),
               fechaFin: DateTime(2023, 4, 30),

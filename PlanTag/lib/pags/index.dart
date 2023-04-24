@@ -78,6 +78,7 @@ class _IndexState extends State<Index> {
         child: const Icon(Icons.list_alt_outlined),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      
     );
   }
 }
