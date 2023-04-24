@@ -27,10 +27,11 @@ class VistaLista extends StatelessWidget {
     return Scaffold(
       // ------------------------- Posteriormente implementar la barra de index ---------------//
       appBar: AppBar(
-        title: Text('Lista'),
+        title: const Text('Lista'),
       ),
-      body: ListView.builder(
-        // -------------------------- Lista ---------------------------------------//
+      
+      // -------------------------- Lista ---------------------------------------//
+      body: ListView.builder( 
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           return Card(
@@ -41,7 +42,7 @@ class VistaLista extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     items[index]['title'],
-                    style: TextStyle(fontSize: 18.0),
+                    style: const TextStyle(fontSize: 18.0),
                   ),
                 ),
               ],
@@ -53,8 +54,8 @@ class VistaLista extends StatelessWidget {
       // ---------------------- Boton para añadir tareas --------------------//
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.add_task),
         backgroundColor: Colors.deepPurple,
+        child: const Icon(Icons.add_task)
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
