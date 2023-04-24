@@ -58,19 +58,7 @@ class VistaLista extends StatelessWidget {
       // ---------------------- Boton para añadir tareas --------------------//
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-            print("no llega");
-            Tarea tarea = Tarea(
-              id: 1,
-              titulo: "Comprar comida",
-              descripcion: "Comprar comida para la semana",
-              fechaInicio: DateTime(2023, 4, 24),
-              fechaFin: DateTime(2023, 4, 30),
-              categoria: "Compras",
-              dificultad: 3,
-              imagen: "https://example.com/image.png",
-              prioridad: 2,
-            );
-        SQLHelper.insertarTarea(tarea);
+            
         },
         backgroundColor: Colors.deepPurple,
         child: const Icon(Icons.add_task)

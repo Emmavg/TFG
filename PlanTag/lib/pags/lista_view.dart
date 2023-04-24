@@ -1,6 +1,8 @@
 // ignore_for_file: dead_code
 import 'package:flutter/material.dart';
 import 'package:plantag/widgets/calendario.dart';
+import 'package:plantag/models/tarea.dart';
+import 'package:plantag/database_helper.dart';
 
 // ------------------------------------- Clase para la lista-------------------------------------------------//
 class VistaLista2 extends StatefulWidget {
@@ -156,7 +158,20 @@ class _VistaLista2State extends State<VistaLista2> {
     ),
     // ---------------------- Boton para añadir tareas --------------------//
     floatingActionButton: FloatingActionButton(
-      onPressed: () {},
+      onPressed: () {
+        Tarea tarea = Tarea(
+              id: 1,
+              titulo: "Comprar comida",
+              descripcion: "Comprar comida para la semana",
+              fechaInicio: DateTime(2023, 4, 24),
+              fechaFin: DateTime(2023, 4, 30),
+              categoria: "Compras",
+              dificultad: 3,
+              imagen: "https://example.com/image.png",
+              prioridad: 2,
+            );
+        SQLHelper.insertarTarea(tarea);
+      },
       backgroundColor: Colors.deepPurple,
       child: const Icon(Icons.add_task)
     ),
