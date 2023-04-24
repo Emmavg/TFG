@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:plantag/models/tarea.dart';
 
 class SQLHelper {
   // --------------------------- Creación de tabla ------------------------//
@@ -21,7 +22,7 @@ class SQLHelper {
   }
 
   // --------------------------- Abrir base  ------------------------//
-  static Future<Database> db() async {
+  static Future<Database> _db() async {
     return openDatabase(
       join(await getDatabasesPath(), 'tareas_database.db'),
       version: 1,
@@ -33,9 +34,9 @@ class SQLHelper {
 
   // --------------------------- Insertar tarea  ------------------------//
 
-  static Future<int> insertarTarea(Map<String, dynamic> data) async {
-    final db = await SQLHelper.db();
-    final id = await db.insert('tareas', data,
+  static Future<int> insertarTarea(Tarea tarea) async {
+    final db = await SQLHelper._db();
+    final id = await db.insert('tareas', tarea.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
     return id;
   }
