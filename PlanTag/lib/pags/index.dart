@@ -22,8 +22,6 @@ class Index extends StatefulWidget {
 // ********************************************************** CLASE PRINCIPAL **********************************************
 
 class _IndexState extends State<Index> {
-// Creamos la propiedad para que el valor del dropdown item cambie cuando se selecciona
-  String _orderSelected = "";
 
   @override
   Widget build(BuildContext context) {
@@ -48,42 +46,6 @@ class _IndexState extends State<Index> {
             ),
           ],
         ),
-
-        // -------------------------------------------- ELEMENTOS QUE TIENEN ACCIONES ---------------------------------------
-        actions: [
-          Row(
-            children: [
-              // ------------------------------ Lista desplegable seleccionar que tiene un filtro -------------------------
-              DropdownButton(
-                  items: <String>["Por fecha", "Por creación"]
-                      .map((i) => DropdownMenuItem<String>(
-                          value: i,
-                          child: Text(i,
-                              style:
-                                  const TextStyle(color: Colors.deepOrange))))
-                      .toList(),
-                  // Le colocamos texto inicial al menú deslegable, si la propiedad orderselected es "" entonces le ponemos el txt de la const
-                  hint: _orderSelected == ""
-                      ? const Text(
-                          "Seleccionar", style: TextStyle(color: Colors.black),
-
-                          // Sino
-                        )
-                      : Text(_orderSelected,
-                          style: const TextStyle(color: Colors.black)),
-
-                  // --------------------------------- ACCION CUANDO SE SELECCIONE UN VALOR --------------------------
-                  onChanged: (value) {
-                    setState(() {
-                      _orderSelected = value.toString();
-                    });
-                  }),
-
-              // ---------------------- Colocamos un logo al lado del desplegable importando la clase-------------------
-              //Expanded(child: LogoSettings())
-            ],
-          )
-        ],
 
         backgroundColor: const Color.fromARGB(255, 78, 241, 190),
         toolbarHeight: 60,
