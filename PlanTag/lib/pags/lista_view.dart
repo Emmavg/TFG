@@ -203,6 +203,7 @@ class _VistaLista2State extends State<VistaLista2> {
             prioridad: 2,
           );
           SQLHelper.insertarTarea(tarea);
+          print("aqui llega 3");
         },
         backgroundColor: Colors.deepPurple,
         tooltip: 'Añadir Tarea',
