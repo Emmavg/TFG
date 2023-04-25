@@ -3,12 +3,10 @@ import 'database_helper.dart';
 import 'pags/index.dart';
 
 void main() /*async */ {
- // WidgetsFlutterBinding.ensureInitialized();
- // await SQLHelper.db();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await SQLHelper.db();
   runApp(MyApp());
 }
-
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,14 +18,14 @@ class MyApp extends StatelessWidget {
       title: 'PlanTag App',
       theme: ThemeData(
         // This is the theme of your application.
-        // Con esta propiedad es con la única que funcionan los códigos de color de la api de material 
+        // Con esta propiedad es con la única que funcionan los códigos de color de la api de material
         // Para cambiar las cosas referentes a la barra de arriba mejor en el método de abajo de appbar
         // primarySwatch: Colors.cyan,
         fontFamily: 'Schyler',
       ),
       home: const MyHomePage(
         title: 'PlanTag',
-        ),
+      ),
     );
   }
 }
@@ -51,7 +49,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
   int _counter = 0;
 
   void _incrementCounter() {
@@ -78,4 +75,3 @@ class _MyHomePageState extends State<MyHomePage> {
     return Index(widget: widget);
   }
 }
-

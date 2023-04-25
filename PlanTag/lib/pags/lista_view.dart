@@ -9,7 +9,6 @@ import 'package:plantag/widgets/dialogo_tareas.dart';
 
 // ------------------------------------- Clase para la lista-------------------------------------------------//
 class VistaLista2 extends StatefulWidget {
-  
   const VistaLista2({super.key});
 
   @override
@@ -17,8 +16,7 @@ class VistaLista2 extends StatefulWidget {
 }
 
 class _VistaLista2State extends State<VistaLista2> {
-
-   // Con el ctrl + . encima del statefull lo hemos podido convertir a stateful widget para que los objetos puedan realizar acciones
+  // Con el ctrl + . encima del statefull lo hemos podido convertir a stateful widget para que los objetos puedan realizar acciones
   // En este caso la lista desplegable de la barra de nav
 
   // Creamos la propiedad para que el valor del dropdown item cambie cuando se selecciona
@@ -27,15 +25,13 @@ class _VistaLista2State extends State<VistaLista2> {
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
       // ------------------------- Posteriormente implementar la barra de index ---------------//
       appBar: AppBar(
         title: const Text('Lista de tareas'),
 
-
-       // -------------------------------------------- ELEMENTOS QUE TIENEN ACCIONES ---------------------------------------
+        // -------------------------------------------- ELEMENTOS QUE TIENEN ACCIONES ---------------------------------------
         actions: [
-
           const Icon(Icons.file_upload),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -44,20 +40,17 @@ class _VistaLista2State extends State<VistaLista2> {
           const Icon(Icons.more_vert),
           Row(
             children: [
-
               // ------------------------------------- Checkbox mostrar imagen ----------------------------------------
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("Mostrar Imagen"),
                   Checkbox(
-                    value: _mostrarImg, 
-                    onChanged: (value){
-                      _mostrarImg = value!;
-                      setState(() {
-                        
-                      });
-                  }),
+                      value: _mostrarImg,
+                      onChanged: (value) {
+                        _mostrarImg = value!;
+                        setState(() {});
+                      }),
                 ],
               ),
 
@@ -88,11 +81,9 @@ class _VistaLista2State extends State<VistaLista2> {
                     });
                   }),
 
-              
               // ---------------------- Colocamos un logo al lado del desplegable importando la clase-------------------
               //Expanded(child: LogoSettings())
             ],
-
           )
         ],
 
@@ -102,104 +93,122 @@ class _VistaLista2State extends State<VistaLista2> {
         elevation: 5,
       ),
 
-      
-      
       // -------------------------- Lista ---------------------------------------//
-      body:
-      Row(
-      children: [
-        const Expanded(
-          // -------------- El lado izquierdo es más pequeño que el derecho con el valor del flex -----------------
-          flex: 2,
-          child: Calendario() 
-        ),
-        Expanded(
-          flex: 4,
-          child: 
-          // En caso de que no tenga ningun hijo porque no hay ninguna tarea que salga algo
-          false ? const PageEmpty() : 
-          
-          ListView.builder(
-            // Numero de tareas
-            itemCount: 10,
-            itemBuilder:((context, index) => ListTile(
-            title: Card(
-              color:const Color.fromRGBO(214, 220, 255, 1),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 280),
-                      // Lo que queremos animar que en este caso en la visibilidad de la foto tiene que estar dentro del animated
-                      width: _mostrarImg ? 58 : 0,
-                      child: const Image(
-                        image: AssetImage("assets/images/rosa.png")
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Tarea $index", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
-                        Row(
-                          children: const [
-                            Text("date ", style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(255, 90, 90, 90)),),
-                            SizedBox(height: 30),
-                            Text("Contenido", style: TextStyle(color: Color.fromARGB(255, 90, 90, 90)),)
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            leading: const Padding(
-              padding: EdgeInsets.only(top: 8),
-              child: Icon(Icons.check_circle_outline_outlined, color:  Colors.green,),
-            ),
-            trailing: const Padding(
-              padding: EdgeInsets.only(top: 8),
-              child: Icon(Icons.delete, color:  Colors.red,),
-            ),
-            ))
-          )
-        ),
-      ],
-    ),
-    // ---------------------- Boton para añadir tareas --------------------//
-    floatingActionButton: FloatingActionButton(
-      onPressed: () {
-        // Cuando pulsamos el botón muestra el dialogo creando una función para ello
-        showCupertinoDialog(
-            // El barrier es para especificar que cuando toque otra zona de la pantalla se cierra
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return DialogoTareas();
-        });
-        // Tarea tarea = Tarea(
-        //       id: 1,
-        //       titulo: "Comprar agua",
-        //       descripcion: "Comprar comida para la semana",
-        //       fechaInicio: DateTime(2023, 4, 24),
-        //       fechaFin: DateTime(2023, 4, 30),
-        //       categoria: "Compras",
-        //       dificultad: 3,
-        //       imagen: "https://example.com/image.png",
-        //       prioridad: 2,
-        //     );
-        // SQLHelper.insertarTarea(tarea);
-      },
-      backgroundColor: Colors.deepPurple,
-      tooltip: 'Añadir Tarea',
-      child: const Icon(Icons.add_task),
-      
-    ),
-    floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      body: Row(
+        children: [
+          const Expanded(
+              // -------------- El lado izquierdo es más pequeño que el derecho con el valor del flex -----------------
+              flex: 2,
+              child: Calendario()),
+          Expanded(
+              flex: 4,
+              child:
+                  // En caso de que no tenga ningun hijo porque no hay ninguna tarea que salga algo
+                  false
+                      ? const PageEmpty()
+                      : ListView.builder(
+                          // Numero de tareas
+                          itemCount: 10,
+                          itemBuilder: ((context, index) => ListTile(
+                                title: Card(
+                                  color: const Color.fromRGBO(214, 220, 255, 1),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: AnimatedContainer(
+                                          duration:
+                                              const Duration(milliseconds: 280),
+                                          // Lo que queremos animar que en este caso en la visibilidad de la foto tiene que estar dentro del animated
+                                          width: _mostrarImg ? 58 : 0,
+                                          child: const Image(
+                                              image: AssetImage(
+                                                  "assets/images/rosa.png")),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Tarea $index",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15),
+                                            ),
+                                            Row(
+                                              children: const [
+                                                Text(
+                                                  "date ",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Color.fromARGB(
+                                                          255, 90, 90, 90)),
+                                                ),
+                                                SizedBox(height: 30),
+                                                Text(
+                                                  "Contenido",
+                                                  style: TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 90, 90, 90)),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                leading: const Padding(
+                                  padding: EdgeInsets.only(top: 8),
+                                  child: Icon(
+                                    Icons.check_circle_outline_outlined,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                trailing: const Padding(
+                                  padding: EdgeInsets.only(top: 8),
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              )))),
+        ],
+      ),
+      // ---------------------- Boton para añadir tareas --------------------//
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Cuando pulsamos el botón muestra el dialogo creando una función para ello
+          showCupertinoDialog(
+              // El barrier es para especificar que cuando toque otra zona de la pantalla se cierra
+              barrierDismissible: false,
+              context: context,
+              builder: (context) {
+                return DialogoTareas();
+              });
+          Tarea tarea = Tarea(
+            id: 1,
+            titulo: "Comprar agua",
+            descripcion: "Comprar comida para la semana",
+            fechaInicio: DateTime(2023, 4, 24),
+            fechaFin: DateTime(2023, 4, 30),
+            categoria: "Compras",
+            dificultad: 3,
+            imagen: "https://example.com/image.png",
+            prioridad: 2,
+          );
+          SQLHelper.insertarTarea(tarea);
+        },
+        backgroundColor: Colors.deepPurple,
+        tooltip: 'Añadir Tarea',
+        child: const Icon(Icons.add_task),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
@@ -213,10 +222,12 @@ class PageEmpty extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Padding(
       padding: EdgeInsets.all(8.0),
-      child: Center (
-        child: Text("No tienes tareas pendientes",
-        style: TextStyle(color: Colors.purple, fontStyle: FontStyle.italic, fontSize: 20))
-      ),
+      child: Center(
+          child: Text("No tienes tareas pendientes",
+              style: TextStyle(
+                  color: Colors.purple,
+                  fontStyle: FontStyle.italic,
+                  fontSize: 20))),
     );
   }
 }

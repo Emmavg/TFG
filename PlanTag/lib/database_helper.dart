@@ -5,14 +5,12 @@ import 'package:path/path.dart';
 import 'package:plantag/models/tarea.dart';
 
 class SQLHelper {
-
   // --------------------------- Abrir base  ------------------------//
 
   static Future<Database> _db() async {
-
-    return openDatabase(join(await getDatabasesPath(),'tareas_database.db'),
-      onCreate: (db, version) {
-        return db.execute("""
+    return openDatabase(join(await getDatabasesPath(), 'tareas_database.db'),
+        onCreate: (db, version) {
+      return db.execute("""
           CREATE TABLE tareas(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
             titulo TEXT,
@@ -25,15 +23,17 @@ class SQLHelper {
             prioridad INTEGER
             )
           """);
-      }, version: 1);
+    }, version: 1);
   }
- // --------------------------- lista de tareas  ------------------------//
- static Future<List<Tarea>> tareas() async {
+
+  // --------------------------- lista de tareas  ------------------------//
+  static Future<List<Tarea>> tareas() async {
     final db = await _db();
     final List<Map<String, dynamic>> tareasMap = await db.query("tareas");
 
-    return List.generate(tareasMap.length,
-            (i) => Tarea(
+    return List.generate(
+        tareasMap.length,
+        (i) => Tarea(
               id: tareasMap[i]['id'],
               titulo: tareasMap[i]['titulo'],
               descripcion: tareasMap[i]['descripcion'],
@@ -52,9 +52,7 @@ class SQLHelper {
     final db = await _db();
     final id = await db.insert('tareas', tarea.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
-    SQLHelper.tareas();    
+    SQLHelper.tareas();
     return id;
   }
-
-
 }

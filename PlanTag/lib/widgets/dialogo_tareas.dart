@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:plantag/pags/lista_view.dart';
 import 'package:plantag/widgets/logo.dart';
 
-
 class DialogoTareas extends StatelessWidget {
   final _key = GlobalKey<FormState>();
   // Para saber siempre el tamaño de la columna del formulario de forma dinámica aunque vaya cambiando por la panatalla
@@ -24,77 +23,73 @@ class DialogoTareas extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius:
               BorderRadius.circular(40)), // change 40 to your desired radius
-      
+
       // -------------- PÀRA QUE LOS BOTONES SALGAN ABAJO DEL DIALOG HAY QUE AÑADIRLOS COMO ACCIONES ----------------
       actions: [
-         // -------------------------------------- Btns Formulario ----------------------------------------
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-         // ---------------------------------------- Btn Cancel --------------------------------------
-            Padding(
-              padding: const EdgeInsets.only(bottom: 18.0, left: 15),
-              child: OutlinedButton.icon(
-                icon: const Icon(Icons.close),
-                label: const Text("Cancelar"),
-                onPressed: () {
+        // -------------------------------------- Btns Formulario ----------------------------------------
+        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          // ---------------------------------------- Btn Cancel --------------------------------------
+          Padding(
+            padding: const EdgeInsets.only(bottom: 18.0, left: 15),
+            child: OutlinedButton.icon(
+              icon: const Icon(Icons.close),
+              label: const Text("Cancelar"),
+              onPressed: () {
+                // Cerramos la ventana cuando pulsemos el botón
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                side: const BorderSide(
+                    width: 2.0, color: Color.fromARGB(255, 255, 9, 9)),
+                foregroundColor: const Color.fromARGB(255, 255, 9, 9),
+                // Forma de cuadrado circular al botón
+                shape: const StadiumBorder(),
+              ),
+            ),
+          ),
+
+          const SizedBox(width: 30),
+
+          // ---------------------------------------- Btn Ok --------------------------------------
+          Padding(
+            padding: const EdgeInsets.only(bottom: 18.0, right: 15),
+            child: OutlinedButton.icon(
+              icon: const Icon(Icons.done),
+              label: const Text("Aceptar"),
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                // Forma de cuadrado circular al botón
+                shape: const StadiumBorder(),
+                side: const BorderSide(
+                    width: 2.0, color: Color.fromARGB(255, 3, 223, 25)),
+                //backgroundColor: Color.fromARGB(255, 94, 255, 110),
+                // Color del texto
+                foregroundColor: const Color.fromRGBO(5, 177, 22, 1),
+              ),
+              // --------------------------------- Metodo pulsar btn --------------------------------------
+              onPressed: () {
+                // Depende de si está definido el contexto o no y de si está o no asignada la key a este componente por lo que arriba lo evaluamos con una condicion
+                // y ponemos la ! para decirle a flutter que nos aseguramos que recibe esa variable
+
+                print(_key.currentContext!.size);
+                // Validamos si es correcto el formulario y están todos los campos rellenos o falta alguno obligatorio
+                if (_key.currentState!.validate()) {
+                  // Process data.
                   // Cerramos la ventana cuando pulsemos el botón
                   Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 20, horizontal: 20),
-                  side: const BorderSide(
-                      width: 2.0,
-                      color: Color.fromARGB(255, 255, 9, 9)),
-                  foregroundColor: const Color.fromARGB(255, 255, 9, 9),
-                  // Forma de cuadrado circular al botón
-                  shape: const StadiumBorder(),
-                ),
-              ),
+                }
+              },
             ),
-
-            const SizedBox(width: 50),
-
-            // ---------------------------------------- Btn Ok --------------------------------------
-            Padding(
-              padding: const EdgeInsets.only(bottom: 18.0, right: 15),
-              child: OutlinedButton.icon(
-                icon: const Icon(Icons.done),
-                label: const Text("Aceptar"),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 20, horizontal: 20),
-                  // Forma de cuadrado circular al botón
-                  shape: const StadiumBorder(),
-                  side: const BorderSide(
-                      width: 2.0,
-                      color: Color.fromARGB(255, 3, 223, 25)),
-                  //backgroundColor: Color.fromARGB(255, 94, 255, 110),
-                  // Color del texto
-                  foregroundColor: const Color.fromRGBO(5, 177, 22, 1),
-                ),
-                // --------------------------------- Metodo pulsar btn --------------------------------------
-                onPressed: () {
-                  // Depende de si está definido el contexto o no y de si está o no asignada la key a este componente por lo que arriba lo evaluamos con una condicion
-                  // y ponemos la ! para decirle a flutter que nos aseguramos que recibe esa variable
-            
-                  print(_key.currentContext!.size);
-                  // Validamos si es correcto el formulario y están todos los campos rellenos o falta alguno obligatorio
-                  if (_key.currentState!.validate()) {
-                    // Process data.
-                    // Cerramos la ventana cuando pulsemos el botón
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-            ),
-          ])
+          ),
+        ])
       ],
-      
+
       // ------------------------------------------- CONSTRAINT LAYOUT  -------------------------------------------
       // Dependiendo de la pantalla, especificamos los tamaños estandar
-      content: ConstrainedBox( 
+      content: ConstrainedBox(
         constraints: const BoxConstraints(
           minWidth: 100,
           maxWidth: 800,
@@ -149,12 +144,10 @@ class DialogoTareas extends StatelessWidget {
                   const SizedBox(height: 35),
 
                   // -------------------------------------- Btns Formulario ----------------------------------------
-
                 ],
               ),
             ),
           ),
-
         ),
       ),
     );

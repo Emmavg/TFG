@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:plantag/widgets/calendario.dart';
-import 'package:plantag/pags/vista_lista.dart';
 import '../main.dart';
 import '../widgets/logo.dart';
 import 'lista_view.dart';
@@ -24,11 +23,9 @@ class Index extends StatefulWidget {
 // ********************************************************** CLASE PRINCIPAL **********************************************
 
 class _IndexState extends State<Index> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
 // ********************************************************** Barra superior **********************************************
 
       appBar: AppBar(
@@ -50,66 +47,71 @@ class _IndexState extends State<Index> {
         ),
 
         actions: [
-
           // IconButton(icon: const Icon(Icons.more_vert, color: Colors.white,), onPressed: () {
-            
-            SpeedDial( //Speed dial menu//margin bottom
+
+          SpeedDial(
+            //Speed dial menu//margin bottom
             icon: Icons.more_vert, //icon on Floating action button
 
             // Cambiamos la direccion en la que se despliega
             direction: SpeedDialDirection.down,
             activeIcon: Icons.close, //icon when menu is expanded on button
-            backgroundColor: const Color.fromARGB(214, 220, 255, 100), //background color of button
+            backgroundColor: const Color.fromARGB(
+                214, 220, 255, 100), //background color of button
             foregroundColor: Colors.white, //font color, icon color in button
-            activeBackgroundColor: const Color.fromARGB(255, 255, 37, 37), //background color when menu is expanded
+            activeBackgroundColor: const Color.fromARGB(
+                255, 255, 37, 37), //background color when menu is expanded
             activeForegroundColor: Colors.white,
             childrenButtonSize: const Size(60, 60),
-            buttonSize:const Size(40, 40) ,
+            buttonSize: const Size(40, 40),
             visible: true,
             closeManually: false,
             curve: Curves.bounceIn,
             overlayColor: Colors.black,
             overlayOpacity: 0.5,
 
-            animationDuration : const Duration(milliseconds: 350),
+            animationDuration: const Duration(milliseconds: 350),
             // Tambien lo separa del padre
             spaceBetweenChildren: 10,
-          
+
             elevation: 8.0, //shadow elevation of button
             shape: const CircleBorder(), //shape of button
-            
+
             children: [
               // -------------------------------------- MENU DESPLEGABLE AYUDAS ------------------------------
-          
+
               // Categorías
               SpeedDialChild(
-
-                child: const Icon(Icons.format_list_bulleted, size: 30,),
+                child: const Icon(
+                  Icons.format_list_bulleted,
+                  size: 30,
+                ),
                 backgroundColor: Colors.deepPurpleAccent,
                 foregroundColor: Colors.white,
                 label: 'Categorías',
                 labelStyle: const TextStyle(fontSize: 15.0),
-                onTap: () {
-
-                },
-                onLongPress: (){},
+                onTap: () {},
+                onLongPress: () {},
               ),
-          
+
               // El que está más lejos del principal: Ayuda
-              SpeedDialChild( 
-                child: const Icon(Icons.question_mark_rounded, size: 30,),
+              SpeedDialChild(
+                child: const Icon(
+                  Icons.question_mark_rounded,
+                  size: 30,
+                ),
                 backgroundColor: Colors.deepPurpleAccent,
                 foregroundColor: Colors.white,
                 label: 'Ayuda',
                 labelStyle: const TextStyle(fontSize: 15.0),
                 onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const VistaLista2()),
-                    );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const VistaLista2()),
+                  );
                 },
-              
-                onLongPress: (){},
+                onLongPress: () {},
               ),
             ],
           ),
@@ -127,14 +129,12 @@ class _IndexState extends State<Index> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-
             // Dentro del contenedor le metemos la clase que muestra el calendario
             Expanded(child: Calendario())
           ],
         ),
       ),
-      
-      
+
       // ------------------------------ Boton vista de tareas ---------------------------//
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -147,7 +147,6 @@ class _IndexState extends State<Index> {
         child: const Icon(Icons.list_alt_outlined),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      
     );
   }
 }
