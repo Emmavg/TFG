@@ -20,7 +20,7 @@ class DialogoTareas extends StatelessWidget {
         "Nueva tarea",
         textAlign: TextAlign.left,
       ),
-      backgroundColor: Color.fromARGB(255, 223, 255, 222), // your color
+      backgroundColor: const Color.fromARGB(255, 223, 255, 222), // your color
       shape: RoundedRectangleBorder(
           borderRadius:
               BorderRadius.circular(40)), // change 40 to your desired radius

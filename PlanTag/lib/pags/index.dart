@@ -59,7 +59,7 @@ class _IndexState extends State<Index> {
             // Cambiamos la direccion en la que se despliega
             direction: SpeedDialDirection.down,
             activeIcon: Icons.close, //icon when menu is expanded on button
-            backgroundColor: const Color.fromARGB(255, 78, 241, 190), //background color of button
+            backgroundColor: const Color.fromARGB(214, 220, 255, 100), //background color of button
             foregroundColor: Colors.white, //font color, icon color in button
             activeBackgroundColor: const Color.fromARGB(255, 255, 37, 37), //background color when menu is expanded
             activeForegroundColor: Colors.white,
@@ -115,8 +115,8 @@ class _IndexState extends State<Index> {
           ),
         ],
 
-        
-        backgroundColor: const Color.fromARGB(255, 78, 241, 190),
+        backgroundColor: const Color.fromRGBO(163, 238, 176, 1),
+        //backgroundColor: const Color.fromARGB(214, 220, 255, 100),
         toolbarHeight: 60,
         // Le añadimos sombra a la parte de debajo de la barra
         elevation: 5,
@@ -146,7 +146,7 @@ class _IndexState extends State<Index> {
         backgroundColor: Colors.deepPurple,
         child: const Icon(Icons.list_alt_outlined),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       
     );
   }

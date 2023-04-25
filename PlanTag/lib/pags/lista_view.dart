@@ -106,7 +106,6 @@ class _VistaLista2State extends State<VistaLista2> {
       
       // -------------------------- Lista ---------------------------------------//
       body:
-  
       Row(
       children: [
         const Expanded(
@@ -125,6 +124,7 @@ class _VistaLista2State extends State<VistaLista2> {
             itemCount: 10,
             itemBuilder:((context, index) => ListTile(
             title: Card(
+              color:const Color.fromRGBO(214, 220, 255, 1),
               child: Row(
                 children: [
                   Padding(
