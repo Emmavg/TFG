@@ -192,7 +192,6 @@ class _VistaLista2State extends State<VistaLista2> {
                 return DialogoTareas();
               });
           Tarea tarea = Tarea(
-            id: 1,
             titulo: "Comprar agua",
             descripcion: "Comprar comida para la semana",
             fechaInicio: DateTime(2023, 4, 24),
@@ -203,7 +202,6 @@ class _VistaLista2State extends State<VistaLista2> {
             prioridad: 2,
           );
           SQLHelper.insertarTarea(tarea);
-          print("aqui llega 3");
         },
         backgroundColor: Colors.deepPurple,
         tooltip: 'Añadir Tarea',

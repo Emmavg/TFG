@@ -6,7 +6,6 @@ class SQLHelper {
   // --------------------------- Abrir base  ------------------------//
 
   static Future<Database> _db() async {
-    print("aqui viene 1");
     return openDatabase(join(await getDatabasesPath(), 'tareas.db'),
         onCreate: (db, version) {
       return db.execute("""
@@ -29,7 +28,6 @@ class SQLHelper {
   static Future<List<Tarea>> tareas() async {
     final db = await _db();
     final List<Map<String, dynamic>> tareasMap = await db.query("tareas");
-    print("aqui viene 2");
     return List.generate(
         tareasMap.length,
         (i) => Tarea(
@@ -51,8 +49,13 @@ class SQLHelper {
     final db = await _db();
     final id = await db.insert('tareas', tarea.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
-    SQLHelper.tareas();
-    print("aqui llega 4");
+   
+    // ---------------- prueba de irune pera ver si existe ------------------- //
+    Future<List<Tarea>> lista = SQLHelper.tareas();
+    lista.then((miLista) {
+    Tarea primero = miLista[0];
+    print(primero.descripcion);
+});
     return id;
   }
 }
