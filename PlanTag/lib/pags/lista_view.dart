@@ -1,8 +1,11 @@
 // ignore_for_file: dead_code
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantag/widgets/calendario.dart';
 import 'package:plantag/models/tarea.dart';
 import 'package:plantag/database_helper.dart';
+import 'package:plantag/widgets/dialogo.dart';
+import 'package:plantag/widgets/dialogo_tareas.dart';
 
 // ------------------------------------- Clase para la lista-------------------------------------------------//
 class VistaLista2 extends StatefulWidget {
@@ -32,6 +35,13 @@ class _VistaLista2State extends State<VistaLista2> {
 
        // -------------------------------------------- ELEMENTOS QUE TIENEN ACCIONES ---------------------------------------
         actions: [
+
+          const Icon(Icons.file_upload),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Icon(Icons.delete),
+          ),
+          const Icon(Icons.more_vert),
           Row(
             children: [
 
@@ -119,9 +129,13 @@ class _VistaLista2State extends State<VistaLista2> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Image(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 280),
+                      // Lo que queremos animar que en este caso en la visibilidad de la foto tiene que estar dentro del animated
                       width: _mostrarImg ? 58 : 0,
-                      image: const AssetImage("assets/images/rosa.png")
+                      child: const Image(
+                        image: AssetImage("assets/images/rosa.png")
+                      ),
                     ),
                   ),
                   Padding(
@@ -159,21 +173,31 @@ class _VistaLista2State extends State<VistaLista2> {
     // ---------------------- Boton para añadir tareas --------------------//
     floatingActionButton: FloatingActionButton(
       onPressed: () {
-        Tarea tarea = Tarea(
-              id: 1,
-              titulo: "Comprar agua",
-              descripcion: "Comprar comida para la semana",
-              fechaInicio: DateTime(2023, 4, 24),
-              fechaFin: DateTime(2023, 4, 30),
-              categoria: "Compras",
-              dificultad: 3,
-              imagen: "https://example.com/image.png",
-              prioridad: 2,
-            );
-        SQLHelper.insertarTarea(tarea);
+        // Cuando pulsamos el botón muestra el dialogo creando una función para ello
+        showCupertinoDialog(
+            // El barrier es para especificar que cuando toque otra zona de la pantalla se cierra
+            barrierDismissible: false,
+            context: context,
+            builder: (context) {
+              return DialogoTareas();
+        });
+        // Tarea tarea = Tarea(
+        //       id: 1,
+        //       titulo: "Comprar agua",
+        //       descripcion: "Comprar comida para la semana",
+        //       fechaInicio: DateTime(2023, 4, 24),
+        //       fechaFin: DateTime(2023, 4, 30),
+        //       categoria: "Compras",
+        //       dificultad: 3,
+        //       imagen: "https://example.com/image.png",
+        //       prioridad: 2,
+        //     );
+        // SQLHelper.insertarTarea(tarea);
       },
       backgroundColor: Colors.deepPurple,
-      child: const Icon(Icons.add_task)
+      tooltip: 'Añadir Tarea',
+      child: const Icon(Icons.add_task),
+      
     ),
     floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

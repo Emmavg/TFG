@@ -4,6 +4,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:plantag/models/tarea.dart';
 import 'package:plantag/database_helper.dart';
+import 'package:plantag/widgets/dialogo.dart';
 // ------------------------------------- Clase para la lista-------------------------------------------------//
 class VistaLista extends StatelessWidget {
   //-------------------------------------Por ahora elementos de prueba-----------------------------------------//
@@ -58,7 +59,7 @@ class VistaLista extends StatelessWidget {
       // ---------------------- Boton para añadir tareas --------------------//
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-            
+            Dialogo();
         },
         backgroundColor: Colors.deepPurple,
         child: const Icon(Icons.add_task)

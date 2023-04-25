@@ -4,6 +4,8 @@ import 'package:plantag/pags/vista_lista.dart';
 import '../main.dart';
 import '../widgets/logo.dart';
 import 'lista_view.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:draggable_fab/draggable_fab.dart';
 
 class Index extends StatefulWidget {
   const Index({
@@ -47,6 +49,73 @@ class _IndexState extends State<Index> {
           ],
         ),
 
+        actions: [
+
+          // IconButton(icon: const Icon(Icons.more_vert, color: Colors.white,), onPressed: () {
+            
+            SpeedDial( //Speed dial menu//margin bottom
+            icon: Icons.more_vert, //icon on Floating action button
+
+            // Cambiamos la direccion en la que se despliega
+            direction: SpeedDialDirection.down,
+            activeIcon: Icons.close, //icon when menu is expanded on button
+            backgroundColor: const Color.fromARGB(255, 78, 241, 190), //background color of button
+            foregroundColor: Colors.white, //font color, icon color in button
+            activeBackgroundColor: const Color.fromARGB(255, 255, 37, 37), //background color when menu is expanded
+            activeForegroundColor: Colors.white,
+            childrenButtonSize: const Size(60, 60),
+            buttonSize:const Size(40, 40) ,
+            visible: true,
+            closeManually: false,
+            curve: Curves.bounceIn,
+            overlayColor: Colors.black,
+            overlayOpacity: 0.5,
+
+            animationDuration : const Duration(milliseconds: 350),
+            // Tambien lo separa del padre
+            spaceBetweenChildren: 10,
+          
+            elevation: 8.0, //shadow elevation of button
+            shape: const CircleBorder(), //shape of button
+            
+            children: [
+              // -------------------------------------- MENU DESPLEGABLE AYUDAS ------------------------------
+          
+              // Categorías
+              SpeedDialChild(
+
+                child: const Icon(Icons.format_list_bulleted, size: 30,),
+                backgroundColor: Colors.deepPurpleAccent,
+                foregroundColor: Colors.white,
+                label: 'Categorías',
+                labelStyle: const TextStyle(fontSize: 15.0),
+                onTap: () {
+
+                },
+                onLongPress: (){},
+              ),
+          
+              // El que está más lejos del principal: Ayuda
+              SpeedDialChild( 
+                child: const Icon(Icons.question_mark_rounded, size: 30,),
+                backgroundColor: Colors.deepPurpleAccent,
+                foregroundColor: Colors.white,
+                label: 'Ayuda',
+                labelStyle: const TextStyle(fontSize: 15.0),
+                onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const VistaLista2()),
+                    );
+                },
+              
+                onLongPress: (){},
+              ),
+            ],
+          ),
+        ],
+
+        
         backgroundColor: const Color.fromARGB(255, 78, 241, 190),
         toolbarHeight: 60,
         // Le añadimos sombra a la parte de debajo de la barra
