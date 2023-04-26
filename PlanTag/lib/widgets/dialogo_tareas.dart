@@ -1,16 +1,31 @@
 // ********************************************************** CLASE DIALOGO **********************************************
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:plantag/pags/lista_view.dart';
+import 'package:plantag/widgets/calendario.dart';
 import 'package:plantag/widgets/logo.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class DialogoTareas extends StatelessWidget {
+class DialogoTareas extends StatefulWidget {
+
+  PickerDateRange? fechaSeleccionada;
+  
+  DialogoTareas({ this.fechaSeleccionada, Key? key,}) : super(key: key);
+
+  @override
+  State<DialogoTareas> createState() => _DialogoTareasState();
+}
+
+class _DialogoTareasState extends State<DialogoTareas> {
   final _key = GlobalKey<FormState>();
+
   // Para saber siempre el tamaño de la columna del formulario de forma dinámica aunque vaya cambiando por la panatalla
   final _keyTamColum = GlobalKey<FormState>();
 
   final _nomFld = TextEditingController();
+
   final _imgFld = TextEditingController();
-  DialogoTareas({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +35,7 @@ class DialogoTareas extends StatelessWidget {
         textAlign: TextAlign.left,
       ),
       backgroundColor: const Color.fromARGB(255, 223, 255, 222), // your color
+
       shape: RoundedRectangleBorder(
           borderRadius:
               BorderRadius.circular(40)), // change 40 to your desired radius
@@ -40,7 +56,7 @@ class DialogoTareas extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 side: const BorderSide(
                     width: 2.0, color: Color.fromARGB(255, 255, 9, 9)),
                 foregroundColor: const Color.fromARGB(255, 255, 9, 9),
@@ -50,17 +66,17 @@ class DialogoTareas extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(width: 30),
+          const SizedBox(width: 10),
 
           // ---------------------------------------- Btn Ok --------------------------------------
           Padding(
-            padding: const EdgeInsets.only(bottom: 18.0, right: 15),
+            padding: const EdgeInsets.only(bottom: 18.0, right: 10),
             child: OutlinedButton.icon(
               icon: const Icon(Icons.done),
               label: const Text("Aceptar"),
               style: ElevatedButton.styleFrom(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 // Forma de cuadrado circular al botón
                 shape: const StadiumBorder(),
                 side: const BorderSide(
@@ -91,7 +107,7 @@ class DialogoTareas extends StatelessWidget {
       // Dependiendo de la pantalla, especificamos los tamaños estandar
       content: ConstrainedBox(
         constraints: const BoxConstraints(
-          minWidth: 100,
+          minWidth: 200,
           maxWidth: 800,
           minHeight: 600,
           maxHeight: 1000,
@@ -113,7 +129,7 @@ class DialogoTareas extends StatelessWidget {
                 key: _keyTamColum,
                 children: [
                   // ------------------------------------------- Logo --------------------------------------------
-                  const LogoSettings(),
+                  //const LogoSettings(),
 
                   // -------------------------------------- TxtFld Nombre ----------------------------------------
                   TextFormField(
@@ -132,18 +148,33 @@ class DialogoTareas extends StatelessWidget {
 
                   // Le añadimos un espacio para que no estén tan pegados como si fuera un br
                   const SizedBox(height: 10),
+                  
+                  // -------------------------------------- TxtFld Descripcion ----------------------------------------
+                  TextFormField(
+                    controller: _nomFld,
+                    maxLines: 3,
+                    minLines: 3,
+                    decoration: const InputDecoration(
+                        labelText: "Descripción", border: OutlineInputBorder()),
+                  ),
+
+                  // Le añadimos un espacio para que no estén tan pegados como si fuera un br
+                  const SizedBox(height: 10),
 
                   // ---------------------------------------- TxtFld Img ----------------------------------------
                   TextFormField(
                     controller: _imgFld,
                     decoration: const InputDecoration(
+                        // Pruebas para saber si la fecha se pasa bien de una ventana a otra
+                        //labelText: Text('Param'+widget.fechaSeleccionada.toString()).toString()+"", border: OutlineInputBorder()),
                         labelText: "Imagen", border: OutlineInputBorder()),
                   ),
 
                   // Le añadimos un espacio para que no estén tan pegados como si fuera un br
                   const SizedBox(height: 35),
 
-                  // -------------------------------------- Btns Formulario ----------------------------------------
+                  // -------------------------------------- Calendario ----------------------------------------
+                  Calendario(botones: false, fechaSel: widget.fechaSeleccionada ),
                 ],
               ),
             ),

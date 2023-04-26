@@ -18,15 +18,15 @@ class LogoSettings extends StatelessWidget {
       ),
 
       // ------------------------------------- Metodo cuando pulsas el logo muestra dialogo  ---------------------------------
-      onTap: () {
-        showCupertinoDialog(
-            // El barrier es para especificar que cuando toque otra zona de la pantalla se cierra
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return Dialogo();
-            });
-      },
+      // onTap: () {
+      //   showCupertinoDialog(
+      //       // El barrier es para especificar que cuando toque otra zona de la pantalla se cierra
+      //       barrierDismissible: false,
+      //       context: context,
+      //       builder: (context) {
+      //         return Dialogo();
+      //       });
+      // },
     );
   }
 }

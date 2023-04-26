@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:plantag/widgets/calendario.dart';
 import '../main.dart';
-import '../widgets/logo.dart';
 import 'lista_view.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:draggable_fab/draggable_fab.dart';
 
 class Index extends StatefulWidget {
   const Index({
@@ -23,6 +21,7 @@ class Index extends StatefulWidget {
 // ********************************************************** CLASE PRINCIPAL **********************************************
 
 class _IndexState extends State<Index> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +69,7 @@ class _IndexState extends State<Index> {
             overlayColor: Colors.black,
             overlayOpacity: 0.5,
 
-            animationDuration: const Duration(milliseconds: 350),
+            animationDuration: const Duration(milliseconds: 150),
             // Tambien lo separa del padre
             spaceBetweenChildren: 10,
 
@@ -128,9 +127,9 @@ class _IndexState extends State<Index> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             // Dentro del contenedor le metemos la clase que muestra el calendario
-            Expanded(child: Calendario())
+            Expanded(child: Calendario(botones: true))
           ],
         ),
       ),
@@ -140,7 +139,16 @@ class _IndexState extends State<Index> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const VistaLista2()),
+            MaterialPageRoute(
+              builder: (context) => const VistaLista2(),
+              // Pasa los argumentos como parte de RouteSettings. 
+              // ExtractArgumentScreen lee los argumentos de su 
+              // propiedad settings.
+              settings: const RouteSettings(
+                arguments: "Hola args",
+            
+              ),
+            ),
           );
         },
         backgroundColor: Colors.deepPurple,

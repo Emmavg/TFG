@@ -1,11 +1,13 @@
 // ignore_for_file: dead_code
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:plantag/models/lista.dart';
 import 'package:plantag/widgets/calendario.dart';
 import 'package:plantag/models/tarea.dart';
 import 'package:plantag/database_helper.dart';
 import 'package:plantag/widgets/dialogo.dart';
 import 'package:plantag/widgets/dialogo_tareas.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 // ------------------------------------- Clase para la lista-------------------------------------------------//
 class VistaLista2 extends StatefulWidget {
@@ -22,6 +24,30 @@ class _VistaLista2State extends State<VistaLista2> {
   // Creamos la propiedad para que el valor del dropdown item cambie cuando se selecciona
   String _orderSelected = "";
   bool _mostrarImg = true;
+  
+  List<Lista> tareas = [];
+
+  @override
+  void initState() { 
+    super.initState();
+    
+    tareas.addAll([
+      
+      Lista(time: DateTime.now(), titulo: "Test 1", descripcion: "Trabajo"),
+      Lista(time: DateTime.now(), titulo: "Test 2", descripcion: "Trabajo"),
+      Lista(time: DateTime.now(), titulo: "Test 3", descripcion: "Trabajo"),
+      Lista(time: DateTime.now(), titulo: "Test 4", descripcion: "Trabajo"),
+
+      
+    ]);
+  }
+
+
+  // Creamos la funcion para establecer la fecha y se la pasamos como parametro al content del dialogo
+  // fechaSeleccionadaDialogo(PickerDateRange fechaSelec){
+  //     _fechaSeleccionada = fechaSelec;
+  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -94,21 +120,23 @@ class _VistaLista2State extends State<VistaLista2> {
       ),
 
       // -------------------------- Lista ---------------------------------------//
-      body: Row(
+      body:
+      
+      Row(
         children: [
-          const Expanded(
-              // -------------- El lado izquierdo es más pequeño que el derecho con el valor del flex -----------------
-              flex: 2,
-              child: Calendario()),
+          // const Expanded(
+          //     // -------------- El lado izquierdo es más pequeño que el derecho con el valor del flex -----------------
+          //     flex: 2,
+          //     child: Calendario()),
           Expanded(
               flex: 4,
               child:
                   // En caso de que no tenga ningun hijo porque no hay ninguna tarea que salga algo
-                  false
+                  tareas.isEmpty
                       ? const PageEmpty()
                       : ListView.builder(
                           // Numero de tareas
-                          itemCount: 10,
+                          itemCount: tareas.length,
                           itemBuilder: ((context, index) => ListTile(
                                 title: Card(
                                   color: const Color.fromRGBO(214, 220, 255, 1),
@@ -133,25 +161,25 @@ class _VistaLista2State extends State<VistaLista2> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Tarea $index",
+                                              tareas[index].titulo,
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 15),
                                             ),
                                             Row(
-                                              children: const [
+                                              children: [
                                                 Text(
-                                                  "date ",
-                                                  style: TextStyle(
+                                                  "${tareas[index].time.day} - ${tareas[index].time.month}",
+                                                  style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: Color.fromARGB(
                                                           255, 90, 90, 90)),
                                                 ),
-                                                SizedBox(height: 30),
+                                                const SizedBox(height: 30),
                                                 Text(
-                                                  "Contenido",
-                                                  style: TextStyle(
+                                                  tareas[index].descripcion,
+                                                  style: const TextStyle(
                                                       color: Color.fromARGB(
                                                           255, 90, 90, 90)),
                                                 )
@@ -189,19 +217,19 @@ class _VistaLista2State extends State<VistaLista2> {
               barrierDismissible: false,
               context: context,
               builder: (context) {
-                return DialogoTareas();
+                return DialogoTareas(fechaSeleccionada: null);
               });
-          Tarea tarea = Tarea(
-            titulo: "Comprar agua",
-            descripcion: "Comprar comida para la semana",
-            fechaInicio: DateTime(2023, 4, 24),
-            fechaFin: DateTime(2023, 4, 30),
-            categoria: "Compras",
-            dificultad: 3,
-            imagen: "https://example.com/image.png",
-            prioridad: 2,
-          );
-          SQLHelper.insertarTarea(tarea);
+          // Tarea tarea = Tarea(
+          //   titulo: "Comprar agua",
+          //   descripcion: "Comprar comida para la semana",
+          //   fechaInicio: DateTime(2023, 4, 24),
+          //   fechaFin: DateTime(2023, 4, 30),
+          //   categoria: "Compras",
+          //   dificultad: 3,
+          //   imagen: "https://example.com/image.png",
+          //   prioridad: 2,
+          // );
+          // SQLHelper.insertarTarea(tarea);
         },
         backgroundColor: Colors.deepPurple,
         tooltip: 'Añadir Tarea',
