@@ -3,15 +3,19 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:plantag/pags/index.dart';
 import 'package:plantag/widgets/dialogo_tareas.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+
+import '../pags/index.dart';
+
 
 class Calendario extends StatefulWidget {
 
   // Creamos variables para los parámetros que queremos utilizar en la clase
   bool? botones;
   PickerDateRange? fechaSel;
-
 
   // En el momento en el que hacemos esto, cada parametro que le pasamos se le asigna automaticax a la variablke de arriba referenciada con el this
   // Si no le ponemos el this no le hace referencia
@@ -22,6 +26,7 @@ class Calendario extends StatefulWidget {
     this.fechaSel,
   });
 
+ 
   @override
   State<Calendario> createState() => _CalendarioState();
 }
@@ -31,6 +36,7 @@ class _CalendarioState extends State<Calendario> {
   // Le pasamos el rango seleccionado a la ventana principal 
   // PickerDateRange? fechaSeleccionada;
   bool botones = true;
+
 
   // Creamos la funcion para establecer la fecha y se la pasamos como parametro al content del dialogo
   // fechaSeleccionadaDialogo(PickerDateRange fechaSelec){
@@ -124,9 +130,24 @@ class _CalendarioState extends State<Calendario> {
           print(DateRange.value);
           print("Botones: ");
           print(widget.botones);
+          setFecha(DateRange.value);
+          print("Calendario");
+          print(getFecha());
           
         },
       ),
     );
   }
+}
+// Declaramnos una variable global a nivel de fichero no de clase para que se pyeda acceder desde las otras clases con las funciones
+// De esta forma cada vez que el usuario cambie el rango de la fecha y le de click al botón de lista de tareas se filtrará por aquellas que estén dentro del rango
+
+PickerDateRange? _fechaSelIndex;
+
+void setFecha(PickerDateRange fechaSele) {
+    _fechaSelIndex = fechaSele;
+}
+
+PickerDateRange? getFecha() {
+    return _fechaSelIndex;
 }

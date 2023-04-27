@@ -1,4 +1,4 @@
-// ignore_for_file: dead_code
+// ignore_for_file: dead_code, unnecessary_null_comparison
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantag/models/lista.dart';
@@ -24,22 +24,28 @@ class _VistaLista2State extends State<VistaLista2> {
   // Creamos la propiedad para que el valor del dropdown item cambie cuando se selecciona
   String _orderSelected = "";
   bool _mostrarImg = true;
-  
-  List<Lista> tareas = [];
 
   @override
   void initState() { 
     super.initState();
-    
-    tareas.addAll([
-      
-      Lista(time: DateTime.now(), titulo: "Test 1", descripcion: "Trabajo"),
-      Lista(time: DateTime.now(), titulo: "Test 2", descripcion: "Trabajo"),
-      Lista(time: DateTime.now(), titulo: "Test 3", descripcion: "Trabajo"),
-      Lista(time: DateTime.now(), titulo: "Test 4", descripcion: "Trabajo"),
 
-      
-    ]);
+    tareas.addAll([
+    
+    Lista(time: DateTime.now(), titulo: "Test 1", descripcion: "Trabajo"),
+    Lista(time: DateTime.now(), titulo: "Test 2", descripcion: "Trabajo"),
+    Lista(time: DateTime.now(), titulo: "Test 3", descripcion: "Trabajo"),
+    Lista(time: DateTime.now(), titulo: "Test 4", descripcion: "Trabajo"),
+
+    
+  ]);
+  tareasFiltradas = tareas;
+
+  inicializarTareas();
+
+  setState(() {
+    
+  });
+
   }
 
 
@@ -132,11 +138,11 @@ class _VistaLista2State extends State<VistaLista2> {
               flex: 4,
               child:
                   // En caso de que no tenga ningun hijo porque no hay ninguna tarea que salga algo
-                  tareas.isEmpty
+                  tareasFiltradas.isEmpty
                       ? const PageEmpty()
                       : ListView.builder(
-                          // Numero de tareas
-                          itemCount: tareas.length,
+                          // Numero de tareasFiltradas
+                          itemCount: tareasFiltradas.length,
                           itemBuilder: ((context, index) => ListTile(
                                 title: Card(
                                   color: const Color.fromRGBO(214, 220, 255, 1),
@@ -169,7 +175,7 @@ class _VistaLista2State extends State<VistaLista2> {
                                             Row(
                                               children: [
                                                 Text(
-                                                  "${tareas[index].time.day} - ${tareas[index].time.month}",
+                                                  "${tareasFiltradas[index].time.day} - ${tareasFiltradas[index].time.month}",
                                                   style: const TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -178,7 +184,7 @@ class _VistaLista2State extends State<VistaLista2> {
                                                 ),
                                                 const SizedBox(height: 30),
                                                 Text(
-                                                  tareas[index].descripcion,
+                                                  tareasFiltradas[index].descripcion,
                                                   style: const TextStyle(
                                                       color: Color.fromARGB(
                                                           255, 90, 90, 90)),
@@ -258,3 +264,29 @@ class PageEmpty extends StatelessWidget {
     );
   }
 }
+
+
+// Cuando le das sal boton de cambiar a la vista de tareas te filtra por aquellas que correspondan con el rango de fechas seleccionadas
+List<Lista> tareasFiltradas = [];
+List<Lista> tareas = [];
+
+void inicializarTareas() {
+ 
+  tareasFiltradas = [];
+  if(getFecha() is PickerDateRange){
+    for (var i = 0; i< tareas.length; i++ ){
+    // Es necesaria hacer esta comparación ya que si no seleccionas un rango y solo es una fecha casca
+    
+      if(tareas[i].time.compareTo(getFecha()!.startDate!)>=0){
+        tareasFiltradas.add(tareas[i]);
+      }
+    } 
+  }
+
+ 
+}
+
+
+
+
+

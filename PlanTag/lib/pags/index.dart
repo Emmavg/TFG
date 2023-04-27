@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plantag/widgets/calendario.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../main.dart';
 import 'lista_view.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -21,7 +22,7 @@ class Index extends StatefulWidget {
 // ********************************************************** CLASE PRINCIPAL **********************************************
 
 class _IndexState extends State<Index> {
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,7 +130,9 @@ class _IndexState extends State<Index> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Dentro del contenedor le metemos la clase que muestra el calendario
-            Expanded(child: Calendario(botones: true))
+            Expanded(child: Calendario(botones: true,)
+            )
+            
           ],
         ),
       ),
@@ -137,17 +140,15 @@ class _IndexState extends State<Index> {
       // ------------------------------ Boton vista de tareas ---------------------------//
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          // print("Index");
+          print(getFecha());
+          //inicializarTareas();
+          print(tareas.length);
+          
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const VistaLista2(),
-              // Pasa los argumentos como parte de RouteSettings. 
-              // ExtractArgumentScreen lee los argumentos de su 
-              // propiedad settings.
-              settings: const RouteSettings(
-                arguments: "Hola args",
-            
-              ),
             ),
           );
         },
