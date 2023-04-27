@@ -29,6 +29,8 @@ class _VistaLista2State extends State<VistaLista2> {
   void initState() { 
     super.initState();
 
+    tareas = [];
+
     tareas.addAll([
     
     Lista(time: DateTime.now(), titulo: "Test 1", descripcion: "Trabajo"),
@@ -273,16 +275,20 @@ List<Lista> tareas = [];
 void inicializarTareas() {
  
   tareasFiltradas = [];
-  if(getFecha() is PickerDateRange){
-    for (var i = 0; i< tareas.length; i++ ){
-    // Es necesaria hacer esta comparación ya que si no seleccionas un rango y solo es una fecha casca
-    
-      if(tareas[i].time.compareTo(getFecha()!.startDate!)>=0){
-        tareasFiltradas.add(tareas[i]);
-      }
-    } 
+
+
+
+  if(getFecha() is! PickerDateRange){
+    setFecha(PickerDateRange(DateTime.now(), DateTime.now()));
   }
 
+  for (var i = 0; i< tareas.length; i++ ){
+  // Es necesaria hacer esta comparación ya que si no seleccionas un rango y solo es una fecha casca
+  
+    if(tareas[i].time.compareTo(getFecha()!.startDate!)>=0){
+      tareasFiltradas.add(tareas[i]);
+    }
+  } 
  
 }
 
