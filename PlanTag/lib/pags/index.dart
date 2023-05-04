@@ -31,8 +31,10 @@ class _IndexState extends State<Index> {
     // ***************************** carga las tareas al principio :) ********************************************
     Future<List<Tarea>> lista = SQLHelper.tareas();
     lista.then((miLista) {
-    Tarea primero = miLista[0];
+    Tarea primero = miLista[1];
     print(primero.descripcion);
+    
+    // aqui hay que cargar el calendario :)
 });
     return Scaffold(
 // ********************************************************** Barra superior **********************************************
