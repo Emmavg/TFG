@@ -6,6 +6,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../main.dart';
 import 'lista_view.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Index extends StatefulWidget {
   const Index({
@@ -31,10 +32,24 @@ class _IndexState extends State<Index> {
     // ***************************** carga las tareas al principio :) ********************************************
     Future<List<Tarea>> lista = SQLHelper.tareas();
     lista.then((miLista) {
-    Tarea primero = miLista[1];
-    print(primero.descripcion);
+    // paso los elementos de tareas a appointments que se pueden meter en el calendario
+    List<Appointment> appointments = [];
+
+    for (Tarea tarea in miLista) {
+      Appointment appointment = Appointment(
+        startTime: tarea.fechaInicio,
+        endTime: tarea.fechaFin,
+        subject: tarea.titulo,
+        notes: tarea.descripcion,
+        color: Colors.blue,
+      );
+
+    appointments.add(appointment);
+    print(appointments[0].subject);
+}
     
     // aqui hay que cargar el calendario :)
+    
 });
     return Scaffold(
 // ********************************************************** Barra superior **********************************************

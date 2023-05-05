@@ -48,6 +48,7 @@ dependencies:
   path_provider: ^2.0.5
   flutter_speed_dial: ^6.2.0
   draggable_fab: ^0.1.4
+  syncfusion_flutter_calendar: ^21.2.3
 
 dev_dependencies:
   flutter_test:

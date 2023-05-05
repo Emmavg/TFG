@@ -25,23 +25,25 @@ class SQLHelper {
   }
 
   // --------------------------- lista de tareas  ------------------------//
-  static Future<List<Tarea>> tareas() async {
-    final db = await _db();
-    final List<Map<String, dynamic>> tareasMap = await db.query("tareas");
-    return List.generate(
-        tareasMap.length,
-        (i) => Tarea(
-              id: tareasMap[i]['id'],
-              titulo: tareasMap[i]['titulo'],
-              descripcion: tareasMap[i]['descripcion'],
-              fechaInicio: tareasMap[i]['fechaInicio'],
-              fechaFin: tareasMap[i]['fechaFin'],
-              categoria: tareasMap[i]['categoria'],
-              dificultad: tareasMap[i]['dificultad'],
-              imagen: tareasMap[i]['imagen'],
-              prioridad: tareasMap[i]['prioridad'],
-            ));
-  }
+
+static Future<List<Tarea>> tareas() async {
+  final db = await _db();
+  final List<Map<String, dynamic>> tareasMap = await db.query("tareas");
+  return List.generate(
+    tareasMap.length,
+    (i) => Tarea(
+      id: tareasMap[i]['id'],
+      titulo: tareasMap[i]['titulo'],
+      descripcion: tareasMap[i]['descripcion'],
+      fechaInicio: tareasMap[i]['fechaInicio'] != null ? DateTime.parse(tareasMap[i]['fechaInicio']) : DateTime.now(),
+      fechaFin: tareasMap[i]['fechaFin'] != null ? DateTime.parse(tareasMap[i]['fechaFin']) : DateTime.now(),
+      categoria: tareasMap[i]['categoria'],
+      dificultad: tareasMap[i]['dificultad'],
+      imagen: tareasMap[i]['imagen'],
+      prioridad: tareasMap[i]['prioridad'],
+    ),
+  );
+}
 
   // --------------------------- Insertar tarea  ------------------------//
 
