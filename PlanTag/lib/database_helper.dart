@@ -62,25 +62,29 @@ static Future<List<Tarea>> tareas() async {
   }
 
   // ------------- para que me devuelva toda la info de la tarea que quiero ----------
-  static Future<Tarea?> getTarea(String titulo, String descripcion, DateTime fechaInicio) async {
+    static Future<Tarea?> buscarTarea(String nombre, String descripcion) async {
     final db = await _db();
-    final List<Map<String, dynamic>> tareasMap = await db.query("tareas",
-        where: "titulo = ? AND descripcion = ? AND fechaInicio = ?",
-        whereArgs: [titulo, descripcion, fechaInicio.toString()]);
-    if (tareasMap.length == 0) {
+    final List<Map<String, dynamic>> tareaMap = await db.query(
+      'tareas',
+      where: 'titulo = ? AND descripcion = ? ',
+      whereArgs: [nombre, descripcion],
+      limit: 1,
+    );
+
+    if (tareaMap.isEmpty) {
       return null;
-    } else {
-      return Tarea(
-        id: tareasMap[0]['id'],
-        titulo: tareasMap[0]['titulo'],
-        descripcion: tareasMap[0]['descripcion'],
-        fechaInicio: DateTime.parse(tareasMap[0]['fechaInicio']),
-        fechaFin: tareasMap[0]['fechaFin'] != null ? DateTime.parse(tareasMap[0]['fechaFin']) : DateTime.now(),             
-        categoria: tareasMap[0]['categoria'],
-        dificultad: tareasMap[0]['dificultad'],
-        imagen: tareasMap[0]['imagen'],
-        prioridad: tareasMap[0]['prioridad'],
-      );
+    }
+
+    return Tarea(
+      id: tareaMap[0]['id'],
+      titulo: tareaMap[0]['titulo'],
+      descripcion: tareaMap[0]['descripcion'],
+      fechaInicio: tareaMap[0]['fechaInicio'] != null ? DateTime.parse(tareaMap[0]['fechaInicio']) : DateTime.now(),
+      fechaFin: tareaMap[0]['fechaFin'] != null ? DateTime.parse(tareaMap[0]['fechaFin']) : DateTime.now(),
+      categoria: tareaMap[0]['categoria'],
+      dificultad: tareaMap[0]['dificultad'],
+      imagen: tareaMap[0]['imagen'],
+      prioridad: tareaMap[0]['prioridad'],
+    );
   }
-}
 }
