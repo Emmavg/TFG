@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantag/database_helper.dart';
 import 'package:intl/intl.dart';
+import 'package:plantag/pags/editar_tarea.dart';
 import '../models/lista.dart';
 import '../models/tarea.dart';
 
@@ -107,6 +108,12 @@ class DetallesTarea extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               // Acción al presionar el botón "Editar"
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditarTarea(tarea: tareaDB),
+                ),
+              );
             },
             child: Text('Editar'),
           ),
