@@ -9,6 +9,8 @@ import 'package:plantag/widgets/dialogo.dart';
 import 'package:plantag/widgets/dialogo_tareas.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import 'detalles_tarea.dart';
+
 // ------------------------------------- Clase para la lista-------------------------------------------------//
 class VistaLista2 extends StatefulWidget {
   const VistaLista2({super.key});
@@ -152,7 +154,9 @@ Future<void> cargarTareas() async {
                       : ListView.builder(
                           // Numero de tareasFiltradas
                           itemCount: tareasFiltradas.length,
-                          itemBuilder: ((context, index) => ListTile(
+                          itemBuilder: ((context, index) {
+                          final tarea = tareasFiltradas[index];
+                          return ListTile(
                                 title: Card(
                                   color: const Color.fromRGBO(214, 220, 255, 1),
                                   child: Row(
@@ -206,6 +210,7 @@ Future<void> cargarTareas() async {
                                     ],
                                   ),
                                 ),
+                                onTap: () => _mostrarDetallesTarea(context, tarea),
                                 leading: const Padding(
                                   padding: EdgeInsets.only(top: 8),
                                   child: Icon(
@@ -220,7 +225,7 @@ Future<void> cargarTareas() async {
                                     color: Colors.red,
                                   ),
                                 ),
-                              )))),
+                              );}))),
         ],
       ),
       // ---------------------- Boton para añadir tareas --------------------//
@@ -301,5 +306,12 @@ void inicializarTareas() {
 
 
 
-
+void _mostrarDetallesTarea(BuildContext context, Lista tarea) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => DetallesTarea(tarea: tarea),
+    ),
+  );
+}
 
