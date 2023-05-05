@@ -87,4 +87,15 @@ static Future<List<Tarea>> tareas() async {
       prioridad: tareaMap[0]['prioridad'],
     );
   }
+
+
+  // ----------------------- Borrar una tarea -----------------------
+  static Future<void> eliminarTarea(int id) async {
+  final db = await _db();
+  await db.delete('tareas', where: 'id = ?', whereArgs: [id]);
+}
+
+
+// ----------------------- Editar una tarea --------------------------
+
 }

@@ -93,16 +93,64 @@ class DetallesTarea extends StatelessWidget {
       ),
 
       // Mostrar las fechas de la tarea en una columna
-     Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    Padding(
+  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text('Fecha de inicio: ${DateFormat.yMMMMd().format(tareaDB.fechaInicio)}'),
+      Text('Fecha de fin: ${DateFormat.yMMMMd().format(tareaDB.fechaFin)}'),
+      SizedBox(height: 16), // Agregamos un espacio en blanco
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Fecha de inicio: ${DateFormat.yMMMMd().format(tareaDB.fechaInicio)}'),
-          Text('Fecha de fin: ${DateFormat.yMMMMd().format(tareaDB.fechaFin)}'),
+          ElevatedButton(
+            onPressed: () {
+              // Acción al presionar el botón "Editar"
+            },
+            child: Text('Editar'),
+          ),
+          SizedBox(width: 16), // Agregamos un espacio en blanco
+          ElevatedButton(
+            onPressed: () {
+              // Acción al presionar el botón "Eliminar"
+             showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('¿Está seguro de que desea eliminar la tarea?'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Cancelar'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text('Eliminar'),
+            onPressed: () {
+              SQLHelper.eliminarTarea(tareaDB.id);
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+            },
+          ),
         ],
-        ),
+      );
+    },
+  );
+
+            },
+            child: Text('Eliminar'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red, // Color rojo para el botón "Eliminar"
+            ),
+          ),
+        ],
       ),
+    ],
+  ),
+),
     ],
   ),
 );
@@ -110,4 +158,5 @@ class DetallesTarea extends StatelessWidget {
       ),
     );
   }
+  
 }
