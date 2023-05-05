@@ -97,5 +97,14 @@ static Future<List<Tarea>> tareas() async {
 
 
 // ----------------------- Editar una tarea --------------------------
-
+static Future<void> editarTarea(Tarea tarea) async {
+    final db = await _db();
+    await db.update(
+      'tareas',
+      tarea.toMap(),
+      where: 'id = ?',
+      whereArgs: [tarea.id],
+    );
+    print("Tarea actualizada");
+  }
 }

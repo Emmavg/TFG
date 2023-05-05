@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/tarea.dart';
+import 'package:plantag/database_helper.dart';
+
 
 class EditarTarea extends StatefulWidget {
   final Tarea tarea;
@@ -121,9 +123,21 @@ Widget build(BuildContext context) {
             
             ElevatedButton(
               onPressed: () {
-                if (_formKey.currentState!.validate()) {
+               if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
                   // Guardar la tarea actualizada
+                  Tarea tareaActualizada = Tarea(
+                    id: widget.tarea.id,
+                    titulo: _titulo,
+                    descripcion: _descripcion,
+                    categoria: _categoria,
+                    dificultad: _dificultad,
+                    prioridad: _prioridad,
+                    fechaInicio: _fechaInicio,
+                    fechaFin: _fechaFin,
+                    imagen: _imagen,
+                  );
+                  SQLHelper.editarTarea(tareaActualizada);
                 }
               },
               child: Text('Guardar'),
