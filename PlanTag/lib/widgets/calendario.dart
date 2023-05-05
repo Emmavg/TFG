@@ -54,6 +54,7 @@ class _CalendarioState extends State<Calendario> {
     List<Appointment> appointments = [];
 
     for (Tarea tarea in miLista) {
+      print("Tarea "+tarea.titulo+" FechaIni "+tarea.fechaInicio.toString());
       Appointment appointment = Appointment(
         startTime: tarea.fechaInicio,
         endTime: tarea.fechaFin,
@@ -63,7 +64,6 @@ class _CalendarioState extends State<Calendario> {
       );
 
     appointments.add(appointment);
-    print(appointments[0].startTime);
 }
     
     // aqui hay que cargar el calendario :)

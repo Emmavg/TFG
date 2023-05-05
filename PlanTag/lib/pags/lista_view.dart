@@ -227,17 +227,17 @@ class _VistaLista2State extends State<VistaLista2> {
               builder: (context) {
                 return DialogoTareas(fechaSeleccionada: null);
               });
-          // Tarea tarea = Tarea(
-          //   titulo: "Comprar agua",
-          //   descripcion: "Comprar comida para la semana",
-          //   fechaInicio: DateTime(2023, 4, 24),
-          //   fechaFin: DateTime(2023, 4, 30),
-          //   categoria: "Compras",
-          //   dificultad: 3,
-          //   imagen: "https://example.com/image.png",
-          //   prioridad: 2,
-          // );
-          // SQLHelper.insertarTarea(tarea);
+           Tarea tarea = Tarea(
+             titulo: "Test Irune",
+            descripcion: "Comprar comida para la semana",
+             fechaInicio: DateTime(2023, 5, 24),
+             fechaFin: DateTime(2023, 5, 30),
+             categoria: "Compras",
+             dificultad: 3,
+             imagen: "https://example.com/image.png",
+             prioridad: 2,
+           );
+           SQLHelper.insertarTarea(tarea);
         },
         backgroundColor: Colors.deepPurple,
         tooltip: 'Añadir Tarea',

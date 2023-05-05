@@ -55,8 +55,8 @@ static Future<List<Tarea>> tareas() async {
     // ---------------- prueba de irune pera ver si existe ------------------- //
     Future<List<Tarea>> lista = SQLHelper.tareas();
     lista.then((miLista) {
-    Tarea primero = miLista[0];
-    print(primero.descripcion);
+    Tarea primero = miLista[-1];
+    print(primero.fechaInicio);
 });
     return id;
   }
