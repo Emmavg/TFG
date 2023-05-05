@@ -3,15 +3,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:plantag/pags/index.dart';
 import 'package:plantag/widgets/dialogo_tareas.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
-
 import '../database_helper.dart';
 import '../models/tarea.dart';
-import '../pags/index.dart';
 
 
 class Calendario extends StatefulWidget {
@@ -46,33 +42,34 @@ class _CalendarioState extends State<Calendario> {
   //     fechaSeleccionada = fechaSelec;
   // }
 
-  @override
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
     Future<List<Tarea>> lista = SQLHelper.tareas();
-    lista.then((miLista) {
-    // paso los elementos de tareas a appointments que se pueden meter en el calendario
-    List<Appointment> appointments = [];
-
-    for (Tarea tarea in miLista) {
-      print("Tarea "+tarea.titulo+" FechaIni "+tarea.fechaInicio.toString());
-      Appointment appointment = Appointment(
-        startTime: tarea.fechaInicio,
-        endTime: tarea.fechaFin,
-        subject: tarea.titulo,
-        notes: tarea.descripcion,
-        color: Colors.blue,
-      );
-
-    appointments.add(appointment);
-}
-    
-    // aqui hay que cargar el calendario :)
-    SfCalendar(
-      view: CalendarView.week,
-      dataSource: _DataSource(appointments),
+    return FutureBuilder<List<Tarea>>(
+      future: lista,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
+          List<Appointment> appointments = [];
+          for (Tarea tarea in snapshot.data!) {
+            Appointment appointment = Appointment(
+              startTime: tarea.fechaInicio,
+              endTime: tarea.fechaFin,
+              subject: tarea.titulo,
+              notes: tarea.descripcion,
+              color: Colors.blue,
+            );
+            appointments.add(appointment);
+          }
+          return SfCalendar(
+            view: CalendarView.month,
+            dataSource: _DataSource(appointments),
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
     );
-});
-
+  
     
     return Container(
       // Verde menta
