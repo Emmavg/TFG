@@ -4,6 +4,7 @@ import 'package:plantag/database_helper.dart';
 import 'package:plantag/models/tarea.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../main.dart';
+import '../models/lista.dart';
 import 'lista_view.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -28,7 +29,6 @@ class _IndexState extends State<Index> {
  
   @override
   Widget build(BuildContext context) {
-
     // ***************************** carga las tareas al principio :) ********************************************
     Future<List<Tarea>> lista = SQLHelper.tareas();
     lista.then((miLista) {
@@ -36,6 +36,7 @@ class _IndexState extends State<Index> {
     List<Appointment> appointments = [];
 
     for (Tarea tarea in miLista) {
+
       Appointment appointment = Appointment(
         startTime: tarea.fechaInicio,
         endTime: tarea.fechaFin,

@@ -26,29 +26,36 @@ class _VistaLista2State extends State<VistaLista2> {
   bool _mostrarImg = true;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-
-    tareas = [];
-
-    tareas.addAll([
-    
-    Lista(time: DateTime.now(), titulo: "Test 1", descripcion: "Trabajo"),
-    Lista(time: DateTime.now(), titulo: "Test 2", descripcion: "Trabajo"),
-    Lista(time: DateTime.now(), titulo: "Test 3", descripcion: "Trabajo"),
-    Lista(time: DateTime.now(), titulo: "Test 4", descripcion: "Trabajo"),
-
-    
-  ]);
-  tareasFiltradas = tareas;
-
-  inicializarTareas();
-
-  setState(() {
-    
-  });
-
+    cargarTareas();
   }
+    
+//     tareas.addAll([
+    
+//      Lista(time: DateTime.now(), titulo: "Test 1", descripcion: "Trabajo"),
+//      Lista(time: DateTime.now(), titulo: "Test 2", descripcion: "Trabajo"),
+//      Lista(time: DateTime.now(), titulo: "Test 3", descripcion: "Trabajo"),
+//     Lista(time: DateTime.now(), titulo: "Test 4", descripcion: "Trabajo"),
+
+    
+//  ]);
+//   tareasFiltradas = tareas;
+
+//   inicializarTareas();
+
+
+Future<void> cargarTareas() async {
+  Future<List<Tarea>> lista = SQLHelper.tareas();
+  lista.then((miLista) {
+    for (Tarea tarea in miLista) {
+      tareas.add(Lista(time:tarea.fechaInicio, titulo: tarea.titulo, descripcion:tarea.descripcion));
+    }
+    tareasFiltradas = tareas;
+    inicializarTareas();
+    setState(() {});
+  });
+}
 
 
   // Creamos la funcion para establecer la fecha y se la pasamos como parametro al content del dialogo
@@ -227,17 +234,17 @@ class _VistaLista2State extends State<VistaLista2> {
               builder: (context) {
                 return DialogoTareas(fechaSeleccionada: null);
               });
-           Tarea tarea = Tarea(
-             titulo: "Test Irune",
-            descripcion: "Comprar comida para la semana",
-             fechaInicio: DateTime(2023, 5, 24),
-             fechaFin: DateTime(2023, 5, 30),
-             categoria: "Compras",
-             dificultad: 3,
-             imagen: "https://example.com/image.png",
-             prioridad: 2,
-           );
-           SQLHelper.insertarTarea(tarea);
+          //  Tarea tarea = Tarea(
+          //    titulo: "Test Irune",
+          //   descripcion: "Comprar comida para la semana",
+          //    fechaInicio: DateTime(2023, 5, 24),
+          //    fechaFin: DateTime(2023, 5, 30),
+          //    categoria: "Compras",
+          //    dificultad: 3,
+          //    imagen: "https://example.com/image.png",
+          //    prioridad: 2,
+          //  );
+          //  SQLHelper.insertarTarea(tarea);
         },
         backgroundColor: Colors.deepPurple,
         tooltip: 'Añadir Tarea',
