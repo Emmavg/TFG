@@ -121,27 +121,43 @@ Widget build(BuildContext context) {
               },
             ),
             
-            ElevatedButton(
-              onPressed: () {
-               if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  // Guardar la tarea actualizada
-                  Tarea tareaActualizada = Tarea(
-                    id: widget.tarea.id,
-                    titulo: _titulo,
-                    descripcion: _descripcion,
-                    categoria: _categoria,
-                    dificultad: _dificultad,
-                    prioridad: _prioridad,
-                    fechaInicio: _fechaInicio,
-                    fechaFin: _fechaFin,
-                    imagen: _imagen,
-                  );
-                  SQLHelper.editarTarea(tareaActualizada);
-                }
-              },
-              child: Text('Guardar'),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      // Guardar la tarea actualizada
+                      Tarea tareaActualizada = Tarea(
+                        id: widget.tarea.id,
+                        titulo: _titulo,
+                        descripcion: _descripcion,
+                        categoria: _categoria,
+                        dificultad: _dificultad,
+                        prioridad: _prioridad,
+                        fechaInicio: _fechaInicio,
+                        fechaFin: _fechaFin,
+                        imagen: _imagen,
+                      );
+                      SQLHelper.editarTarea(tareaActualizada);
+                    }
+                  },
+                  child: Text('Guardar'),
+                ),
+                          SizedBox(width: 16), // Agregamos un espacio en blanco
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cancelar'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red, // Color rojo para el botón "Eliminar"
+                  ),
+                ),
+  ],
+),
           ],
         ),
       ),
