@@ -5,9 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantag/pags/index.dart';
 import 'package:plantag/widgets/dialogo_tareas.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+
+import '../database_helper.dart';
+import '../models/tarea.dart';
 import '../pags/index.dart';
 
 
@@ -45,7 +48,32 @@ class _CalendarioState extends State<Calendario> {
 
   @override
   Widget build(BuildContext context) {
+    Future<List<Tarea>> lista = SQLHelper.tareas();
+    lista.then((miLista) {
+    // paso los elementos de tareas a appointments que se pueden meter en el calendario
+    List<Appointment> appointments = [];
 
+    for (Tarea tarea in miLista) {
+      Appointment appointment = Appointment(
+        startTime: tarea.fechaInicio,
+        endTime: tarea.fechaFin,
+        subject: tarea.titulo,
+        notes: tarea.descripcion,
+        color: Colors.blue,
+      );
+
+    appointments.add(appointment);
+    print(appointments[0].startTime);
+}
+    
+    // aqui hay que cargar el calendario :)
+    SfCalendar(
+      view: CalendarView.week,
+      dataSource: _DataSource(appointments),
+    );
+});
+
+    
     return Container(
       // Verde menta
       //color: const Color.fromARGB(255, 203, 255, 202),
@@ -150,4 +178,9 @@ void setFecha(PickerDateRange fechaSele) {
 
 PickerDateRange? getFecha() {
     return _fechaSelIndex;
+}
+class _DataSource extends CalendarDataSource {
+  _DataSource(List<Appointment> source) {
+    appointments = source;
+  }
 }
