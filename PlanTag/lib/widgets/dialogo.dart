@@ -133,6 +133,8 @@ class Dialogo extends StatelessWidget {
                           if (_key.currentState!.validate()) {
                             // Process data.
                             // Cerramos la ventana cuando pulsemos el botón
+
+                            
                             Navigator.pop(context);
                           }
                         },

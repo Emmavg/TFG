@@ -7,6 +7,9 @@ import 'package:plantag/widgets/calendario.dart';
 import 'package:plantag/widgets/logo.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import '../database_helper.dart';
+import '../models/tarea.dart';
+
 class DialogoTareas extends StatefulWidget {
 
   PickerDateRange? fechaSeleccionada;
@@ -95,6 +98,18 @@ class _DialogoTareasState extends State<DialogoTareas> {
                 if (_key.currentState!.validate()) {
                   // Process data.
                   // Cerramos la ventana cuando pulsemos el botón
+                  // Insertar tarea 
+                              Tarea tarea = Tarea(
+                                titulo: _nomFld.text,
+                                descripcion: _nomFld.text,
+                                fechaInicio: DateTime(2023, 5, 30),
+                                fechaFin: DateTime(2023, 5, 30),
+                                categoria: "Irune",
+                                dificultad: 3,
+                                imagen: _imgFld.text,
+                                prioridad: 2,
+                              );
+                            SQLHelper.insertarTarea(tarea);
                   Navigator.pop(context);
                 }
               },

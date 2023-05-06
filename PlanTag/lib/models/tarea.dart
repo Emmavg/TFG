@@ -1,5 +1,5 @@
 class Tarea {
-  int id;
+  int? id;
   final String titulo;
   final String descripcion;
   final DateTime fechaInicio;
@@ -10,7 +10,7 @@ class Tarea {
   final int prioridad;
 
   Tarea({
-    required this.id,
+    this.id,
     required this.titulo,
     required this.descripcion,
     required this.fechaInicio,
@@ -25,6 +25,7 @@ class Tarea {
 
   Map<String, dynamic> toMap() {
     return {
+      'id':id,
       'titulo': titulo,
       'descripcion': descripcion,
       'fechaInicio': fechaInicio.toIso8601String(),

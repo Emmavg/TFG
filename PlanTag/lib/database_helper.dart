@@ -51,13 +51,7 @@ static Future<List<Tarea>> tareas() async {
     final db = await _db();
     final id = await db.insert('tareas', tarea.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
-   
-    // ---------------- prueba de irune pera ver si existe ------------------- //
-    Future<List<Tarea>> lista = SQLHelper.tareas();
-    lista.then((miLista) {
-    Tarea primero = miLista[-1];
-    print(primero.fechaInicio);
-});
+    print("Se ha añadido la nueva tarea "+tarea.titulo);
     return id;
   }
 
@@ -90,7 +84,7 @@ static Future<List<Tarea>> tareas() async {
 
 
   // ----------------------- Borrar una tarea -----------------------
-  static Future<void> eliminarTarea(int id) async {
+  static Future<void> eliminarTarea(int? id) async {
   final db = await _db();
   await db.delete('tareas', where: 'id = ?', whereArgs: [id]);
 }
