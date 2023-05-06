@@ -126,6 +126,15 @@ Widget build(BuildContext context) {
               children: <Widget>[
                 ElevatedButton(
                   onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cancelar'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red, // Color rojo para el botón "Eliminar"
+                  ),
+                ),SizedBox(width: 16), // Agregamos un espacio en blanco
+                ElevatedButton(
+                  onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       // Guardar la tarea actualizada
@@ -145,17 +154,9 @@ Widget build(BuildContext context) {
                   },
                   child: Text('Guardar'),
                 ),
-                          SizedBox(width: 16), // Agregamos un espacio en blanco
+                          
 
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Cancelar'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red, // Color rojo para el botón "Eliminar"
-                  ),
-                ),
+                
   ],
 ),
           ],
