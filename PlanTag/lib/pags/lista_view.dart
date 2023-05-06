@@ -83,12 +83,7 @@ class _VistaLista2State extends State<VistaLista2> {
 
         // -------------------------------------------- ELEMENTOS QUE TIENEN ACCIONES ---------------------------------------
         actions: [
-          const Icon(Icons.file_upload),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Icon(Icons.delete),
-          ),
-          const Icon(Icons.more_vert),
+
           Row(
             children: [
               // ------------------------------------- Checkbox mostrar imagen ----------------------------------------
