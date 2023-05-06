@@ -26,11 +26,14 @@ class _VistaLista2State extends State<VistaLista2> {
   // Creamos la propiedad para que el valor del dropdown item cambie cuando se selecciona
   String _orderSelected = "";
   bool _mostrarImg = true;
+  bool _loading = true;
 
   @override
   void initState() {
     super.initState();
+    tareas=[];
     cargarTareas();
+   
   }
     
 //     tareas.addAll([
@@ -47,17 +50,22 @@ class _VistaLista2State extends State<VistaLista2> {
 //   inicializarTareas();
 
 
-Future<void> cargarTareas() async {
-  Future<List<Tarea>> lista = SQLHelper.tareas();
-  lista.then((miLista) {
-    for (Tarea tarea in miLista) {
-      tareas.add(Lista(time:tarea.fechaInicio, titulo: tarea.titulo, descripcion:tarea.descripcion));
-    }
-    tareasFiltradas = tareas;
-    inicializarTareas();
-    setState(() {});
-  });
-}
+  Future<void> cargarTareas() async {
+    Future<List<Tarea>> lista = SQLHelper.tareas();
+    lista.then((miLista) {
+      for (Tarea tarea in miLista) {
+        tareas.add(Lista(
+            time: tarea.fechaInicio,
+            titulo: tarea.titulo,
+            descripcion: tarea.descripcion));
+      }
+      tareasFiltradas = tareas;
+      inicializarTareas();
+      setState(() {
+        _loading = false; // Establecer el estado de carga en falso al finalizar la carga
+      });
+    });
+  }
 
 
   // Creamos la funcion para establecer la fecha y se la pasamos como parametro al content del dialogo
@@ -137,7 +145,11 @@ Future<void> cargarTareas() async {
       ),
 
       // -------------------------- Lista ---------------------------------------//
-      body:
+      body:_loading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : 
       
       Row(
         children: [
@@ -226,6 +238,7 @@ Future<void> cargarTareas() async {
                                   ),
                                 ),
                               );}))),
+                              
         ],
       ),
       // ---------------------- Boton para añadir tareas --------------------//
