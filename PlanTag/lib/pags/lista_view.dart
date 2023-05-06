@@ -191,15 +191,8 @@ class _VistaLista2State extends State<VistaLista2> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              tareas[index].titulo,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 15),
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
+                                            Row(children: [
+                                              Text(
                                                   "${tareasFiltradas[index].time.day} - ${tareasFiltradas[index].time.month}",
                                                   style: const TextStyle(
                                                       fontWeight:
@@ -207,15 +200,29 @@ class _VistaLista2State extends State<VistaLista2> {
                                                       color: Color.fromARGB(
                                                           255, 90, 90, 90)),
                                                 ),
-                                                const SizedBox(height: 30),
+                                                const SizedBox(width: 10),
+                                              Text(
+                                              tareas[index].titulo,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15),
+                                            ), 
+                                            
+                                              ],),
+                                            
+                                            Row(
+                                              children: [
+                                                
                                                 Text(
-                                                  tareasFiltradas[index].descripcion,
+                                                  tareasFiltradas[index].descripcion.length > 25
+                                                    ? tareasFiltradas[index].descripcion.substring(0, 25) + "..."
+                                                    : tareasFiltradas[index].descripcion,
                                                   style: const TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 90, 90, 90)),
+                                                    color: Color.fromARGB(255, 90, 90, 90),
+                                                  ),
                                                 )
                                               ],
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),

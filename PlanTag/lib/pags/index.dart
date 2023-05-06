@@ -26,7 +26,7 @@ class Index extends StatefulWidget {
 // ********************************************************** CLASE PRINCIPAL **********************************************
 
 class _IndexState extends State<Index> {
- 
+  DateTime _selectedDay = DateTime.now();
   @override
   Widget build(BuildContext context) {
     // ***************************** carga las tareas al principio :) ********************************************
