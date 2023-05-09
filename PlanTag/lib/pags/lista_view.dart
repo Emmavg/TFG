@@ -242,8 +242,8 @@ class _VistaLista2State extends State<VistaLista2> {
                                 ),
                                 trailing: GestureDetector(
                                   onTap: () {
-                                     log('tarea eliminada ${tarea.titulo}');
-
+                                    log('tarea eliminada ${tarea.titulo}');
+                                    SQLHelper.eliminarTarea(tarea.id);
                                   },
                                   child: const Padding(
                                     padding: EdgeInsets.only(top: 8),
