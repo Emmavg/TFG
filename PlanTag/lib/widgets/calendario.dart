@@ -44,6 +44,7 @@ class _CalendarioState extends State<Calendario> {
 
     Widget build(BuildContext context) {
     Future<List<Tarea>> lista = SQLHelper.tareas();
+    // el future builder es para esperar a que cargue la informacion de la bbdd antes de cargar la pantalla
     return FutureBuilder<List<Tarea>>(
       future: lista,
       builder: (context, snapshot) {

@@ -105,19 +105,8 @@ class DetallesTarea extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton(
-            onPressed: () {
-              // Acción al presionar el botón "Editar"
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditarTarea(tarea: tareaDB),
-                ),
-              );
-            },
-            child: Text('Editar'),
-          ),
-          SizedBox(width: 16), // Agregamos un espacio en blanco
+          
+           // Agregamos un espacio en blanco
           ElevatedButton(
             onPressed: () {
               // Acción al presionar el botón "Eliminar"
@@ -152,6 +141,19 @@ class DetallesTarea extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red, // Color rojo para el botón "Eliminar"
             ),
+          ),
+          SizedBox(width: 16),
+          ElevatedButton(
+            onPressed: () {
+              // Acción al presionar el botón "Editar"
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditarTarea(tarea: tareaDB),
+                ),
+              );
+            },
+            child: Text('Editar'),
           ),
         ],
       ),
