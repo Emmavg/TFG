@@ -56,7 +56,7 @@ static Future<List<Tarea>> tareas() async {
       dificultad: tareasMap[i]['dificultad'],
       imagen: tareasMap[i]['imagen'],
       prioridad: tareasMap[i]['prioridad'],
-      hecha: tareasMap[i]['hecha'] ?? 1,
+      hecha: tareasMap[i]['hecha'] ?? 0,
     ),
   );
 }
