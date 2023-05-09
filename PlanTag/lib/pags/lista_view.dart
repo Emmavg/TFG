@@ -1,4 +1,6 @@
 // ignore_for_file: dead_code, unnecessary_null_comparison
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantag/models/lista.dart';
@@ -225,21 +227,31 @@ class _VistaLista2State extends State<VistaLista2> {
                                   ),
                                 ),
                                 onTap: () => _mostrarDetallesTarea(context, tarea),
-                                leading: const Padding(
-                                  padding: EdgeInsets.only(top: 8),
-                                  child: Icon(
-                                    Icons.check_circle_outline_outlined,
-                                    color: Colors.green,
+                                leading:  GestureDetector(
+                                  onTap: () {
+                                    log('tarea hecha ${tarea.titulo}');
+                                    SQLHelper.marcarTareaComoHecha(tarea.id);
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.only(top: 8),
+                                    child: Icon(
+                                      Icons.check_circle_outline_outlined,
+                                      color: Colors.green,
+                                    ),
                                   ),
                                 ),
-                                trailing: const Padding(
-                                  padding: EdgeInsets.only(top: 8),
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    
+                                trailing: GestureDetector(
+                                  onTap: () {
+                                     log('tarea eliminada ${tarea.titulo}');
+
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.only(top: 8),
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
                                   ),
-                                  
                                 ),
                               );}))),
                               

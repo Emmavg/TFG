@@ -8,8 +8,13 @@ class SQLHelper {
   // --------------------------- Abrir base  ------------------------//
 
   static Future<Database> _db() async {
-    return openDatabase(join(await getDatabasesPath(), 'tareas.db'),
+    return openDatabase(join(await getDatabasesPath(), 'jaimapp.db'),
         onCreate: (db, version) {
+          db.execute("""
+          CREATE TABLE categoria(            
+              nombre TEXT PRIMARY KEY NOT NULL
+            )
+            """);
       return db.execute("""
           CREATE TABLE tareas(
             id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -21,12 +26,19 @@ class SQLHelper {
             dificultad INTEGER,
             imagen BLOB,
             prioridad INTEGER,
-            hecha INTEGER,
+            hecha INTEGER
             )
           """);
     }, version: 1);
   }
-
+  // ----------------------- Borrar base OJO! -----------------------
+  static Future<void> eliminarBase() async {
+  final db = await _db();
+  db.execute("""
+        DROP TABLE tareas;
+        DROP TABLE categoria;
+        """);
+}
   // --------------------------- lista de tareas  ------------------------//
 
 static Future<List<Tarea>> tareas() async {
@@ -44,7 +56,7 @@ static Future<List<Tarea>> tareas() async {
       dificultad: tareasMap[i]['dificultad'],
       imagen: tareasMap[i]['imagen'],
       prioridad: tareasMap[i]['prioridad'],
-      hecha: tareasMap[i]['hecha'],
+      hecha: tareasMap[i]['hecha'] ?? 1,
     ),
   );
 }
@@ -83,7 +95,7 @@ static Future<List<Tarea>> tareas() async {
       dificultad: tareaMap[0]['dificultad'],
       imagen: tareaMap[0]['imagen'],
       prioridad: tareaMap[0]['prioridad'],
-      hecha: tareaMap[0]['hecha'],
+      hecha: tareaMap[0]['hecha'] ?? 1,
     );
   }
 
@@ -106,4 +118,16 @@ static Future<void> editarTarea(Tarea tarea) async {
     );
     log("Tarea actualizada");
   }
+
+// ----------------------- Marcar una tarea como hecha --------------------------
+static Future<void> marcarTareaComoHecha(int id) async {
+  final db = await _db();
+  await db.update(
+    'tareas',
+    {'hecha': 1},
+    where: 'id = ?',
+    whereArgs: [id],
+  );
+}
+
 }

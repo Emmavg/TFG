@@ -171,7 +171,6 @@ class _IndexState extends State<Index> {
           print(getFecha());
           //inicializarTareas();
           print(tareas.length);
-
           Navigator.push(
             context,
             MaterialPageRoute(

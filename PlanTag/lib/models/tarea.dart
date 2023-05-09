@@ -8,7 +8,7 @@ class Tarea {
   final int dificultad;
   final String imagen;
   final int prioridad;
-  final int hecha;
+  int hecha;
 
   Tarea({
     this.id,
