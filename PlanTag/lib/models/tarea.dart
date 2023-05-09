@@ -8,6 +8,7 @@ class Tarea {
   final int dificultad;
   final String imagen;
   final int prioridad;
+  final int hecha;
 
   Tarea({
     this.id,
@@ -19,6 +20,7 @@ class Tarea {
     required this.dificultad,
     required this.imagen,
     required this.prioridad,
+    required this.hecha,
   });
 
 
@@ -33,7 +35,8 @@ class Tarea {
       'categoria': categoria,
       'dificultad': dificultad,
       'imagen': imagen,
-      'prioridad': prioridad
+      'prioridad': prioridad,
+      'hecha':hecha,
     };
   }
 }

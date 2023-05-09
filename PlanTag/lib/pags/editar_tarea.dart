@@ -24,6 +24,7 @@ class _EditarTareaState extends State<EditarTarea> {
   late DateTime _fechaInicio;
   late DateTime _fechaFin;
   late String _imagen;
+  late int _hecha;
 
   @override
   void initState() {
@@ -36,6 +37,7 @@ class _EditarTareaState extends State<EditarTarea> {
     _fechaInicio = widget.tarea.fechaInicio;
     _fechaFin = widget.tarea.fechaFin;
     _imagen = widget.tarea.imagen;
+    _hecha = widget.tarea.hecha;
   }
 
 @override
@@ -148,6 +150,7 @@ Widget build(BuildContext context) {
                         fechaInicio: _fechaInicio,
                         fechaFin: _fechaFin,
                         imagen: _imagen,
+                        hecha: _hecha,
                       );
                       SQLHelper.editarTarea(tareaActualizada);
                     }

@@ -108,6 +108,7 @@ class _DialogoTareasState extends State<DialogoTareas> {
                                 dificultad: 3,
                                 imagen: _imgFld.text,
                                 prioridad: 2,
+                                hecha:0,
                               );
                             SQLHelper.insertarTarea(tarea);
                   Navigator.pop(context);

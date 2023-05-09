@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:plantag/models/tarea.dart';
@@ -18,7 +20,8 @@ class SQLHelper {
             categoria TEXT,
             dificultad INTEGER,
             imagen BLOB,
-            prioridad INTEGER
+            prioridad INTEGER,
+            hecha INTEGER,
             )
           """);
     }, version: 1);
@@ -41,6 +44,7 @@ static Future<List<Tarea>> tareas() async {
       dificultad: tareasMap[i]['dificultad'],
       imagen: tareasMap[i]['imagen'],
       prioridad: tareasMap[i]['prioridad'],
+      hecha: tareasMap[i]['hecha'],
     ),
   );
 }
@@ -51,7 +55,7 @@ static Future<List<Tarea>> tareas() async {
     final db = await _db();
     final id = await db.insert('tareas', tarea.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
-    print("Se ha añadido la nueva tarea "+tarea.titulo);
+    log("Se ha añadido la nueva tarea ${tarea.titulo}");
     return id;
   }
 
@@ -79,6 +83,7 @@ static Future<List<Tarea>> tareas() async {
       dificultad: tareaMap[0]['dificultad'],
       imagen: tareaMap[0]['imagen'],
       prioridad: tareaMap[0]['prioridad'],
+      hecha: tareaMap[0]['hecha'],
     );
   }
 
@@ -99,6 +104,6 @@ static Future<void> editarTarea(Tarea tarea) async {
       where: 'id = ?',
       whereArgs: [tarea.id],
     );
-    print("Tarea actualizada");
+    log("Tarea actualizada");
   }
 }

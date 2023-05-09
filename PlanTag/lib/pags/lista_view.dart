@@ -237,7 +237,9 @@ class _VistaLista2State extends State<VistaLista2> {
                                   child: Icon(
                                     Icons.delete,
                                     color: Colors.red,
+                                    
                                   ),
+                                  
                                 ),
                               );}))),
                               
@@ -263,6 +265,7 @@ class _VistaLista2State extends State<VistaLista2> {
           //    dificultad: 3,
           //    imagen: "https://example.com/image.png",
           //    prioridad: 2,
+          //    hecha:0,
           //  );
           //  SQLHelper.insertarTarea(tarea);
         },
