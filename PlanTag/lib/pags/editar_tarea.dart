@@ -153,6 +153,7 @@ Widget build(BuildContext context) {
                         hecha: _hecha,
                       );
                       SQLHelper.editarTarea(tareaActualizada);
+                      Navigator.pop(context);
                     }
                   },
                   child: Text('Guardar'),

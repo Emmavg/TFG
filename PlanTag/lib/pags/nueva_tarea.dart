@@ -179,9 +179,11 @@ Widget build(BuildContext context) {
                     hecha: 0,
                   );
                   SQLHelper.insertarTarea(tarea);
+                  Navigator.pop(context);
+
                 }
               },
-            child: Text('Submit'),
+            child: Text('Plantar'),
           ),
         ],
       ),),),
