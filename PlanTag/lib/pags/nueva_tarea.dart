@@ -16,12 +16,13 @@ class _NuevaTarea extends State<NuevaTarea> {
   late String _titulo;
   late String _descripcion;
   late String _categoria;
-  late int _dificultad;
+  late int _dificultad = 3;
   late String _imagen;
-  late int _prioridad;
+  late int _prioridad =3;
   late DateTime _fechaInicio = DateTime.now();
   late DateTime _fechaFin = DateTime.now();
-
+  List<String> _categorias = ['Categoria 1', 'Categoria 2', 'Categoria 3']; // esto hay que sustituir por una funcion que nos devuelva de la base las distintas categorias
+  List<String> _imagenes = ['Tulipan', 'Rosa', 'Petunia'];  // esto igual con los nombres de las plantas
   Future<void> _selectFechaInicio(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -49,11 +50,27 @@ class _NuevaTarea extends State<NuevaTarea> {
       });
     }
   }
-
+@override
+  void initState() {
+    super.initState();
+    _categoria = _categorias[0];
+    _imagen = _imagenes[0];
+  }
 @override
 Widget build(BuildContext context) {
   return Scaffold(
     appBar: AppBar(
+      title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const [
+            Text(
+              "Nueva tarea",
+              style: TextStyle(
+                  fontSize: 20, color: Colors.white, fontFamily: 'Trajan Pro'),
+            ),
+
+          ],
+        ),
         backgroundColor: const Color.fromRGBO(163, 238, 176, 1),
         //backgroundColor: const Color.fromARGB(214, 220, 255, 100),
         toolbarHeight: 60,
@@ -86,55 +103,7 @@ Widget build(BuildContext context) {
               },
               onSaved: (value) => _descripcion = value!,
             ),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Categoria'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor ingrese una categoria';
-                }
-                return null;
-              },
-              onSaved: (value) => _categoria = value!,
-            ),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Dificultad'),
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor ingrese una dificultad';
-                }
-                if (int.tryParse(value) == null) {
-                  return 'La dificultad debe ser un número entero';
-                }
-                return null;
-              },
-              onSaved: (value) => _dificultad = int.parse(value!),
-            ),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Imagen'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor ingrese una imagen';
-                }
-                return null;
-              },
-              onSaved: (value) => _imagen = value!,
-            ),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Prioridad'),
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor ingrese una prioridad';
-                }
-                if (int.tryParse(value) == null) {
-                  return 'La prioridad debe ser un número entero';
-                }
-                return null;
-              },
-              onSaved: (value) => _prioridad = int.parse(value!),
-            ),
-            TextFormField(
+             TextFormField(
               decoration: InputDecoration(labelText: 'Fecha inicio'),
               readOnly: true,
               onTap: () => _selectFechaInicio(context),
@@ -164,6 +133,102 @@ Widget build(BuildContext context) {
                 text: _fechaFin != null ? DateFormat.yMd().format(_fechaFin) : '',
               ),
             ),
+            DropdownButtonFormField<String>(
+                decoration: InputDecoration(labelText: 'Categoria'),
+                value: _categoria,
+                items: _categorias.map((String category) {
+                  return DropdownMenuItem<String>(
+                    value: category,
+                    child: Text(category),
+                  );
+                }).toList(),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor seleccione una categoria';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  setState(() {
+                    _categoria = value!;
+                  });
+                },
+              ),
+              
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(labelText: 'Planta'),
+                value: _imagen,
+                items: _imagenes.map((String planta) {
+                  return DropdownMenuItem<String>(
+                    value: planta,
+                    child: Text(planta),
+                  );
+                }).toList(),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor seleccione una planta';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  setState(() {
+                    _imagen = value!;
+                  });
+                },
+              ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Text(
+                'Dificultad',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            Theme(
+              data: ThemeData(
+                  sliderTheme: SliderThemeData(
+                  activeTrackColor: Color.fromARGB(255, 82, 189, 100), // Set the color of the active track
+                  thumbColor: Color.fromARGB(255, 82, 189, 100), // Color of the thumb
+
+                ),
+              ),
+              child: Slider(
+                value: _dificultad.toDouble(),
+                min: 1,
+                max: 5,
+                divisions: 4,
+                onChanged: (newValue) {
+                  setState(() {
+                    _dificultad = newValue.toInt();
+                  });
+                },
+                label: _dificultad.toString(),
+              ),
+            ),
+            Text(
+              'Prioridad',
+              style: TextStyle(fontSize: 16),
+            ),
+            Theme(
+              data: ThemeData(
+                  sliderTheme: SliderThemeData(
+                  activeTrackColor: Color.fromARGB(255, 82, 189, 100), // Set the color of the active track
+                  thumbColor: Color.fromARGB(255, 82, 189, 100), // Color of the thumb
+
+                ),
+              ),
+              child: Slider(
+              value: _prioridad.toDouble(),
+              min: 1,
+              max: 5,
+              divisions: 4,
+              onChanged: (newValue) {
+                setState(() {
+                  _prioridad = newValue.toInt();
+                });
+              },
+              label: _prioridad.toString(),
+            )),
+           
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -183,7 +248,11 @@ Widget build(BuildContext context) {
 
                 }
               },
+              style: ElevatedButton.styleFrom(
+              backgroundColor: Color.fromARGB(255, 82, 189, 100),
+            ),
             child: Text('Plantar'),
+            
           ),
         ],
       ),),),
