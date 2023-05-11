@@ -30,11 +30,11 @@ class _VistaLista2State extends State<VistaLista2> {
   String _orderSelected = "";
   bool _mostrarImg = true;
   bool _loading = true;
-
+  List<Lista> tareas = [];
+  List<Lista> tareasFiltradas = [];
   @override
   void initState() {
     super.initState();
-    tareas=[];
     cargarTareas();
    
   }
@@ -56,16 +56,16 @@ class _VistaLista2State extends State<VistaLista2> {
   Future<void> cargarTareas() async {
     Future<List<Tarea>> lista = SQLHelper.tareas();
     lista.then((miLista) {
-      for (Tarea tarea in miLista) {
-        tareas.add(Lista(
-            time: tarea.fechaInicio,
-            titulo: tarea.titulo,
-            descripcion: tarea.descripcion));
-      }
-      tareasFiltradas = tareas;
-      inicializarTareas();
       setState(() {
-        _loading = false; // Establecer el estado de carga en falso al finalizar la carga
+        tareas = miLista
+            .map((tarea) => Lista(
+                time: tarea.fechaInicio,
+                titulo: tarea.titulo,
+                descripcion: tarea.descripcion))
+            .toList();
+        tareasFiltradas = tareas;
+        inicializarTareas();
+        _loading = false;
       });
     });
   }
@@ -83,7 +83,6 @@ class _VistaLista2State extends State<VistaLista2> {
       // ------------------------- Posteriormente implementar la barra de index ---------------//
       appBar: AppBar(
         title: const Text('Lista de tareas'),
-
         // -------------------------------------------- ELEMENTOS QUE TIENEN ACCIONES ---------------------------------------
         actions: [
 
@@ -136,8 +135,7 @@ class _VistaLista2State extends State<VistaLista2> {
           )
         ],
 
-        backgroundColor: const Color.fromARGB(255, 78, 241, 190),
-        toolbarHeight: 60,
+        backgroundColor: const Color.fromRGBO(163, 238, 176, 1),        toolbarHeight: 60,
         // Le añadimos sombra a la parte de debajo de la barra
         elevation: 5,
       ),
@@ -147,7 +145,7 @@ class _VistaLista2State extends State<VistaLista2> {
           ? Center(
               child: CircularProgressIndicator(),
             )
-          : 
+          :  (tareas.isNotEmpty) ?
       
       Row(
         children: [
@@ -257,7 +255,7 @@ class _VistaLista2State extends State<VistaLista2> {
                               );}))),
                               
         ],
-      ),
+      ): const PageEmpty(),
       // ---------------------- Boton para añadir tareas --------------------//
       floatingActionButton: FloatingActionButton(
         onPressed: () {

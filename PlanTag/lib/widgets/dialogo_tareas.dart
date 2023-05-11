@@ -102,8 +102,8 @@ class _DialogoTareasState extends State<DialogoTareas> {
                               Tarea tarea = Tarea(
                                 titulo: _nomFld.text,
                                 descripcion: _nomFld.text,
-                                fechaInicio: DateTime(2023, 5, 30),
-                                fechaFin: DateTime(2023, 5, 30),
+                                fechaInicio: DateTime.now(),
+                                fechaFin: DateTime.now(),
                                 categoria: "Irune",
                                 dificultad: 3,
                                 imagen: _imgFld.text,
