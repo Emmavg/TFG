@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantag/models/lista.dart';
+import 'package:plantag/pags/nueva_tarea.dart';
 import 'package:plantag/widgets/calendario.dart';
 import 'package:plantag/models/tarea.dart';
 import 'package:plantag/database_helper.dart';
@@ -261,13 +262,13 @@ class _VistaLista2State extends State<VistaLista2> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Cuando pulsamos el botón muestra el dialogo creando una función para ello
-          showCupertinoDialog(
-              // El barrier es para especificar que cuando toque otra zona de la pantalla se cierra
-              barrierDismissible: false,
-              context: context,
-              builder: (context) {
-                return DialogoTareas(fechaSeleccionada: null);
-              });
+          // showCupertinoDialog(
+          //     // El barrier es para especificar que cuando toque otra zona de la pantalla se cierra
+          //     barrierDismissible: false,
+          //     context: context,
+          //     builder: (context) {
+          //       return DialogoTareas(fechaSeleccionada: null);
+          //     });
           //  Tarea tarea = Tarea(
           //    titulo: "Test Irune",
           //   descripcion: "Comprar comida para la semana",
@@ -280,6 +281,12 @@ class _VistaLista2State extends State<VistaLista2> {
           //    hecha:0,
           //  );
           //  SQLHelper.insertarTarea(tarea);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NuevaTarea(),
+            ),
+          );
         },
         backgroundColor: Colors.deepPurple,
         tooltip: 'Añadir Tarea',
