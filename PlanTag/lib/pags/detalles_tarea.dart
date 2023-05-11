@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:plantag/database_helper.dart';
 import 'package:intl/intl.dart';
 import 'package:plantag/pags/editar_tarea.dart';
-import '../models/lista.dart';
 import '../models/tarea.dart';
 
 class DetallesTarea extends StatelessWidget {
-  final Lista tarea;
+  final Tarea tarea;
 
   DetallesTarea({required this.tarea});
   

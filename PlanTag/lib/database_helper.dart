@@ -120,7 +120,7 @@ static Future<void> editarTarea(Tarea tarea) async {
   }
 
 // ----------------------- Marcar una tarea como hecha --------------------------
-static Future<void> marcarTareaComoHecha(int id) async {
+static Future<void> marcarTareaComoHecha(int? id) async {
   final db = await _db();
   await db.update(
     'tareas',

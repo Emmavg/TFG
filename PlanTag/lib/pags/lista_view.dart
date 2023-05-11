@@ -16,7 +16,7 @@ import 'detalles_tarea.dart';
 
 // ------------------------------------- Clase para la lista-------------------------------------------------//
 class VistaLista2 extends StatefulWidget {
-  const VistaLista2({super.key});
+  const VistaLista2({Key? key}) : super(key: key);
 
   @override
   State<VistaLista2> createState() => _VistaLista2State();
@@ -30,8 +30,8 @@ class _VistaLista2State extends State<VistaLista2> {
   String _orderSelected = "";
   bool _mostrarImg = true;
   bool _loading = true;
-  List<Lista> tareas = [];
-  List<Lista> tareasFiltradas = [];
+  List<Tarea> tareas = [];
+  List<Tarea> tareasFiltradas = [];
   @override
   void initState() {
     super.initState();
@@ -54,21 +54,16 @@ class _VistaLista2State extends State<VistaLista2> {
 
 
   Future<void> cargarTareas() async {
-    Future<List<Tarea>> lista = SQLHelper.tareas();
-    lista.then((miLista) {
-      setState(() {
-        tareas = miLista
-            .map((tarea) => Lista(
-                time: tarea.fechaInicio,
-                titulo: tarea.titulo,
-                descripcion: tarea.descripcion))
-            .toList();
-        tareasFiltradas = tareas;
-        inicializarTareas();
-        _loading = false;
+      final lista = SQLHelper.tareas();
+      lista.then((miLista) {
+        setState(() {
+          tareas = miLista;
+          tareasFiltradas = tareas;
+          inicializarTareas();
+          _loading = false;
+        });
       });
-    });
-  }
+    }
 
 
   // Creamos la funcion para establecer la fecha y se la pasamos como parametro al content del dialogo
@@ -172,90 +167,92 @@ class _VistaLista2State extends State<VistaLista2> {
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: AnimatedContainer(
-                                          duration:
-                                              const Duration(milliseconds: 280),
-                                          // Lo que queremos animar que en este caso en la visibilidad de la foto tiene que estar dentro del animated
-                                          width: _mostrarImg ? 58 : 0,
-                                          child: const Image(
+                                            duration:
+                                                const Duration(milliseconds: 280),
+                                            width: _mostrarImg ? 58 : 0,
+                                            child: const Image(
                                               image: AssetImage(
-                                                  "assets/images/rosa.png")),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(children: [
-                                              Text(
-                                                  "${tareasFiltradas[index].time.day} - ${tareasFiltradas[index].time.month}",
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Color.fromARGB(
-                                                          255, 90, 90, 90)),
-                                                ),
-                                                const SizedBox(width: 10),
-                                              Text(
-                                              tareas[index].titulo,
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 15),
-                                            ), 
-                                            
-                                              ],),
-                                            
-                                            Row(
-                                              children: [
-                                                
-                                                Text(
-                                                  tareasFiltradas[index].descripcion.length > 25
-                                                    ? tareasFiltradas[index].descripcion.substring(0, 25) + "..."
-                                                    : tareasFiltradas[index].descripcion,
-                                                  style: const TextStyle(
-                                                    color: Color.fromARGB(255, 90, 90, 90),
-                                                  ),
-                                                )
-                                              ],
+                                                  "assets/images/rosa.png"),
                                             ),
-                                          ],
+                                          ),
                                         ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "${tareasFiltradas[index].fechaInicio.day} / ${tareasFiltradas[index].fechaInicio.month}",
+                                                    style: const TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Color.fromARGB(255, 90, 90, 90),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 10),
+                                                  Text(
+                                                    tareasFiltradas[index].titulo,
+                                                    style: const TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    tareasFiltradas[index].descripcion.length > 25
+                                                        ? tareasFiltradas[index].descripcion.substring(0, 25) + "..."
+                                                        : tareasFiltradas[index].descripcion,
+                                                    style: const TextStyle(
+                                                      color: Color.fromARGB(255, 90, 90, 90),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  onTap: () => _mostrarDetallesTarea(context, tarea),
+                                  leading: GestureDetector(
+                                    onTap: () {
+                                      log('tarea hecha ${tarea.titulo}');
+                                      SQLHelper.marcarTareaComoHecha(tarea.id);
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(top: 8),
+                                      child: Icon(
+                                        Icons.check_circle_outline_outlined,
+                                        color: Colors.green,
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                onTap: () => _mostrarDetallesTarea(context, tarea),
-                                leading:  GestureDetector(
-                                  onTap: () {
-                                    log('tarea hecha ${tarea.titulo}');
-                                    SQLHelper.marcarTareaComoHecha(tarea.id);
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(top: 8),
-                                    child: Icon(
-                                      Icons.check_circle_outline_outlined,
-                                      color: Colors.green,
                                     ),
                                   ),
-                                ),
-                                trailing: GestureDetector(
-                                  onTap: () {
-                                    log('tarea eliminada ${tarea.titulo}');
-                                    SQLHelper.eliminarTarea(tarea.id);
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(top: 8),
-                                    child: Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
+                                  trailing: GestureDetector(
+                                    onTap: () {
+                                      log('tarea eliminada ${tarea.titulo}');
+                                      SQLHelper.eliminarTarea(tarea.id);
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.only(top: 8),
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );}))),
-                              
-        ],
-      ): const PageEmpty(),
+                                );
+                              }),
+                            ),
+                    ),
+                  ],
+                )
+              : const PageEmpty(),
       // ---------------------- Boton para añadir tareas --------------------//
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -320,28 +317,27 @@ List<Lista> tareasFiltradas = [];
 List<Lista> tareas = [];
 
 void inicializarTareas() {
- 
   tareasFiltradas = [];
 
-
-
-  if(getFecha() is! PickerDateRange){
-    setFecha(PickerDateRange(DateTime.now(), DateTime.now()));
+  if (getFecha() == null || getFecha()!.startDate == null) {
+    return;
   }
 
-  for (var i = 0; i< tareas.length; i++ ){
-  // Es necesaria hacer esta comparación ya que si no seleccionas un rango y solo es una fecha casca
-  
-    if(tareas[i].time.compareTo(getFecha()!.startDate!)>=0){
+  DateTime startDate = getFecha()!.startDate!;
+  DateTime endDate = getFecha()!.endDate ?? startDate;
+
+  for (var i = 0; i < tareas.length; i++) {
+    DateTime tareaDate = tareas[i].time;
+    if (tareaDate.isAfter(startDate.subtract(Duration(days: 1))) &&
+        tareaDate.isBefore(endDate.add(Duration(days: 1)))) {
       tareasFiltradas.add(tareas[i]);
     }
-  } 
- 
+  }
 }
 
 
 
-void _mostrarDetallesTarea(BuildContext context, Lista tarea) {
+void _mostrarDetallesTarea(BuildContext context, Tarea tarea) {
   Navigator.push(
     context,
     MaterialPageRoute(
