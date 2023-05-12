@@ -17,9 +17,9 @@ class _EditarTareaState extends State<EditarTarea> {
   late String _titulo;
   late String _descripcion;
   late String _categoria;
-  late int _dificultad;
+  late int _dificultad = 3;
   late String _imagen;
-  late int _prioridad;
+  late int _prioridad = 3;
   late DateTime _fechaInicio;
   late DateTime _fechaFin;
   List<String> _categorias = ['Categoria 1', 'Categoria 2', 'Categoria 3'];
@@ -28,7 +28,7 @@ class _EditarTareaState extends State<EditarTarea> {
   @override
   void initState() {
     super.initState();
-    _titulo = widget.tarea.titulo;
+    _titulo = widget.tarea.titulo; // Fill the fields with tarea data
     _descripcion = widget.tarea.descripcion;
     _categoria = widget.tarea.categoria;
     _dificultad = widget.tarea.dificultad;
