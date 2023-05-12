@@ -235,8 +235,31 @@ class _VistaLista2State extends State<VistaLista2> {
                                   ),
                                   trailing: GestureDetector(
                                     onTap: () {
-                                      log('tarea eliminada ${tarea.titulo}');
-                                      SQLHelper.eliminarTarea(tarea.id);
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('¿Está seguro de que desea eliminar la tarea?'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                child: Text('Cancelar'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: Text('Eliminar'),
+                                                onPressed: () {
+                                                  SQLHelper.eliminarTarea(tarea.id);
+                                                  log('tarea eliminada ${tarea.titulo}');
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                      
                                     },
                                     child: const Padding(
                                       padding: EdgeInsets.only(top: 8),
@@ -304,7 +327,7 @@ class PageEmpty extends StatelessWidget {
       child: Center(
           child: Text("No tienes tareas pendientes",
               style: TextStyle(
-                  color: Colors.purple,
+                  color: Color.fromARGB(255, 38, 107, 38),
                   fontStyle: FontStyle.italic,
                   fontSize: 20))),
     );
