@@ -24,19 +24,17 @@ class Tarea {
   });
 
 
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id':id,
-      'titulo': titulo,
-      'descripcion': descripcion,
-      'fechaInicio': fechaInicio.toIso8601String(),
-      'fechaFin' : fechaFin.toIso8601String(),
-      'categoria': categoria,
-      'dificultad': dificultad,
-      'imagen': imagen,
-      'prioridad': prioridad,
-      'hecha':hecha,
-    };
-  }
+Map<String, dynamic> toMap() {
+  return {
+    'titulo': titulo,
+    'descripcion': descripcion,
+    'fechaInicio': fechaInicio.toIso8601String(),
+    'fechaFin': fechaFin.toIso8601String(),
+    'categoria': categoria,
+    'dificultad': dificultad,
+    'imagen': imagen,
+    'prioridad': prioridad,
+    'hecha': hecha,
+  };
+}
 }

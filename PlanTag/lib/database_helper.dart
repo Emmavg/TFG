@@ -17,7 +17,7 @@ class SQLHelper {
             """);
       return db.execute("""
           CREATE TABLE tareas(
-            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             titulo TEXT,
             descripcion TEXT,
             fechaInicio DATE,
@@ -63,13 +63,11 @@ static Future<List<Tarea>> tareas() async {
 
   // --------------------------- Insertar tarea  ------------------------//
 
-  static Future<int> insertarTarea(Tarea tarea) async {
-    final db = await _db();
-    final id = await db.insert('tareas', tarea.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
-    log("Se ha añadido la nueva tarea ${tarea.titulo}");
-    return id;
-  }
+static Future<void> insertarTarea(Tarea tarea) async {
+  final db = await _db();
+  await db.insert('tareas', tarea.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace);
+}
 
   // ------------- para que me devuelva toda la info de la tarea que quiero ----------
     static Future<Tarea?> buscarTarea(String nombre, String descripcion) async {
@@ -110,6 +108,7 @@ static Future<List<Tarea>> tareas() async {
 // ----------------------- Editar una tarea --------------------------
 static Future<void> editarTarea(Tarea tarea) async {
     final db = await _db();
+    print("id de la tarea editada "+tarea.id.toString());
     await db.update(
       'tareas',
       tarea.toMap(),

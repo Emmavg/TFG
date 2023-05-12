@@ -234,6 +234,7 @@ Widget build(BuildContext context) {
                 if (_formKey.currentState!.validate()) {
                   _formKey.currentState!.save();
                   final tarea = Tarea(
+                    id: null,
                     titulo: _titulo,
                     descripcion: _descripcion,
                     fechaInicio: _fechaInicio, fechaFin: _fechaFin,
