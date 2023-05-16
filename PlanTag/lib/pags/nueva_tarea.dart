@@ -23,7 +23,7 @@ class _NuevaTarea extends State<NuevaTarea> {
   late DateTime _fechaInicio = DateTime.now();
   late DateTime _fechaFin = DateTime.now();
   List<String> _categorias = ['Categoria 1', 'Categoria 2', 'Categoria 3']; // esto hay que sustituir por una funcion que nos devuelva de la base las distintas categorias
-  List<String> _imagenes = ['Tulipan', 'Rosa', 'Petunia'];  // esto igual con los nombres de las plantas
+  List<String> _imagenes = ['Tulipan', 'Rosa',"Margarita","Hibisco"];
   Future<void> _selectFechaInicio(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,

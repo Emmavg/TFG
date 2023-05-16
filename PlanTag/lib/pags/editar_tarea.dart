@@ -23,7 +23,7 @@ class _EditarTareaState extends State<EditarTarea> {
   late DateTime _fechaInicio;
   late DateTime _fechaFin;
   List<String> _categorias = ['Categoria 1', 'Categoria 2', 'Categoria 3'];
-  List<String> _imagenes = ['Tulipan', 'Rosa', 'Petunia'];
+  List<String> _imagenes = ['Tulipan', 'Rosa',"Margarita","Hibisco"];
 
   @override
   void initState() {

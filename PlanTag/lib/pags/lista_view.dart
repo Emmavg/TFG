@@ -160,24 +160,44 @@ class _VistaLista2State extends State<VistaLista2> {
                           itemBuilder: ((context, index) {
                           final tarea = tareasFiltradas[index];
                           String dificultadString = ''; 
-
-                          switch (tarea.dificultad) {
-                            case 1:
-                              dificultadString = "assets/images/planta1.png";
-                              break;
-                            case 2:
-                              dificultadString = "assets/images/planta2.png";
-                              break;
-                            case 3:
-                              dificultadString = "assets/images/planta3.png";
-                              break;
-                            case 4:
-                              dificultadString = "assets/images/planta4.png";
-                              break;
-                            case 5:
-                              dificultadString = "assets/images/planta5.png";
-                              break;
-
+                          if (tarea.hecha == 1) {
+                            if(tarea.imagen == "Rosa")
+                              dificultadString = "assets/images/rosa.png";
+                            else{
+                              if(tarea.imagen=="Tulipan")
+                                dificultadString = "assets/images/tulipan.png";
+                              else{
+                                if (tarea.imagen =="Hibisco")
+                                   dificultadString = "assets/images/hibisco.png";
+                                else{
+                                  if(tarea.imagen=="Margarita")
+                                    dificultadString = "assets/images/margarita.png";
+                                  else{
+                                    dificultadString = "assets/images/lila.png";
+                                  }
+                                }
+                                
+                              }
+                            }
+                          } 
+                          else {
+                            switch (tarea.dificultad) {
+                              case 1:
+                                dificultadString = "assets/images/planta1.png";
+                                break;
+                              case 2:
+                                dificultadString = "assets/images/planta2.png";
+                                break;
+                              case 3:
+                                dificultadString = "assets/images/planta3.png";
+                                break;
+                              case 4:
+                                dificultadString = "assets/images/planta4.png";
+                                break;
+                              case 5:
+                                dificultadString = "assets/images/planta5.png";
+                                break;
+                            }
                           }
                           return ListTile(
                                 title: Card(
