@@ -239,17 +239,6 @@ class _EditarTareaState extends State<EditarTarea> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    final tarea = Tarea(
-                      titulo: _titulo,
-                      descripcion: _descripcion,
-                      fechaInicio: _fechaInicio,
-                      fechaFin: _fechaFin,
-                      categoria: _categoria,
-                      dificultad: _dificultad,
-                      imagen: _imagen,
-                      prioridad: _prioridad,
-                      hecha: 0,
-                    );
                     SQLHelper.editarTarea(widget.tarea.id,_titulo,_descripcion,_fechaInicio,_fechaFin,_categoria,_dificultad,_imagen,_prioridad,0); // Call the edit task function instead of insert task
                     Navigator.pop(context);
                   }
