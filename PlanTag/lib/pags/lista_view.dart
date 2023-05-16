@@ -159,6 +159,26 @@ class _VistaLista2State extends State<VistaLista2> {
                           itemCount: tareasFiltradas.length,
                           itemBuilder: ((context, index) {
                           final tarea = tareasFiltradas[index];
+                          String dificultadString = ''; 
+
+                          switch (tarea.dificultad) {
+                            case 1:
+                              dificultadString = "assets/images/planta1.png";
+                              break;
+                            case 2:
+                              dificultadString = "assets/images/planta2.png";
+                              break;
+                            case 3:
+                              dificultadString = "assets/images/planta3.png";
+                              break;
+                            case 4:
+                              dificultadString = "assets/images/planta4.png";
+                              break;
+                            case 5:
+                              dificultadString = "assets/images/planta5.png";
+                              break;
+
+                          }
                           return ListTile(
                                 title: Card(
                                   color: const Color.fromRGBO(214, 220, 255, 1),
@@ -170,9 +190,8 @@ class _VistaLista2State extends State<VistaLista2> {
                                             duration:
                                                 const Duration(milliseconds: 280),
                                             width: _mostrarImg ? 58 : 0,
-                                            child: const Image(
-                                              image: AssetImage(
-                                                  "assets/images/rosa.png"),
+                                            child: Image.asset(
+                                              dificultadString,
                                             ),
                                           ),
                                         ),
