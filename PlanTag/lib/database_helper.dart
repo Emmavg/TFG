@@ -67,6 +67,7 @@ static Future<void> insertarTarea(Tarea tarea) async {
   final db = await _db();
   await db.insert('tareas', tarea.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace);
+      log("Tarea Insertada");
 }
 
   // ------------- para que me devuelva toda la info de la tarea que quiero ----------
@@ -103,6 +104,7 @@ static Future<void> insertarTarea(Tarea tarea) async {
     // print(id); aqui llega bien el id
   final db = await _db();
   await db.delete('tareas', where: 'id = ?', whereArgs: [id]);
+  log("Tarea eliminada");
 }
 
 
@@ -138,6 +140,32 @@ static Future<void> marcarTareaComoHecha(int? id) async {
     where: 'id = ?',
     whereArgs: [id],
   );
+  log("Tarea marcada como hecha");
+}
+// --------------------- Añadir una categoria --------------------------------
+  static Future<void> insertarCategoria(String nombre) async {
+    final db = await _db();
+    await db.insert(
+      'categoria',
+      {'nombre': nombre},
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
+    log("Categoría agregada");
+  }
+
+// ------------------------ Listar categorias ---------------------------------
+  static Future<List<String>> categorias() async {
+    final db = await _db();
+    final List<Map<String, dynamic>> categoriasMap = await db.query("categoria");
+    return categoriasMap.map((categoriaMap) => categoriaMap['nombre'] as String).toList();
+  }
+
+// --------------------- Borrar una categoria ---------------------------------
+  static Future<void> eliminarCategoria(String nombre) async {
+  final db = await _db();
+  await db.delete('categoria', where: 'nombre = ?', whereArgs: [nombre]);
+  log("Categoría borrada");
 }
 
 }
