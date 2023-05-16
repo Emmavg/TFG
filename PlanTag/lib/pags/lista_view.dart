@@ -300,7 +300,7 @@ class _VistaLista2State extends State<VistaLista2> {
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                      builder: (context) => VistaLista2(),
+                                                      builder: (context) => const VistaLista2(),
                                                     ),
                                                   );
                                                 },
