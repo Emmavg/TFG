@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:plantag/main.dart';
 import 'package:plantag/widgets/dialogo_tareas.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -54,6 +55,12 @@ class _CalendarioState extends State<Calendario> {
                   ),
                 );
               }
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                 builder: (context) => const MyApp(),
+              ),
+              );
             },
           );
         } else {
