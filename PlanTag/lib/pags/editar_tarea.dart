@@ -3,11 +3,10 @@ import 'package:intl/intl.dart';
 import '../models/tarea.dart';
 import 'package:plantag/database_helper.dart';
 
-
 class EditarTarea extends StatefulWidget {
   final Tarea tarea;
 
-  EditarTarea({required this.tarea});
+  const EditarTarea({Key? key, required this.tarea}) : super(key: key);
 
   @override
   _EditarTareaState createState() => _EditarTareaState();
@@ -15,159 +14,264 @@ class EditarTarea extends StatefulWidget {
 
 class _EditarTareaState extends State<EditarTarea> {
   final _formKey = GlobalKey<FormState>();
-
   late String _titulo;
   late String _descripcion;
   late String _categoria;
-  late int _dificultad;
-  late int _prioridad;
+  late int _dificultad = 3;
+  late String _imagen;
+  late int _prioridad = 3;
   late DateTime _fechaInicio;
   late DateTime _fechaFin;
-  late String _imagen;
-  late int _hecha;
+  List<String> _categorias = []; // Initialize with an empty list
+  List<String> _imagenes = ['Tulipan', 'Rosa', 'Margarita', 'Hibisco'];
 
   @override
   void initState() {
     super.initState();
-    _titulo = widget.tarea.titulo;
+    _titulo = widget.tarea.titulo; // Fill the fields with tarea data
     _descripcion = widget.tarea.descripcion;
     _categoria = widget.tarea.categoria;
     _dificultad = widget.tarea.dificultad;
+    _imagen = widget.tarea.imagen;
     _prioridad = widget.tarea.prioridad;
     _fechaInicio = widget.tarea.fechaInicio;
     _fechaFin = widget.tarea.fechaFin;
-    _imagen = widget.tarea.imagen;
-    _hecha = widget.tarea.hecha;
+    _fetchCategorias(); // Call the method to fetch categories from the database
   }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(163, 238, 176, 1),
-        //backgroundColor: const Color.fromARGB(214, 220, 255, 100),
+  Future<void> _fetchCategorias() async {
+    final categorias = await SQLHelper.categorias(); // Implement the method to retrieve categories from the database
+    setState(() {
+      _categorias = categorias;
+    });
+  }
+
+  Future<void> _selectFechaInicio(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _fechaInicio,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null) {
+      setState(() {
+        _fechaInicio = picked;
+      });
+    }
+  }
+
+  Future<void> _selectFechaFin(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _fechaFin,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null) {
+      setState(() {
+        _fechaFin = picked;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Editar Tarea",
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+            fontFamily: 'Trajan Pro',
+          ),
+        ),
+        backgroundColor: Color.fromRGBO(163, 238, 176, 1),
         toolbarHeight: 60,
-        // Le añadimos sombra a la parte de debajo de la barra
         elevation: 5,
       ),
-    body: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TextFormField(
-              initialValue: _titulo,
-              decoration: InputDecoration(labelText: 'Título'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor ingrese un título';
-                }
-                return null;
-              },
-              onSaved: (value) {
-                _titulo = value!;
-              },
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Titulo'),
+                initialValue: _titulo,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingrese un titulo';
+                  }
+                  return null;
+            },
+            onSaved: (value) => _titulo = value!,
+          ),
+          TextFormField(
+            decoration: InputDecoration(labelText: 'Descripcion'),
+            initialValue: _descripcion,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor ingrese una descripción';
+              }
+              return null;
+            },
+            onSaved: (value) => _descripcion = value!,
+          ),
+          TextFormField(
+            decoration: InputDecoration(labelText: 'Fecha inicio'),
+            readOnly: true,
+            onTap: () => _selectFechaInicio(context),
+            validator: (value) {
+              if (_fechaInicio == null) {
+                return 'Por favor ingrese una fecha de inicio';
+              }
+              return null;
+            },
+            controller: TextEditingController(
+              text: _fechaInicio != null
+                  ? DateFormat.yMd().format(_fechaInicio)
+                  : '',
             ),
-            TextFormField(
-              initialValue: _descripcion,
-              decoration: InputDecoration(labelText: 'Descripción'),
-              maxLines: null,
-              keyboardType: TextInputType.multiline,
-              onSaved: (value) {
-                _descripcion = value!;
-              },
+          ),
+          TextFormField(
+            decoration: InputDecoration(labelText: 'Fecha fin'),
+            readOnly: true,
+            onTap: () => _selectFechaFin(context),
+            validator: (value) {
+              if (_fechaFin == null) {
+                return 'Por favor ingrese una fecha de fin';
+              }
+              return null;
+            },
+            controller: TextEditingController(
+              text: _fechaFin != null
+                  ? DateFormat.yMd().format(_fechaFin)
+                  : '',
             ),
-            TextFormField(
-              initialValue: _categoria,
-              decoration: InputDecoration(labelText: 'Categoría'),
-              onSaved: (value) {
+          ),
+          DropdownButtonFormField<String>(
+            decoration: InputDecoration(labelText: 'Categoria'),
+            value: _categoria,
+            items: _categorias.map((String category) {
+              return DropdownMenuItem<String>(
+                value: category,
+                child: Text(category),
+              );
+            }).toList(),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor seleccione una categoría';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              setState(() {
                 _categoria = value!;
-              },
+              });
+            },
+          ),
+          DropdownButtonFormField<String>(
+            decoration: InputDecoration(labelText: 'Planta'),
+            value: _imagen,
+            items: _imagenes.map((String planta) {
+              return DropdownMenuItem<String>(
+                value: planta,
+                child: Text(planta),
+              );
+            }).toList(),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor seleccione una planta';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              setState(() {
+                _imagen = value!;
+              });
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(
+              'Dificultad',
+              style: TextStyle(fontSize: 16),
             ),
-            TextFormField(
-              initialValue: _dificultad.toString(),
-              decoration: InputDecoration(labelText: 'Dificultad'),
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor ingrese un valor para la dificultad';
-                }
-                final dificultad = int.tryParse(value);
-                if (dificultad == null || dificultad < 1 || dificultad > 5) {
-                  return 'Por favor ingrese un valor de 1 a 5 para la dificultad';
-                }
-                return null;
-              },
-              onSaved: (value) {
-                _dificultad = int.parse(value!);
-              },
+          ),
+          Theme(
+            data: ThemeData(
+              sliderTheme: SliderThemeData(
+                activeTrackColor: Color.fromARGB(255, 82, 189, 100),
+                thumbColor: Color.fromARGB(255, 82, 189, 100),
+              ),
             ),
-            TextFormField(
-              initialValue: _prioridad.toString(),
-              decoration: InputDecoration(labelText: 'Prioridad'),
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor ingrese un valor para la prioridad';
-                }
-                final prioridad = int.tryParse(value);
-                if (prioridad == null || prioridad < 1 || prioridad > 5) {
-                  return 'Por favor ingrese un valor de 1 a 5 para la prioridad';
-                }
-                return null;
+            child: Slider(
+              value: _dificultad.toDouble(),
+              min: 1,
+              max: 5,
+              divisions: 4,
+              onChanged: (newValue) {
+                setState(() {
+                  _dificultad = newValue.toInt();
+                });
               },
-              onSaved: (value) {
-                _prioridad = int.parse(value!);
-              },
+              label: _dificultad.toString(),
             ),
-            
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Cancelar'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red, // Color rojo para el botón "Eliminar"
-                  ),
-                ),SizedBox(width: 16), // Agregamos un espacio en blanco
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      // Guardar la tarea actualizada
-                      Tarea tareaActualizada = Tarea(
-                        id: widget.tarea.id,
-                        titulo: _titulo,
-                        descripcion: _descripcion,
-                        categoria: _categoria,
-                        dificultad: _dificultad,
-                        prioridad: _prioridad,
-                        fechaInicio: _fechaInicio,
-                        fechaFin: _fechaFin,
-                        imagen: _imagen,
-                        hecha: _hecha,
-                      );
-                      SQLHelper.editarTarea(tareaActualizada);
-                    }
-                  },
-                  child: Text('Guardar'),
+          ),
+          Text(
+            'Prioridad',
+            style: TextStyle(fontSize: 16),
+          ),
+          Theme(
+            data: ThemeData(
+              sliderTheme: SliderThemeData(
+                activeTrackColor: Color.fromARGB(255, 82, 189, 100),
+                thumbColor: Color.fromARGB(255, 82, 189, 100),
+              ),
+              
+              ),
+              child: Slider(
+                value: _prioridad.toDouble(),
+                min: 1,
+                max: 5,
+                divisions: 4,
+                onChanged: (newValue) {
+                setState(() {
+                  _prioridad = newValue.toInt();
+                });
+                },
+                label: _prioridad.toString(),
                 ),
-                          
-
-                
-  ],
-),
-          ],
+              ),
+              ElevatedButton(
+                onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  SQLHelper.editarTarea(
+                    widget.tarea.id,
+                    _titulo,
+                    _descripcion,
+                    _fechaInicio,
+                    _fechaFin,
+                    _categoria,
+                    _dificultad,
+                    _imagen,
+                    _prioridad,
+                    0,
+                  ); // Call the edit task function instead of insert task
+                  Navigator.pop(context);
+                }
+                },
+                style: ElevatedButton.styleFrom(
+                backgroundColor: Color.fromARGB(255, 82, 189, 100),
+                ),
+                child: Text('Guardar Cambios'),
+                ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
-
-
+    );
+  }
 }

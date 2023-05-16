@@ -2,18 +2,14 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:plantag/pags/lista_view.dart';
-import 'package:plantag/widgets/calendario.dart';
-import 'package:plantag/widgets/logo.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
-import '../database_helper.dart';
 import '../models/tarea.dart';
+import 'package:plantag/database_helper.dart';
+import 'package:intl/intl.dart';
 
 class DialogoTareas extends StatefulWidget {
 
-  PickerDateRange? fechaSeleccionada;
-  
+  DateTime? fechaSeleccionada;
+
   DialogoTareas({ this.fechaSeleccionada, Key? key,}) : super(key: key);
 
   @override
@@ -22,13 +18,34 @@ class DialogoTareas extends StatefulWidget {
 
 class _DialogoTareasState extends State<DialogoTareas> {
   final _key = GlobalKey<FormState>();
+  List<String> _imagenes = ['Tulipan', 'Rosa',"Margarita","Hibisco"];
 
   // Para saber siempre el tamaño de la columna del formulario de forma dinámica aunque vaya cambiando por la panatalla
   final _keyTamColum = GlobalKey<FormState>();
 
   final _nomFld = TextEditingController();
+  final _descFld = TextEditingController();
+  late DateTime _fechaFin =widget.fechaSeleccionada!;
+  late String _imgFld;
 
-  final _imgFld = TextEditingController();
+  Future<void> _selectFechaFin(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _fechaFin,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null) {
+      setState(() {
+        _fechaFin = picked;
+      });
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+    _imgFld = _imagenes[0];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,12 +118,12 @@ class _DialogoTareasState extends State<DialogoTareas> {
                   // Insertar tarea 
                               Tarea tarea = Tarea(
                                 titulo: _nomFld.text,
-                                descripcion: _nomFld.text,
-                                fechaInicio: DateTime(2023, 5, 30),
-                                fechaFin: DateTime(2023, 5, 30),
-                                categoria: "Irune",
+                                descripcion: _descFld.text,
+                                fechaInicio :widget.fechaSeleccionada! ,
+                                fechaFin:_fechaFin,
+                                categoria: "Default",
                                 dificultad: 3,
-                                imagen: _imgFld.text,
+                                imagen: _imgFld,
                                 prioridad: 2,
                                 hecha:0,
                               );
@@ -167,7 +184,7 @@ class _DialogoTareasState extends State<DialogoTareas> {
                   
                   // -------------------------------------- TxtFld Descripcion ----------------------------------------
                   TextFormField(
-                    controller: _nomFld,
+                    controller: _descFld,
                     maxLines: 3,
                     minLines: 3,
                     decoration: const InputDecoration(
@@ -177,20 +194,47 @@ class _DialogoTareasState extends State<DialogoTareas> {
                   // Le añadimos un espacio para que no estén tan pegados como si fuera un br
                   const SizedBox(height: 10),
 
-                  // ---------------------------------------- TxtFld Img ----------------------------------------
-                  TextFormField(
-                    controller: _imgFld,
-                    decoration: const InputDecoration(
-                        // Pruebas para saber si la fecha se pasa bien de una ventana a otra
-                        //labelText: Text('Param'+widget.fechaSeleccionada.toString()).toString()+"", border: OutlineInputBorder()),
-                        labelText: "Imagen", border: OutlineInputBorder()),
+                  // ---------------------------------------- menu Img ----------------------------------------
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(labelText: 'Planta'),
+                    value: _imgFld,
+                    items: _imagenes.map((String planta) {
+                      return DropdownMenuItem<String>(
+                        value: planta,
+                        child: Text(planta),
+                      );
+                    }).toList(),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor seleccione una planta';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        _imgFld = value!;
+                      });
+                    },
                   ),
 
                   // Le añadimos un espacio para que no estén tan pegados como si fuera un br
                   const SizedBox(height: 35),
 
                   // -------------------------------------- Calendario ----------------------------------------
-                  Calendario(botones: false, fechaSel: widget.fechaSeleccionada ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Fecha fin'),
+                    readOnly: true,
+                    onTap: () => _selectFechaFin(context),
+                    validator: (value) {
+                      if (_fechaFin == null) {
+                        return 'Por favor ingrese una fecha de fin';
+                      }
+                      return null;
+                    },
+                    controller: TextEditingController(
+                      text: _fechaFin != null ? DateFormat.yMd().format(_fechaFin)  : '',
+                    ),
+                  ),
                 ],
               ),
             ),

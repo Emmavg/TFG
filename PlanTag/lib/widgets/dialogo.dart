@@ -1,16 +1,17 @@
 // ********************************************************** CLASE DIALOGO **********************************************
 import 'package:flutter/material.dart';
+import 'package:plantag/database_helper.dart';
+import 'package:plantag/main.dart';
 import 'package:plantag/widgets/logo.dart';
 
 
-class Dialogo extends StatelessWidget {
+class DialogoCategoria extends StatelessWidget {
   final _key = GlobalKey<FormState>();
   // Para saber siempre el tamaño de la columna del formulario de forma dinámica aunque vaya cambiando por la panatalla
   final _keyTamColum = GlobalKey<FormState>();
 
   final _nomFld = TextEditingController();
-  final _imgFld = TextEditingController();
-  Dialogo({Key? key}) : super(key: key);
+  DialogoCategoria({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +29,9 @@ class Dialogo extends StatelessWidget {
       content: ConstrainedBox(
         constraints: const BoxConstraints(
           minWidth: 100,
-          maxWidth: 800,
+          maxWidth: 1000,
           minHeight: 200,
-          maxHeight: 300,
+          maxHeight: 200,
         ),
         child: SizedBox(
           // Sacamos la altura y anchura del padre o de la ventana principal en este caso y le decimos que queremos ocupar un 40% de la misma
@@ -69,15 +70,7 @@ class Dialogo extends StatelessWidget {
                   // Le añadimos un espacio para que no estén tan pegados como si fuera un br
                   const SizedBox(height: 10),
 
-                  // ---------------------------------------- TxtFld Img ----------------------------------------
-                  TextFormField(
-                    controller: _imgFld,
-                    decoration: const InputDecoration(
-                        labelText: "Imagen", border: OutlineInputBorder()),
-                  ),
-
-                  // Le añadimos un espacio para que no estén tan pegados como si fuera un br
-                  const SizedBox(height: 35),
+                 
 
                   // -------------------------------------- Btns Formulario ----------------------------------------
 
@@ -85,6 +78,9 @@ class Dialogo extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // ---------------------------------------- Btn Cancel --------------------------------------
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 18.0, left: 2),
+                        child:
                       OutlinedButton.icon(
                         icon: const Icon(Icons.close),
                         label: const Text("Cancelar"),
@@ -94,7 +90,7 @@ class Dialogo extends StatelessWidget {
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 20),
+                              vertical: 10, horizontal: 10),
                           side: const BorderSide(
                               width: 2.0,
                               color: Color.fromARGB(255, 255, 9, 9)),
@@ -103,17 +99,20 @@ class Dialogo extends StatelessWidget {
                           shape: const StadiumBorder(),
                         ),
                       ),
+                      ),
 
                       // Le añadimos un espacio para que no estén tan pegados como si fuera un br
-                      const SizedBox(width: 30),
+                      const SizedBox(width: 10),
 
                       // ---------------------------------------- Btn Ok --------------------------------------
-                      OutlinedButton.icon(
+                     Padding(
+                      padding: const EdgeInsets.only(bottom: 18.0, right: 10),
+                      child:  OutlinedButton.icon(
                         icon: const Icon(Icons.done),
                         label: const Text("Aceptar"),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 20),
+                              vertical: 10, horizontal: 10),
                           // Forma de cuadrado circular al botón
                           shape: const StadiumBorder(),
                           side: const BorderSide(
@@ -134,13 +133,17 @@ class Dialogo extends StatelessWidget {
                             // Process data.
                             // Cerramos la ventana cuando pulsemos el botón
 
-                            
-                            Navigator.pop(context);
+                            SQLHelper.insertarCategoria(_nomFld.text);
+                           Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MyApp()),
+                          );
                           }
                         },
-                      ),
+                      ),),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

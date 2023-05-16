@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:plantag/database_helper.dart';
 import 'package:intl/intl.dart';
 import 'package:plantag/pags/editar_tarea.dart';
-import '../models/lista.dart';
 import '../models/tarea.dart';
 
 class DetallesTarea extends StatelessWidget {
-  final Lista tarea;
+  final Tarea tarea;
 
   DetallesTarea({required this.tarea});
   
@@ -105,19 +104,8 @@ class DetallesTarea extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton(
-            onPressed: () {
-              // Acción al presionar el botón "Editar"
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditarTarea(tarea: tareaDB),
-                ),
-              );
-            },
-            child: Text('Editar'),
-          ),
-          SizedBox(width: 16), // Agregamos un espacio en blanco
+          
+           // Agregamos un espacio en blanco
           ElevatedButton(
             onPressed: () {
               // Acción al presionar el botón "Eliminar"
@@ -152,6 +140,19 @@ class DetallesTarea extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red, // Color rojo para el botón "Eliminar"
             ),
+          ),
+          SizedBox(width: 16),
+          ElevatedButton(
+            onPressed: () {
+              // Acción al presionar el botón "Editar"
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditarTarea(tarea: tareaDB),
+                ),
+              );
+            },
+            child: Text('Editar'),
           ),
         ],
       ),

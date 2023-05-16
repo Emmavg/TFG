@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plantag/pags/categorias.dart';
 import 'package:plantag/widgets/calendario.dart';
 import 'package:plantag/database_helper.dart';
 import 'package:plantag/models/tarea.dart';
@@ -117,7 +118,12 @@ class _IndexState extends State<Index> {
                 foregroundColor: Colors.white,
                 label: 'Categorías',
                 labelStyle: const TextStyle(fontSize: 15.0),
-                onTap: () {},
+                onTap: () { Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>  CategoriasPage(),
+                    ),
+                  );},
                 onLongPress: () {},
               ),
 
@@ -168,7 +174,6 @@ class _IndexState extends State<Index> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // print("Index");
-          print(getFecha());
           //inicializarTareas();
           print(tareas.length);
           Navigator.push(
