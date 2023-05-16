@@ -263,6 +263,13 @@ class _VistaLista2State extends State<VistaLista2> {
                                     onTap: () {
                                       log('tarea hecha ${tarea.titulo}');
                                       SQLHelper.marcarTareaComoHecha(tarea.id);
+                                      
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const VistaLista2(),
+                                        ),
+                                      );
                                     },
                                     child: const Padding(
                                       padding: EdgeInsets.only(top: 8),
