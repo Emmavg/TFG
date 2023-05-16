@@ -297,7 +297,12 @@ class _VistaLista2State extends State<VistaLista2> {
                                                 onPressed: () {
                                                   SQLHelper.eliminarTarea(tarea.id);
                                                   log('tarea eliminada ${tarea.titulo}');
-                                                  Navigator.of(context).pop();
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => VistaLista2(),
+                                                    ),
+                                                  );
                                                 },
                                               ),
                                             ],
