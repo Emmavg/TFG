@@ -8,7 +8,7 @@ class SQLHelper {
   // --------------------------- Abrir base  ------------------------//
 
   static Future<Database> _db() async {
-    return openDatabase(join(await getDatabasesPath(), 'jaimapp.db'),
+    return openDatabase(join(await getDatabasesPath(), 'jaidb.db'),
         onCreate: (db, version) {
           db.execute("""
           CREATE TABLE categoria(            
@@ -100,21 +100,32 @@ static Future<void> insertarTarea(Tarea tarea) async {
 
   // ----------------------- Borrar una tarea -----------------------
   static Future<void> eliminarTarea(int? id) async {
+    // print(id); aqui llega bien el id
   final db = await _db();
   await db.delete('tareas', where: 'id = ?', whereArgs: [id]);
 }
 
 
 // ----------------------- Editar una tarea --------------------------
-static Future<void> editarTarea(Tarea tarea) async {
+static Future<void> editarTarea(int? id, String titulo,String descripcion,DateTime fechaInicio,DateTime fechaFin,String categoria,int dificultad,String imagen,int prioridad, int hecha)async {
     final db = await _db();
-    print("id de la tarea editada "+tarea.id.toString());
     await db.update(
-      'tareas',
-      tarea.toMap(),
-      where: 'id = ?',
-      whereArgs: [tarea.id],
-    );
+        'tareas',
+        {
+          'titulo': titulo,
+          'descripcion': descripcion,
+          'fechaInicio': fechaInicio.toIso8601String(),
+          'fechaFin': fechaFin.toIso8601String(),
+          'categoria': categoria,
+          'dificultad': dificultad,
+          'imagen': imagen,
+          'prioridad': prioridad,
+          'hecha': hecha,
+        },
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+
     log("Tarea actualizada");
   }
 

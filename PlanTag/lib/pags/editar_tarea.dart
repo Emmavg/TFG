@@ -250,7 +250,7 @@ class _EditarTareaState extends State<EditarTarea> {
                       prioridad: _prioridad,
                       hecha: 0,
                     );
-                    SQLHelper.editarTarea(tarea); // Call the edit task function instead of insert task
+                    SQLHelper.editarTarea(widget.tarea.id,_titulo,_descripcion,_fechaInicio,_fechaFin,_categoria,_dificultad,_imagen,_prioridad,0); // Call the edit task function instead of insert task
                     Navigator.pop(context);
                   }
                 },
