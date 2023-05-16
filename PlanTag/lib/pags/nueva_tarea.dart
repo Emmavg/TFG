@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../main.dart';
 import '../models/tarea.dart';
 import 'package:plantag/database_helper.dart';
 
@@ -245,7 +246,12 @@ Widget build(BuildContext context) {
                     hecha: 0,
                   );
                   SQLHelper.insertarTarea(tarea);
-                  Navigator.pop(context);
+                   Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MyApp(),
+                      ),
+                    );
 
                 }
               },
