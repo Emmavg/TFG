@@ -26,7 +26,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
 
   Future<List<String>> _fetchCategorias() async {
     List<String> categorias =  await SQLHelper.categorias();
-    if(categorias.isEmpty){
+    if(categorias.length ==0){
       SQLHelper.insertarCategoria("otros");
       categorias.add("otros");
     }
