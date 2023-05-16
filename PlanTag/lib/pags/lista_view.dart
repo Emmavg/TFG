@@ -59,7 +59,6 @@ class _VistaLista2State extends State<VistaLista2> {
         setState(() {
           tareas = miLista;
           tareasFiltradas = tareas;
-          inicializarTareas();
           _loading = false;
         });
       });
@@ -385,24 +384,7 @@ class PageEmpty extends StatelessWidget {
 List<Lista> tareasFiltradas = [];
 List<Lista> tareas = [];
 
-void inicializarTareas() {
-  tareasFiltradas = [];
 
-  if (getFecha() == null || getFecha()!.startDate == null) {
-    return;
-  }
-
-  DateTime startDate = getFecha()!.startDate!;
-  DateTime endDate = getFecha()!.endDate ?? startDate;
-
-  for (var i = 0; i < tareas.length; i++) {
-    DateTime tareaDate = tareas[i].time;
-    if (tareaDate.isAfter(startDate.subtract(Duration(days: 1))) &&
-        tareaDate.isBefore(endDate.add(Duration(days: 1)))) {
-      tareasFiltradas.add(tareas[i]);
-    }
-  }
-}
 
 
 

@@ -2,17 +2,13 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:plantag/pags/lista_view.dart';
-import 'package:plantag/widgets/calendario.dart';
-import 'package:plantag/widgets/logo.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
-import '../database_helper.dart';
 import '../models/tarea.dart';
+import 'package:plantag/database_helper.dart';
+import 'package:intl/intl.dart';
 
 class DialogoTareas extends StatefulWidget {
 
-  PickerDateRange? fechaSeleccionada;
+  DateTime? fechaSeleccionada;
   
   DialogoTareas({ this.fechaSeleccionada, Key? key,}) : super(key: key);
 
@@ -27,9 +23,22 @@ class _DialogoTareasState extends State<DialogoTareas> {
   final _keyTamColum = GlobalKey<FormState>();
 
   final _nomFld = TextEditingController();
-
+  late DateTime _fechaFin =widget.fechaSeleccionada!;
   final _imgFld = TextEditingController();
 
+  Future<void> _selectFechaFin(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _fechaFin,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null) {
+      setState(() {
+        _fechaFin = picked;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -102,7 +111,7 @@ class _DialogoTareasState extends State<DialogoTareas> {
                               Tarea tarea = Tarea(
                                 titulo: _nomFld.text,
                                 descripcion: _nomFld.text,
-                                fechaInicio: DateTime.now(),
+                                fechaInicio :widget.fechaSeleccionada! ,
                                 fechaFin: DateTime.now(),
                                 categoria: "Irune",
                                 dificultad: 3,
@@ -190,7 +199,20 @@ class _DialogoTareasState extends State<DialogoTareas> {
                   const SizedBox(height: 35),
 
                   // -------------------------------------- Calendario ----------------------------------------
-                  Calendario(botones: false, fechaSel: widget.fechaSeleccionada ),
+                  TextFormField(
+                    decoration: InputDecoration(labelText: 'Fecha fin'),
+                    readOnly: true,
+                    onTap: () => _selectFechaFin(context),
+                    validator: (value) {
+                      if (_fechaFin == null) {
+                        return 'Por favor ingrese una fecha de fin';
+                      }
+                      return null;
+                    },
+                    controller: TextEditingController(
+                      text: _fechaFin != null ? DateFormat.yMd().format(_fechaFin)  : '',
+                    ),
+                  ),
                 ],
               ),
             ),

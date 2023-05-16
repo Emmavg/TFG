@@ -168,7 +168,6 @@ class _IndexState extends State<Index> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // print("Index");
-          print(getFecha());
           //inicializarTareas();
           print(tareas.length);
           Navigator.push(
