@@ -179,7 +179,11 @@ class _VistaLista2State extends State<VistaLista2> {
                               }
                             }
                           } 
-                          else {
+                          else { // si no esta hecha y se ha pasao se marchita
+                            if(tarea.fechaFin.isBefore(DateTime.now())){
+                              dificultadString = "assets/images/marchita.png";
+                            }
+                            else{
                             switch (tarea.dificultad) {
                               case 1:
                                 dificultadString = "assets/images/planta1.png";
@@ -196,7 +200,7 @@ class _VistaLista2State extends State<VistaLista2> {
                               case 5:
                                 dificultadString = "assets/images/planta5.png";
                                 break;
-                            }
+                            }}
                           }
                           return ListTile(
                                 title: Card(
