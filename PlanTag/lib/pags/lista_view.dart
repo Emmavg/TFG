@@ -180,7 +180,8 @@ class _VistaLista2State extends State<VistaLista2> {
                             }
                           } 
                           else { // si no esta hecha y se ha pasao se marchita
-                            if(tarea.fechaFin.isBefore(DateTime.now())){
+                          DateTime hoy = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+                            if(tarea.fechaFin.isBefore(hoy)){
                               dificultadString = "assets/images/marchita.png";
                             }
                             else{
