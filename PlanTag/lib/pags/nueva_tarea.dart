@@ -1,6 +1,7 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../main.dart';
 import '../models/tarea.dart';
 import 'package:plantag/database_helper.dart';
 
@@ -8,6 +9,7 @@ class NuevaTarea extends StatefulWidget {
   const NuevaTarea({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _NuevaTareaState createState() => _NuevaTareaState();
 }
 
@@ -22,13 +24,13 @@ class _NuevaTareaState extends State<NuevaTarea> {
   late DateTime _fechaInicio = DateTime.now();
   late DateTime _fechaFin = DateTime.now();
   List<String> _categorias = []; // Initialize as an empty list
-  List<String> _imagenes = ['Tulipan', 'Rosa', 'Margarita', 'Hibisco'];
+  final List<String> _imagenes = ['Tulipan', 'Rosa', 'Margarita', 'Hibisco'];
 
   Future<List<String>> _fetchCategorias() async {
     List<String> categorias =  await SQLHelper.categorias();
     if(categorias.length ==0){
-      SQLHelper.insertarCategoria("otros");
-      categorias.add("otros");
+      SQLHelper.insertarCategoria("Otros");
+      categorias.add("Otros");
     }
     return categorias;
   }
@@ -98,7 +100,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Titulo'),
+                decoration: const InputDecoration(labelText: 'Titulo'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor ingrese un titulo';
@@ -108,7 +110,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
                 onSaved: (value) => _titulo = value!,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText
+                decoration: const InputDecoration(labelText
               : 'Descripcion'),
               validator: (value) {
               if (value == null || value.isEmpty) {
@@ -119,7 +121,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
               onSaved: (value) => _descripcion = value!,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Fecha inicio'),
+                decoration: const InputDecoration(labelText: 'Fecha inicio'),
                 readOnly: true,
                 onTap: () => _selectFechaInicio(context),
                 validator: (value) {
@@ -135,7 +137,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
                 ),
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Fecha fin'),
+                decoration: const InputDecoration(labelText: 'Fecha fin'),
                 readOnly: true,
                 onTap: () => _selectFechaFin(context),
                 validator: (value) {
@@ -152,11 +154,11 @@ class _NuevaTareaState extends State<NuevaTarea> {
               future: _fetchCategorias(),
               builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               } else if (snapshot.hasData) {
                 _categorias = snapshot.data!;
                 return DropdownButtonFormField<String>(
-                    decoration: InputDecoration(labelText: 'Categoria'),
+                    decoration: const InputDecoration(labelText: 'Categoria'),
                     value: _categoria,
                     items: _categorias.map((String category) {
                     return DropdownMenuItem<String>(
@@ -179,12 +181,12 @@ class _NuevaTareaState extends State<NuevaTarea> {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-              return Text('No data available');
+              return const Text('No data available');
               }
               },
               ),
               DropdownButtonFormField<String>(
-              decoration: InputDecoration(labelText: 'Planta'),
+              decoration: const InputDecoration(labelText: 'Planta'),
               value: _imagen,
               items: _imagenes.map((String planta) {
               return DropdownMenuItem<String>(
@@ -204,8 +206,8 @@ class _NuevaTareaState extends State<NuevaTarea> {
               });
               },
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
+              const Padding(
+                padding: EdgeInsets.only(top: 10),
                 child: Text(
                 'Dificultad',
                 style: TextStyle(fontSize: 16),
@@ -213,7 +215,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
               ),
               Theme(
                 data: ThemeData(
-                sliderTheme: SliderThemeData(
+                sliderTheme: const SliderThemeData(
                 activeTrackColor: Color.fromARGB(255, 82, 189, 100),
                 thumbColor: Color.fromARGB(255, 82, 189, 100),
                 ),
@@ -231,7 +233,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
                 label: _dificultad.toString(),
                 ),
               ),
-              Text(
+              const Text(
               'Prioridad',
               style: TextStyle(fontSize: 16),
               ),
@@ -239,7 +241,7 @@ class _NuevaTareaState extends State<NuevaTarea> {
 
               (
               data: ThemeData(
-              sliderTheme: SliderThemeData(
+              sliderTheme: const SliderThemeData(
                 activeTrackColor: Color.fromARGB(255, 82, 189, 100),
                 thumbColor: Color.fromARGB(255, 82, 189, 100),
                 ),
@@ -279,9 +281,9 @@ class _NuevaTareaState extends State<NuevaTarea> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 82, 189, 100),
+                  backgroundColor: const Color.fromARGB(255, 82, 189, 100),
                 ),
-                child: Text('Plantar'),
+                child: const Text('Plantar'),
               ),
 
             ],

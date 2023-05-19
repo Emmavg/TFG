@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantag/main.dart';
 import 'package:plantag/widgets/dialogo_tareas.dart';
@@ -7,6 +6,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../database_helper.dart';
 import '../models/tarea.dart';
 
+// ignore: must_be_immutable
 class Calendario extends StatefulWidget {
   bool? botones;
   DateTime? fechaSel;
@@ -24,6 +24,7 @@ class Calendario extends StatefulWidget {
 class _CalendarioState extends State<Calendario> {
   bool botones = true;
 
+  @override
   Widget build(BuildContext context) {
     Future<List<Tarea>> lista = SQLHelper.tareas();
 

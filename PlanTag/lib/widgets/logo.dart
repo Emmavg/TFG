@@ -1,9 +1,6 @@
 // ********************************************************** CLASE LOGO **********************************************
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:plantag/widgets/dialogo.dart';
-
 class LogoSettings extends StatelessWidget {
   const LogoSettings({Key? key}) : super(key: key);
 

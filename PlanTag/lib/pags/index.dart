@@ -3,9 +3,7 @@ import 'package:plantag/pags/categorias.dart';
 import 'package:plantag/widgets/calendario.dart';
 import 'package:plantag/database_helper.dart';
 import 'package:plantag/models/tarea.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../main.dart';
-import '../models/lista.dart';
 import 'lista_view.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -27,7 +25,6 @@ class Index extends StatefulWidget {
 // ********************************************************** CLASE PRINCIPAL **********************************************
 
 class _IndexState extends State<Index> {
-  DateTime _selectedDay = DateTime.now();
   @override
   Widget build(BuildContext context) {
     // ***************************** carga las tareas al principio :) ********************************************
@@ -47,7 +44,7 @@ class _IndexState extends State<Index> {
       );
 
     appointments.add(appointment);
-    print(appointments[0].subject);
+    //print(appointments[0].subject);
 }
     
     // aqui hay que cargar el calendario :)
@@ -175,7 +172,7 @@ class _IndexState extends State<Index> {
         onPressed: () {
           // print("Index");
           //inicializarTareas();
-          print(tareas.length);
+          //print(tareas.length);
           Navigator.push(
             context,
             MaterialPageRoute(

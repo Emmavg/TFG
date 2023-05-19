@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantag/database_helper.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +7,7 @@ import '../models/tarea.dart';
 class DetallesTarea extends StatelessWidget {
   final Tarea tarea;
 
-  DetallesTarea({required this.tarea});
+  const DetallesTarea({super.key, required this.tarea});
   
   @override
   Widget build(BuildContext context) {
@@ -26,13 +25,13 @@ class DetallesTarea extends StatelessWidget {
         future: tareaDBFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
           if (snapshot.hasError || !snapshot.hasData) {
-            return Text('Error al buscar la tarea en la base de datos');
+            return const Text('Error al buscar la tarea en la base de datos');
           }
 
           Tarea tareaDB = snapshot.data!;
@@ -48,33 +47,33 @@ class DetallesTarea extends StatelessWidget {
 
       // Mostrar el título de la tarea
       Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Text(
           tareaDB.titulo,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
 
       // Mostrar la descripción de la tarea
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Text(
           tareaDB.descripcion,
-          style: TextStyle(fontSize: 16),
+          style: const TextStyle(fontSize: 16),
         ),
       ),
 
       // Mostrar la categoría y dificultad de la tarea en una fila
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           children: [
-            Icon(Icons.category),
-            SizedBox(width: 8),
+            const Icon(Icons.category),
+            const SizedBox(width: 8),
             Text(tareaDB.categoria),
-            SizedBox(width: 16),
-            Icon(Icons.bar_chart),
-            SizedBox(width: 8),
+            const SizedBox(width: 16),
+            const Icon(Icons.bar_chart),
+            const SizedBox(width: 8),
             Text('${tareaDB.dificultad}/5'),
           ],
         ),
@@ -82,11 +81,11 @@ class DetallesTarea extends StatelessWidget {
 
       // Mostrar la prioridad de la tarea
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           children: [
-            Icon(Icons.warning),
-            SizedBox(width: 8),
+            const Icon(Icons.warning),
+            const SizedBox(width: 8),
             Text('Prioridad ${tareaDB.prioridad}'),
           ],
         ),
@@ -94,13 +93,13 @@ class DetallesTarea extends StatelessWidget {
 
       // Mostrar las fechas de la tarea en una columna
     Padding(
-  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text('Fecha de inicio: ${DateFormat.yMMMMd().format(tareaDB.fechaInicio)}'),
       Text('Fecha de fin: ${DateFormat.yMMMMd().format(tareaDB.fechaFin)}'),
-      SizedBox(height: 16), // Agregamos un espacio en blanco
+      const SizedBox(height: 16), // Agregamos un espacio en blanco
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -114,16 +113,16 @@ class DetallesTarea extends StatelessWidget {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('¿Está seguro de que desea eliminar la tarea?'),
+        title: const Text('¿Está seguro de que desea eliminar la tarea?'),
         actions: <Widget>[
           TextButton(
-            child: Text('Cancelar'),
+            child: const Text('Cancelar'),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: Text('Eliminar'),
+            child: const Text('Eliminar'),
             onPressed: () {
               SQLHelper.eliminarTarea(tareaDB.id);
               Navigator.of(context).pop();
@@ -136,12 +135,12 @@ class DetallesTarea extends StatelessWidget {
   );
 
             },
-            child: Text('Eliminar'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red, // Color rojo para el botón "Eliminar"
             ),
+            child: const Text('Eliminar'),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           ElevatedButton(
             onPressed: () {
               // Acción al presionar el botón "Editar"
@@ -152,7 +151,7 @@ class DetallesTarea extends StatelessWidget {
                 ),
               );
             },
-            child: Text('Editar'),
+            child: const Text('Editar'),
           ),
         ],
       ),

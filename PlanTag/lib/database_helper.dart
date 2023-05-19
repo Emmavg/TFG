@@ -15,6 +15,7 @@ class SQLHelper {
               nombre TEXT PRIMARY KEY NOT NULL
             )
             """);
+          SQLHelper.insertarCategoria("Otros");
       return db.execute("""
           CREATE TABLE tareas(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,6 +30,7 @@ class SQLHelper {
             hecha INTEGER
             )
           """);
+          
     }, version: 1);
   }
   // ----------------------- Borrar base OJO! -----------------------

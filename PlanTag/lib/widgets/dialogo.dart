@@ -15,17 +15,12 @@ class DialogoCategoria extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // Custom logic to handle back button press within the dialog
-        // Return false to prevent the dialog from being closed by the back button
 
-        // Example: Close the dialog and navigate to the previous page
         Navigator.of(context).pop();
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => CategoriasPage()),
         );
-
-        // Return false to prevent the dialog from being closed by the back button
         return false;
       },
       child: AlertDialog(
@@ -33,7 +28,7 @@ class DialogoCategoria extends StatelessWidget {
           "Nueva categoría",
           textAlign: TextAlign.left,
         ),
-        backgroundColor: Color.fromARGB(255, 223, 255, 222),
+        backgroundColor: const Color.fromARGB(255, 223, 255, 222),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40),
         ),

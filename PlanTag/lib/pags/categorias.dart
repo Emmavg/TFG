@@ -4,7 +4,10 @@ import '../database_helper.dart';
 import '../widgets/dialogo.dart';
 
 class CategoriasPage extends StatefulWidget {
+  const CategoriasPage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _CategoriasPageState createState() => _CategoriasPageState();
 }
 
@@ -58,7 +61,7 @@ class _CategoriasPageState extends State<CategoriasPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             "Categorias",
             style: TextStyle(
               fontSize: 20,
@@ -66,7 +69,7 @@ class _CategoriasPageState extends State<CategoriasPage> {
               fontFamily: 'Trajan Pro',
             ),
           ),
-          backgroundColor: Color.fromRGBO(163, 238, 176, 1),
+          backgroundColor: const Color.fromRGBO(163, 238, 176, 1),
           toolbarHeight: 60,
           elevation: 5,
         ),
@@ -76,7 +79,7 @@ class _CategoriasPageState extends State<CategoriasPage> {
             final categoria = _categorias[index];
             return ListTile(
               leading: IconButton(
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 onPressed: () async {
                   await SQLHelper.eliminarCategoria(categoria);
                   _fetchCategorias();
@@ -89,7 +92,7 @@ class _CategoriasPageState extends State<CategoriasPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: _mostrarDialogoCategoria,
           backgroundColor: Colors.deepPurple,
-          child: Icon(Icons.add),
+          child: const Icon(Icons.add),
         ),
       ),
     );

@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/tarea.dart';
@@ -23,7 +25,7 @@ class _EditarTareaState extends State<EditarTarea> {
   late DateTime _fechaInicio;
   late DateTime _fechaFin;
   List<String> _categorias = []; // Initialize with an empty list
-  List<String> _imagenes = ['Tulipan', 'Rosa', 'Margarita', 'Hibisco'];
+  final List<String> _imagenes = ['Tulipan', 'Rosa', 'Margarita', 'Hibisco'];
 
   @override
   void initState() {
@@ -78,7 +80,7 @@ class _EditarTareaState extends State<EditarTarea> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Editar Tarea",
           style: TextStyle(
             fontSize: 20,
@@ -86,7 +88,7 @@ class _EditarTareaState extends State<EditarTarea> {
             fontFamily: 'Trajan Pro',
           ),
         ),
-        backgroundColor: Color.fromRGBO(163, 238, 176, 1),
+        backgroundColor: const Color.fromRGBO(163, 238, 176, 1),
         toolbarHeight: 60,
         elevation: 5,
       ),
@@ -97,7 +99,7 @@ class _EditarTareaState extends State<EditarTarea> {
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Titulo'),
+                decoration: const InputDecoration(labelText: 'Titulo'),
                 initialValue: _titulo,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -108,7 +110,7 @@ class _EditarTareaState extends State<EditarTarea> {
             onSaved: (value) => _titulo = value!,
           ),
           TextFormField(
-            decoration: InputDecoration(labelText: 'Descripcion'),
+            decoration: const InputDecoration(labelText: 'Descripcion'),
             initialValue: _descripcion,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -119,7 +121,7 @@ class _EditarTareaState extends State<EditarTarea> {
             onSaved: (value) => _descripcion = value!,
           ),
           TextFormField(
-            decoration: InputDecoration(labelText: 'Fecha inicio'),
+            decoration: const InputDecoration(labelText: 'Fecha inicio'),
             readOnly: true,
             onTap: () => _selectFechaInicio(context),
             validator: (value) {
@@ -135,7 +137,7 @@ class _EditarTareaState extends State<EditarTarea> {
             ),
           ),
           TextFormField(
-            decoration: InputDecoration(labelText: 'Fecha fin'),
+            decoration: const InputDecoration(labelText: 'Fecha fin'),
             readOnly: true,
             onTap: () => _selectFechaFin(context),
             validator: (value) {
@@ -151,7 +153,7 @@ class _EditarTareaState extends State<EditarTarea> {
             ),
           ),
           DropdownButtonFormField<String>(
-            decoration: InputDecoration(labelText: 'Categoria'),
+            decoration: const InputDecoration(labelText: 'Categoria'),
             value: _categoria,
             items: _categorias.map((String category) {
               return DropdownMenuItem<String>(
@@ -172,7 +174,7 @@ class _EditarTareaState extends State<EditarTarea> {
             },
           ),
           DropdownButtonFormField<String>(
-            decoration: InputDecoration(labelText: 'Planta'),
+            decoration: const InputDecoration(labelText: 'Planta'),
             value: _imagen,
             items: _imagenes.map((String planta) {
               return DropdownMenuItem<String>(
@@ -192,8 +194,8 @@ class _EditarTareaState extends State<EditarTarea> {
               });
             },
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
+          const Padding(
+            padding: EdgeInsets.only(top: 10),
             child: Text(
               'Dificultad',
               style: TextStyle(fontSize: 16),
@@ -201,7 +203,7 @@ class _EditarTareaState extends State<EditarTarea> {
           ),
           Theme(
             data: ThemeData(
-              sliderTheme: SliderThemeData(
+              sliderTheme: const SliderThemeData(
                 activeTrackColor: Color.fromARGB(255, 82, 189, 100),
                 thumbColor: Color.fromARGB(255, 82, 189, 100),
               ),
@@ -219,13 +221,13 @@ class _EditarTareaState extends State<EditarTarea> {
               label: _dificultad.toString(),
             ),
           ),
-          Text(
+          const Text(
             'Prioridad',
             style: TextStyle(fontSize: 16),
           ),
           Theme(
             data: ThemeData(
-              sliderTheme: SliderThemeData(
+              sliderTheme: const SliderThemeData(
                 activeTrackColor: Color.fromARGB(255, 82, 189, 100),
                 thumbColor: Color.fromARGB(255, 82, 189, 100),
               ),
@@ -264,9 +266,9 @@ class _EditarTareaState extends State<EditarTarea> {
                 }
                 },
                 style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 82, 189, 100),
+                backgroundColor: const Color.fromARGB(255, 82, 189, 100),
                 ),
-                child: Text('Guardar Cambios'),
+                child: const Text('Guardar Cambios'),
                 ),
             ],
           ),

@@ -1,18 +1,12 @@
-// ignore_for_file: dead_code, unnecessary_null_comparison
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plantag/main.dart';
 import 'package:plantag/models/lista.dart';
-import 'package:plantag/pags/index.dart';
 import 'package:plantag/pags/nueva_tarea.dart';
-import 'package:plantag/widgets/calendario.dart';
 import 'package:plantag/models/tarea.dart';
 import 'package:plantag/database_helper.dart';
-import 'package:plantag/widgets/dialogo.dart';
-import 'package:plantag/widgets/dialogo_tareas.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+
 
 import 'detalles_tarea.dart';
 
@@ -149,7 +143,7 @@ class _VistaLista2State extends State<VistaLista2> {
 
       // -------------------------- Lista ---------------------------------------//
       body:_loading
-          ? Center(
+          ? const Center(
               child: CircularProgressIndicator(),
             )
           :  (tareas.isNotEmpty) ?
@@ -173,18 +167,18 @@ class _VistaLista2State extends State<VistaLista2> {
                           final tarea = tareasFiltradas[index];
                           String dificultadString = ''; 
                           if (tarea.hecha == 1) {
-                            if(tarea.imagen == "Rosa")
+                            if(tarea.imagen == "Rosa") {
                               dificultadString = "assets/images/rosa.png";
-                            else{
-                              if(tarea.imagen=="Tulipan")
+                            } else{
+                              if(tarea.imagen=="Tulipan") {
                                 dificultadString = "assets/images/tulipan.png";
-                              else{
-                                if (tarea.imagen =="Hibisco")
-                                   dificultadString = "assets/images/hibisco.png";
-                                else{
-                                  if(tarea.imagen=="Margarita")
+                              } else{
+                                if (tarea.imagen =="Hibisco") {
+                                  dificultadString = "assets/images/hibisco.png";
+                                } else{
+                                  if(tarea.imagen=="Margarita") {
                                     dificultadString = "assets/images/margarita.png";
-                                  else{
+                                  } else{
                                     dificultadString = "assets/images/lila.png";
                                   }
                                 }
@@ -261,7 +255,7 @@ class _VistaLista2State extends State<VistaLista2> {
                                                 children: [
                                                   Text(
                                                     tareasFiltradas[index].descripcion.length > 25
-                                                        ? tareasFiltradas[index].descripcion.substring(0, 25) + "..."
+                                                        ? "${tareasFiltradas[index].descripcion.substring(0, 25)}..."
                                                         : tareasFiltradas[index].descripcion,
                                                     style: const TextStyle(
                                                       color: Color.fromARGB(255, 90, 90, 90),
@@ -302,16 +296,16 @@ class _VistaLista2State extends State<VistaLista2> {
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            title: Text('¿Está seguro de que desea eliminar la tarea?'),
+                                            title: const Text('¿Está seguro de que desea eliminar la tarea?'),
                                             actions: <Widget>[
                                               TextButton(
-                                                child: Text('Cancelar'),
+                                                child: const Text('Cancelar'),
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
                                               ),
                                               TextButton(
-                                                child: Text('Eliminar'),
+                                                child: const Text('Eliminar'),
                                                 onPressed: () {
                                                   SQLHelper.eliminarTarea(tarea.id);
                                                   log('tarea eliminada ${tarea.titulo}');
@@ -347,26 +341,6 @@ class _VistaLista2State extends State<VistaLista2> {
       // ---------------------- Boton para añadir tareas --------------------//
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Cuando pulsamos el botón muestra el dialogo creando una función para ello
-          // showCupertinoDialog(
-          //     // El barrier es para especificar que cuando toque otra zona de la pantalla se cierra
-          //     barrierDismissible: false,
-          //     context: context,
-          //     builder: (context) {
-          //       return DialogoTareas(fechaSeleccionada: null);
-          //     });
-          //  Tarea tarea = Tarea(
-          //    titulo: "Test Irune",
-          //   descripcion: "Comprar comida para la semana",
-          //    fechaInicio: DateTime(2023, 5, 24),
-          //    fechaFin: DateTime(2023, 5, 30),
-          //    categoria: "Compras",
-          //    dificultad: 3,
-          //    imagen: "https://example.com/image.png",
-          //    prioridad: 2,
-          //    hecha:0,
-          //  );
-          //  SQLHelper.insertarTarea(tarea);
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -410,7 +384,6 @@ class PageEmpty extends StatelessWidget {
 }
 
 
-// Cuando le das sal boton de cambiar a la vista de tareas te filtra por aquellas que correspondan con el rango de fechas seleccionadas
 List<Lista> tareasFiltradas = [];
 List<Lista> tareas = [];
 

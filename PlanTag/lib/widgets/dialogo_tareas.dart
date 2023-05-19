@@ -18,7 +18,7 @@ class DialogoTareas extends StatefulWidget {
 
 class _DialogoTareasState extends State<DialogoTareas> {
   final _key = GlobalKey<FormState>();
-  List<String> _imagenes = ['Tulipan', 'Rosa',"Margarita","Hibisco"];
+  final List<String> _imagenes = ['Tulipan', 'Rosa',"Margarita","Hibisco"];
 
   // Para saber siempre el tamaño de la columna del formulario de forma dinámica aunque vaya cambiando por la panatalla
   final _keyTamColum = GlobalKey<FormState>();
@@ -110,7 +110,7 @@ class _DialogoTareasState extends State<DialogoTareas> {
                 // Depende de si está definido el contexto o no y de si está o no asignada la key a este componente por lo que arriba lo evaluamos con una condicion
                 // y ponemos la ! para decirle a flutter que nos aseguramos que recibe esa variable
 
-                print(_key.currentContext!.size);
+               // print(_key.currentContext!.size);
                 // Validamos si es correcto el formulario y están todos los campos rellenos o falta alguno obligatorio
                 if (_key.currentState!.validate()) {
                   // Process data.
@@ -121,10 +121,10 @@ class _DialogoTareasState extends State<DialogoTareas> {
                                 descripcion: _descFld.text,
                                 fechaInicio :widget.fechaSeleccionada! ,
                                 fechaFin:_fechaFin,
-                                categoria: "Default",
+                                categoria: "Otros",
                                 dificultad: 3,
                                 imagen: _imgFld,
-                                prioridad: 2,
+                                prioridad: 3,
                                 hecha:0,
                               );
                             SQLHelper.insertarTarea(tarea);
@@ -196,7 +196,7 @@ class _DialogoTareasState extends State<DialogoTareas> {
 
                   // ---------------------------------------- menu Img ----------------------------------------
                   DropdownButtonFormField<String>(
-                    decoration: InputDecoration(labelText: 'Planta'),
+                    decoration: const InputDecoration(labelText: 'Planta'),
                     value: _imgFld,
                     items: _imagenes.map((String planta) {
                       return DropdownMenuItem<String>(
@@ -222,16 +222,18 @@ class _DialogoTareasState extends State<DialogoTareas> {
 
                   // -------------------------------------- Calendario ----------------------------------------
                   TextFormField(
-                    decoration: InputDecoration(labelText: 'Fecha fin'),
+                    decoration: const InputDecoration(labelText: 'Fecha fin'),
                     readOnly: true,
                     onTap: () => _selectFechaFin(context),
                     validator: (value) {
+                      // ignore: unnecessary_null_comparison
                       if (_fechaFin == null) {
                         return 'Por favor ingrese una fecha de fin';
                       }
                       return null;
                     },
                     controller: TextEditingController(
+                      // ignore: unnecessary_null_comparison
                       text: _fechaFin != null ? DateFormat.yMd().format(_fechaFin)  : '',
                     ),
                   ),
