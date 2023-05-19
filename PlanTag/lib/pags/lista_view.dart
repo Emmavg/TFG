@@ -3,7 +3,9 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:plantag/main.dart';
 import 'package:plantag/models/lista.dart';
+import 'package:plantag/pags/index.dart';
 import 'package:plantag/pags/nueva_tarea.dart';
 import 'package:plantag/widgets/calendario.dart';
 import 'package:plantag/models/tarea.dart';
@@ -73,7 +75,18 @@ class _VistaLista2State extends State<VistaLista2> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MyApp(),
+          ),
+        );
+        return false;
+      },
+      child: 
+     Scaffold(
       // ------------------------- Posteriormente implementar la barra de index ---------------//
       appBar: AppBar(
         title: const Text('Lista de tareas'),
@@ -359,14 +372,21 @@ class _VistaLista2State extends State<VistaLista2> {
             MaterialPageRoute(
               builder: (context) => const NuevaTarea(),
             ),
-          );
+          ).then((value) {
+            if (value == true) {
+              Navigator.push(context, MaterialPageRoute(
+              builder: (context) => const VistaLista2(),
+            ),);
+            }
+          });
+
         },
         backgroundColor: Colors.deepPurple,
         tooltip: 'Añadir Tarea',
         child: const Icon(Icons.add_task),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-    );
+     ) );
   }
 }
 

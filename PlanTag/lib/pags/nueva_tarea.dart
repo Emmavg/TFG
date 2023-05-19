@@ -259,34 +259,31 @@ class _NuevaTareaState extends State<NuevaTarea> {
               ),
               ElevatedButton(
                 onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  final tarea = Tarea(
-                    id: null,
-                    titulo: _titulo,
-                    descripcion: _descripcion,
-                    fechaInicio: _fechaInicio,
-                    fechaFin: _fechaFin,
-                    categoria: _categoria,
-                    dificultad: _dificultad,
-                    imagen: _imagen,
-                    prioridad: _prioridad,
-                    hecha: 0,
-                  );
-                  SQLHelper.insertarTarea(tarea);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                      builder: (context) => const MyApp(),
-                    ),
-                  );
-                }
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    final tarea = Tarea(
+                      id: null,
+                      titulo: _titulo,
+                      descripcion: _descripcion,
+                      fechaInicio: _fechaInicio,
+                      fechaFin: _fechaFin,
+                      categoria: _categoria,
+                      dificultad: _dificultad,
+                      imagen: _imagen,
+                      prioridad: _prioridad,
+                      hecha: 0,
+                    );
+                    SQLHelper.insertarTarea(tarea).then((_) {
+                      Navigator.pop(context, true); // Pass true back to the previous screen
+                    });
+                  }
                 },
                 style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 82, 189, 100),
+                  backgroundColor: Color.fromARGB(255, 82, 189, 100),
                 ),
                 child: Text('Plantar'),
               ),
+
             ],
          ),
      ),
