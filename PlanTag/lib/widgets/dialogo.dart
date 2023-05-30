@@ -15,7 +15,6 @@ class DialogoCategoria extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-
         Navigator.of(context).pop();
         Navigator.push(
           context,
@@ -48,7 +47,18 @@ class DialogoCategoria extends StatelessWidget {
                 child: Column(
                   key: _keyTamColum,
                   children: [
-                    const LogoSettings(),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/maceta.png',
+                          width: 40,
+                          height: 40,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
                     TextFormField(
                       controller: _nomFld,
                       decoration: const InputDecoration(
@@ -62,7 +72,7 @@ class DialogoCategoria extends StatelessWidget {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -73,7 +83,8 @@ class DialogoCategoria extends StatelessWidget {
                             label: const Text("Cancelar"),
                             onPressed: () {
                               Navigator.pop(context);
-                              onClose(null); // Pass null to the onClose callback
+                              onClose(
+                                  null); // Pass null to the onClose callback
                             },
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
@@ -89,7 +100,8 @@ class DialogoCategoria extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 18.0, right: 10),
+                          padding:
+                              const EdgeInsets.only(bottom: 18.0, right: 10),
                           child: OutlinedButton.icon(
                             icon: const Icon(Icons.done),
                             label: const Text("Aceptar"),
@@ -107,7 +119,8 @@ class DialogoCategoria extends StatelessWidget {
                               if (_key.currentState!.validate()) {
                                 SQLHelper.insertarCategoria(_nomFld.text);
                                 Navigator.pop(context);
-                                onClose(true); // Pass the result to the onClose callback
+                                onClose(
+                                    true); // Pass the result to the onClose callback
                               }
                             },
                           ),

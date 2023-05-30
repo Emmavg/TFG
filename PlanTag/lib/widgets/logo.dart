@@ -1,6 +1,7 @@
 // ********************************************************** CLASE LOGO **********************************************
 
 import 'package:flutter/material.dart';
+
 class LogoSettings extends StatelessWidget {
   const LogoSettings({Key? key}) : super(key: key);
 
@@ -10,8 +11,13 @@ class LogoSettings extends StatelessWidget {
     return GestureDetector(
       child: const Padding(
         padding: EdgeInsets.all(10.0),
-        child:
-            CircleAvatar(backgroundImage: AssetImage("assets/images/logo.jpg")),
+        child: CircleAvatar(
+          backgroundImage: AssetImage(
+            "assets/images/maceta.png",
+          ),
+          backgroundColor: Colors.white,
+          radius: 25,
+        ),
       ),
 
       // ------------------------------------- Metodo cuando pulsas el logo muestra dialogo  ---------------------------------

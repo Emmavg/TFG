@@ -93,194 +93,205 @@ class _NuevaTareaState extends State<NuevaTarea> {
         toolbarHeight: 60,
         elevation: 5,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Titulo'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor ingrese un titulo';
-                  }
-                  return null;
-                },
-                onSaved: (value) => _titulo = value!,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Descripcion'),
-                onSaved: (value) => _descripcion = value!,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Fecha inicio'),
-                readOnly: true,
-                onTap: () => _selectFechaInicio(context),
-                validator: (value) {
-                  if (_fechaInicio == null) {
-                    return 'Por favor ingrese una fecha de inicio';
-                  }
-                  return null;
-                },
-                controller: TextEditingController(
-                  text: _fechaInicio != null
-                      ? DateFormat.yMd().format(_fechaInicio)
-                      : '',
-                ),
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: 'Fecha fin'),
-                readOnly: true,
-                onTap: () => _selectFechaFin(context),
-                validator: (value) {
-                  if (_fechaFin == null) {
-                    return 'Por favor ingrese una fecha de fin';
-                  }
-                  return null;
-                },
-                controller: TextEditingController(
-                  text: _fechaFin != null
-                      ? DateFormat.yMd().format(_fechaFin)
-                      : '',
-                ),
-              ),
-              FutureBuilder<List<String>>(
-                future: _fetchCategorias(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasData) {
-                    _categorias = snapshot.data!;
-                    return DropdownButtonFormField<String>(
-                      decoration: const InputDecoration(labelText: 'Categoria'),
-                      value: _categoria,
-                      items: _categorias.map((String category) {
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      decoration: const InputDecoration(labelText: 'Titulo'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingrese un titulo';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) => _titulo = value!,
+                    ),
+                    TextFormField(
+                      decoration:
+                          const InputDecoration(labelText: 'Descripcion'),
+                      onSaved: (value) => _descripcion = value!,
+                    ),
+                    TextFormField(
+                      decoration:
+                          const InputDecoration(labelText: 'Fecha inicio'),
+                      readOnly: true,
+                      onTap: () => _selectFechaInicio(context),
+                      validator: (value) {
+                        if (_fechaInicio == null) {
+                          return 'Por favor ingrese una fecha de inicio';
+                        }
+                        return null;
+                      },
+                      controller: TextEditingController(
+                        text: _fechaInicio != null
+                            ? DateFormat.yMd().format(_fechaInicio)
+                            : '',
+                      ),
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(labelText: 'Fecha fin'),
+                      readOnly: true,
+                      onTap: () => _selectFechaFin(context),
+                      validator: (value) {
+                        if (_fechaFin == null) {
+                          return 'Por favor ingrese una fecha de fin';
+                        }
+                        return null;
+                      },
+                      controller: TextEditingController(
+                        text: _fechaFin != null
+                            ? DateFormat.yMd().format(_fechaFin)
+                            : '',
+                      ),
+                    ),
+                    FutureBuilder<List<String>>(
+                      future: _fetchCategorias(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasData) {
+                          _categorias = snapshot.data!;
+                          return DropdownButtonFormField<String>(
+                            decoration:
+                                const InputDecoration(labelText: 'Categoria'),
+                            value: _categoria,
+                            items: _categorias.map((String category) {
+                              return DropdownMenuItem<String>(
+                                value: category,
+                                child: Text(category),
+                              );
+                            }).toList(),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor seleccione una categoria';
+                              }
+                              return null;
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                _categoria = value!;
+                              });
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          return const Text('No data available');
+                        }
+                      },
+                    ),
+                    DropdownButtonFormField<String>(
+                      decoration: const InputDecoration(labelText: 'Planta'),
+                      value: _imagen,
+                      items: _imagenes.map((String planta) {
                         return DropdownMenuItem<String>(
-                          value: category,
-                          child: Text(category),
+                          value: planta,
+                          child: Text(planta),
                         );
                       }).toList(),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Por favor seleccione una categoria';
+                          return 'Por favor seleccione una planta';
                         }
                         return null;
                       },
                       onChanged: (value) {
                         setState(() {
-                          _categoria = value!;
+                          _imagen = value!;
                         });
                       },
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return const Text('No data available');
-                  }
-                },
-              ),
-              DropdownButtonFormField<String>(
-                decoration: const InputDecoration(labelText: 'Planta'),
-                value: _imagen,
-                items: _imagenes.map((String planta) {
-                  return DropdownMenuItem<String>(
-                    value: planta,
-                    child: Text(planta),
-                  );
-                }).toList(),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor seleccione una planta';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  setState(() {
-                    _imagen = value!;
-                  });
-                },
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Text(
-                  'Dificultad',
-                  style: TextStyle(fontSize: 16),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text(
+                        'Dificultad',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    Theme(
+                      data: ThemeData(
+                        sliderTheme: const SliderThemeData(
+                          activeTrackColor: Color.fromARGB(255, 82, 189, 100),
+                          thumbColor: Color.fromARGB(255, 82, 189, 100),
+                        ),
+                      ),
+                      child: Slider(
+                        value: _dificultad.toDouble(),
+                        min: 1,
+                        max: 5,
+                        divisions: 4,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _dificultad = newValue.toInt();
+                          });
+                        },
+                        label: _dificultad.toString(),
+                      ),
+                    ),
+                    const Text(
+                      'Prioridad',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Theme(
+                      data: ThemeData(
+                        sliderTheme: const SliderThemeData(
+                          activeTrackColor: Color.fromARGB(255, 82, 189, 100),
+                          thumbColor: Color.fromARGB(255, 82, 189, 100),
+                        ),
+                      ),
+                      child: Slider(
+                        value: _prioridad.toDouble(),
+                        min: 1,
+                        max: 5,
+                        divisions: 4,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _prioridad = newValue.toInt();
+                          });
+                        },
+                        label: _prioridad.toString(),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                          final tarea = Tarea(
+                            id: null,
+                            titulo: _titulo,
+                            descripcion: _descripcion,
+                            fechaInicio: _fechaInicio,
+                            fechaFin: _fechaFin,
+                            categoria: _categoria,
+                            dificultad: _dificultad,
+                            imagen: _imagen,
+                            prioridad: _prioridad,
+                            hecha: 0,
+                          );
+                          SQLHelper.insertarTarea(tarea).then((_) {
+                            Navigator.pop(context,
+                                true); // Pass true back to the previous screen
+                          });
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 82, 189, 100),
+                      ),
+                      child: const Text('Plantar'),
+                    ),
+                  ],
                 ),
               ),
-              Theme(
-                data: ThemeData(
-                  sliderTheme: const SliderThemeData(
-                    activeTrackColor: Color.fromARGB(255, 82, 189, 100),
-                    thumbColor: Color.fromARGB(255, 82, 189, 100),
-                  ),
-                ),
-                child: Slider(
-                  value: _dificultad.toDouble(),
-                  min: 1,
-                  max: 5,
-                  divisions: 4,
-                  onChanged: (newValue) {
-                    setState(() {
-                      _dificultad = newValue.toInt();
-                    });
-                  },
-                  label: _dificultad.toString(),
-                ),
-              ),
-              const Text(
-                'Prioridad',
-                style: TextStyle(fontSize: 16),
-              ),
-              Theme(
-                data: ThemeData(
-                  sliderTheme: const SliderThemeData(
-                    activeTrackColor: Color.fromARGB(255, 82, 189, 100),
-                    thumbColor: Color.fromARGB(255, 82, 189, 100),
-                  ),
-                ),
-                child: Slider(
-                  value: _prioridad.toDouble(),
-                  min: 1,
-                  max: 5,
-                  divisions: 4,
-                  onChanged: (newValue) {
-                    setState(() {
-                      _prioridad = newValue.toInt();
-                    });
-                  },
-                  label: _prioridad.toString(),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    final tarea = Tarea(
-                      id: null,
-                      titulo: _titulo,
-                      descripcion: _descripcion,
-                      fechaInicio: _fechaInicio,
-                      fechaFin: _fechaFin,
-                      categoria: _categoria,
-                      dificultad: _dificultad,
-                      imagen: _imagen,
-                      prioridad: _prioridad,
-                      hecha: 0,
-                    );
-                    SQLHelper.insertarTarea(tarea).then((_) {
-                      Navigator.pop(context,
-                          true); // Pass true back to the previous screen
-                    });
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 82, 189, 100),
-                ),
-                child: const Text('Plantar'),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

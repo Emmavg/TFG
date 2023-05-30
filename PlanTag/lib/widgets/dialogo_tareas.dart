@@ -22,7 +22,7 @@ class _DialogoTareasState extends State<DialogoTareas> {
   final _key = GlobalKey<FormState>();
   final List<String> _imagenes = ['Tulipan', 'Rosa', "Margarita", "Hibisco"];
 
-  // Para saber siempre el tamaño de la columna del formulario de forma dinámica aunque vaya cambiando por la panatalla
+  // Para saber siempre el tamaño de la columna del formulario de forma dinámica aunque vaya cambiando por la pantalla
   final _keyTamColum = GlobalKey<FormState>();
 
   final _nomFld = TextEditingController();
