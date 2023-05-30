@@ -27,8 +27,8 @@ class _NuevaTareaState extends State<NuevaTarea> {
   final List<String> _imagenes = ['Tulipan', 'Rosa', 'Margarita', 'Hibisco'];
 
   Future<List<String>> _fetchCategorias() async {
-    List<String> categorias =  await SQLHelper.categorias();
-    if(categorias.length ==0){
+    List<String> categorias = await SQLHelper.categorias();
+    if (categorias.isEmpty) {
       SQLHelper.insertarCategoria("Otros");
       categorias.add("Otros");
     }
@@ -110,30 +110,23 @@ class _NuevaTareaState extends State<NuevaTarea> {
                 onSaved: (value) => _titulo = value!,
               ),
               TextFormField(
-                decoration: const InputDecoration(labelText
-              : 'Descripcion'),
-              validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor ingrese una descripcion';
-              }
-                return null;
-              },
-              onSaved: (value) => _descripcion = value!,
+                decoration: const InputDecoration(labelText: 'Descripcion'),
+                onSaved: (value) => _descripcion = value!,
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Fecha inicio'),
                 readOnly: true,
                 onTap: () => _selectFechaInicio(context),
                 validator: (value) {
-                if (_fechaInicio == null) {
-                return 'Por favor ingrese una fecha de inicio';
-                }
-                return null;
+                  if (_fechaInicio == null) {
+                    return 'Por favor ingrese una fecha de inicio';
+                  }
+                  return null;
                 },
                 controller: TextEditingController(
                   text: _fechaInicio != null
-                  ? DateFormat.yMd().format(_fechaInicio)
-                  : '',
+                      ? DateFormat.yMd().format(_fechaInicio)
+                      : '',
                 ),
               ),
               TextFormField(
@@ -141,123 +134,123 @@ class _NuevaTareaState extends State<NuevaTarea> {
                 readOnly: true,
                 onTap: () => _selectFechaFin(context),
                 validator: (value) {
-                if (_fechaFin == null) {
-                return 'Por favor ingrese una fecha de fin';
-                }
-                return null;
+                  if (_fechaFin == null) {
+                    return 'Por favor ingrese una fecha de fin';
+                  }
+                  return null;
                 },
                 controller: TextEditingController(
-                  text: _fechaFin != null ? DateFormat.yMd().format(_fechaFin) : '',
+                  text: _fechaFin != null
+                      ? DateFormat.yMd().format(_fechaFin)
+                      : '',
                 ),
               ),
               FutureBuilder<List<String>>(
-              future: _fetchCategorias(),
-              builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else if (snapshot.hasData) {
-                _categorias = snapshot.data!;
-                return DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(labelText: 'Categoria'),
-                    value: _categoria,
-                    items: _categorias.map((String category) {
-                    return DropdownMenuItem<String>(
-                    value: category,
-                    child: Text(category),
+                future: _fetchCategorias(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasData) {
+                    _categorias = snapshot.data!;
+                    return DropdownButtonFormField<String>(
+                      decoration: const InputDecoration(labelText: 'Categoria'),
+                      value: _categoria,
+                      items: _categorias.map((String category) {
+                        return DropdownMenuItem<String>(
+                          value: category,
+                          child: Text(category),
+                        );
+                      }).toList(),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor seleccione una categoria';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          _categoria = value!;
+                        });
+                      },
                     );
-                    }).toList(),
-              validator: (value) {
-              if (value == null || value.isEmpty) {
-               return 'Por favor seleccione una categoria';
-              }
-                return null;
-              },
-              onChanged: (value) {
-              setState(() {
-                _categoria = value!;
-              });
-              },
-              );
-              } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-              return const Text('No data available');
-              }
-              },
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return const Text('No data available');
+                  }
+                },
               ),
               DropdownButtonFormField<String>(
-              decoration: const InputDecoration(labelText: 'Planta'),
-              value: _imagen,
-              items: _imagenes.map((String planta) {
-              return DropdownMenuItem<String>(
-                value: planta,
-                child: Text(planta),
-              );
-              }).toList(),
-              validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor seleccione una planta';
-              }
-                return null;
-              },
-              onChanged: (value) {
-              setState(() {
-              _imagen = value!;
-              });
-              },
+                decoration: const InputDecoration(labelText: 'Planta'),
+                value: _imagen,
+                items: _imagenes.map((String planta) {
+                  return DropdownMenuItem<String>(
+                    value: planta,
+                    child: Text(planta),
+                  );
+                }).toList(),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor seleccione una planta';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  setState(() {
+                    _imagen = value!;
+                  });
+                },
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 10),
                 child: Text(
-                'Dificultad',
-                style: TextStyle(fontSize: 16),
+                  'Dificultad',
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
               Theme(
                 data: ThemeData(
-                sliderTheme: const SliderThemeData(
-                activeTrackColor: Color.fromARGB(255, 82, 189, 100),
-                thumbColor: Color.fromARGB(255, 82, 189, 100),
+                  sliderTheme: const SliderThemeData(
+                    activeTrackColor: Color.fromARGB(255, 82, 189, 100),
+                    thumbColor: Color.fromARGB(255, 82, 189, 100),
+                  ),
                 ),
-              ),
-              child: Slider(
-                value: _dificultad.toDouble(),
-                min: 1,
-                max: 5,
-                divisions: 4,
-                onChanged: (newValue) {
-                setState(() {
-                  _dificultad = newValue.toInt();
-                });
-                },
-                label: _dificultad.toString(),
+                child: Slider(
+                  value: _dificultad.toDouble(),
+                  min: 1,
+                  max: 5,
+                  divisions: 4,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _dificultad = newValue.toInt();
+                    });
+                  },
+                  label: _dificultad.toString(),
                 ),
               ),
               const Text(
-              'Prioridad',
-              style: TextStyle(fontSize: 16),
+                'Prioridad',
+                style: TextStyle(fontSize: 16),
               ),
-              Theme
-
-              (
-              data: ThemeData(
-              sliderTheme: const SliderThemeData(
-                activeTrackColor: Color.fromARGB(255, 82, 189, 100),
-                thumbColor: Color.fromARGB(255, 82, 189, 100),
+              Theme(
+                data: ThemeData(
+                  sliderTheme: const SliderThemeData(
+                    activeTrackColor: Color.fromARGB(255, 82, 189, 100),
+                    thumbColor: Color.fromARGB(255, 82, 189, 100),
+                  ),
                 ),
-              ),
-              child: Slider(
-                value: _prioridad.toDouble(),
-                min: 1,
-                max: 5,
-                divisions: 4,
-                onChanged: (newValue) {
-                setState(() {
-                  _prioridad = newValue.toInt();
-                });
-                },
-                label: _prioridad.toString(),
-              ),
+                child: Slider(
+                  value: _prioridad.toDouble(),
+                  min: 1,
+                  max: 5,
+                  divisions: 4,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _prioridad = newValue.toInt();
+                    });
+                  },
+                  label: _prioridad.toString(),
+                ),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -276,7 +269,8 @@ class _NuevaTareaState extends State<NuevaTarea> {
                       hecha: 0,
                     );
                     SQLHelper.insertarTarea(tarea).then((_) {
-                      Navigator.pop(context, true); // Pass true back to the previous screen
+                      Navigator.pop(context,
+                          true); // Pass true back to the previous screen
                     });
                   }
                 },
@@ -285,11 +279,10 @@ class _NuevaTareaState extends State<NuevaTarea> {
                 ),
                 child: const Text('Plantar'),
               ),
-
             ],
-         ),
-     ),
-    ),
-  );
-}
+          ),
+        ),
+      ),
+    );
+  }
 }

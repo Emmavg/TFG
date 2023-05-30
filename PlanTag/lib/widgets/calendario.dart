@@ -57,10 +57,10 @@ class _CalendarioState extends State<Calendario> {
                 );
               }
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                 builder: (context) => const MyApp(),
-              ),
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MyApp(),
+                ),
               );
             },
           );

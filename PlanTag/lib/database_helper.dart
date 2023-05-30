@@ -10,12 +10,12 @@ class SQLHelper {
   static Future<Database> _db() async {
     return openDatabase(join(await getDatabasesPath(), 'jaidb.db'),
         onCreate: (db, version) {
-          db.execute("""
+      db.execute("""
           CREATE TABLE categoria(            
               nombre TEXT PRIMARY KEY NOT NULL
             )
             """);
-          SQLHelper.insertarCategoria("Otros");
+      //SQLHelper.insertarCategoria("Otros");
       return db.execute("""
           CREATE TABLE tareas(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,50 +30,54 @@ class SQLHelper {
             hecha INTEGER
             )
           """);
-          
     }, version: 1);
   }
+
   // ----------------------- Borrar base OJO! -----------------------
   static Future<void> eliminarBase() async {
-  final db = await _db();
-  db.execute("""
+    final db = await _db();
+    db.execute("""
         DROP TABLE tareas;
         DROP TABLE categoria;
         """);
-}
+  }
   // --------------------------- lista de tareas  ------------------------//
 
-static Future<List<Tarea>> tareas() async {
-  final db = await _db();
-  final List<Map<String, dynamic>> tareasMap = await db.query("tareas");
-  return List.generate(
-    tareasMap.length,
-    (i) => Tarea(
-      id: tareasMap[i]['id'],
-      titulo: tareasMap[i]['titulo'],
-      descripcion: tareasMap[i]['descripcion'],
-      fechaInicio: tareasMap[i]['fechaInicio'] != null ? DateTime.parse(tareasMap[i]['fechaInicio']) : DateTime.now(),
-      fechaFin: tareasMap[i]['fechaFin'] != null ? DateTime.parse(tareasMap[i]['fechaFin']) : DateTime.now(),
-      categoria: tareasMap[i]['categoria'],
-      dificultad: tareasMap[i]['dificultad'],
-      imagen: tareasMap[i]['imagen'],
-      prioridad: tareasMap[i]['prioridad'],
-      hecha: tareasMap[i]['hecha'] ?? 0,
-    ),
-  );
-}
+  static Future<List<Tarea>> tareas() async {
+    final db = await _db();
+    final List<Map<String, dynamic>> tareasMap = await db.query("tareas");
+    return List.generate(
+      tareasMap.length,
+      (i) => Tarea(
+        id: tareasMap[i]['id'],
+        titulo: tareasMap[i]['titulo'],
+        descripcion: tareasMap[i]['descripcion'],
+        fechaInicio: tareasMap[i]['fechaInicio'] != null
+            ? DateTime.parse(tareasMap[i]['fechaInicio'])
+            : DateTime.now(),
+        fechaFin: tareasMap[i]['fechaFin'] != null
+            ? DateTime.parse(tareasMap[i]['fechaFin'])
+            : DateTime.now(),
+        categoria: tareasMap[i]['categoria'],
+        dificultad: tareasMap[i]['dificultad'],
+        imagen: tareasMap[i]['imagen'],
+        prioridad: tareasMap[i]['prioridad'],
+        hecha: tareasMap[i]['hecha'] ?? 0,
+      ),
+    );
+  }
 
   // --------------------------- Insertar tarea  ------------------------//
 
-static Future<void> insertarTarea(Tarea tarea) async {
-  final db = await _db();
-  await db.insert('tareas', tarea.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace);
-      log("Tarea Insertada");
-}
+  static Future<void> insertarTarea(Tarea tarea) async {
+    final db = await _db();
+    await db.insert('tareas', tarea.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+    log("Tarea Insertada");
+  }
 
   // ------------- para que me devuelva toda la info de la tarea que quiero ----------
-    static Future<Tarea?> buscarTarea(String nombre, String descripcion) async {
+  static Future<Tarea?> buscarTarea(String nombre, String descripcion) async {
     final db = await _db();
     final List<Map<String, dynamic>> tareaMap = await db.query(
       'tareas',
@@ -90,8 +94,12 @@ static Future<void> insertarTarea(Tarea tarea) async {
       id: tareaMap[0]['id'],
       titulo: tareaMap[0]['titulo'],
       descripcion: tareaMap[0]['descripcion'],
-      fechaInicio: tareaMap[0]['fechaInicio'] != null ? DateTime.parse(tareaMap[0]['fechaInicio']) : DateTime.now(),
-      fechaFin: tareaMap[0]['fechaFin'] != null ? DateTime.parse(tareaMap[0]['fechaFin']) : DateTime.now(),
+      fechaInicio: tareaMap[0]['fechaInicio'] != null
+          ? DateTime.parse(tareaMap[0]['fechaInicio'])
+          : DateTime.now(),
+      fechaFin: tareaMap[0]['fechaFin'] != null
+          ? DateTime.parse(tareaMap[0]['fechaFin'])
+          : DateTime.now(),
       categoria: tareaMap[0]['categoria'],
       dificultad: tareaMap[0]['dificultad'],
       imagen: tareaMap[0]['imagen'],
@@ -100,50 +108,59 @@ static Future<void> insertarTarea(Tarea tarea) async {
     );
   }
 
-
   // ----------------------- Borrar una tarea -----------------------
   static Future<void> eliminarTarea(int? id) async {
     // print(id); aqui llega bien el id
-  final db = await _db();
-  await db.delete('tareas', where: 'id = ?', whereArgs: [id]);
-  log("Tarea eliminada");
-}
-
+    final db = await _db();
+    await db.delete('tareas', where: 'id = ?', whereArgs: [id]);
+    log("Tarea eliminada");
+  }
 
 // ----------------------- Editar una tarea --------------------------
-static Future<void> editarTarea(int? id, String titulo,String descripcion,DateTime fechaInicio,DateTime fechaFin,String categoria,int dificultad,String imagen,int prioridad, int hecha)async {
+  static Future<void> editarTarea(
+      int? id,
+      String titulo,
+      String descripcion,
+      DateTime fechaInicio,
+      DateTime fechaFin,
+      String categoria,
+      int dificultad,
+      String imagen,
+      int prioridad,
+      int hecha) async {
     final db = await _db();
     await db.update(
-        'tareas',
-        {
-          'titulo': titulo,
-          'descripcion': descripcion,
-          'fechaInicio': fechaInicio.toIso8601String(),
-          'fechaFin': fechaFin.toIso8601String(),
-          'categoria': categoria,
-          'dificultad': dificultad,
-          'imagen': imagen,
-          'prioridad': prioridad,
-          'hecha': hecha,
-        },
-        where: 'id = ?',
-        whereArgs: [id],
-      );
+      'tareas',
+      {
+        'titulo': titulo,
+        'descripcion': descripcion,
+        'fechaInicio': fechaInicio.toIso8601String(),
+        'fechaFin': fechaFin.toIso8601String(),
+        'categoria': categoria,
+        'dificultad': dificultad,
+        'imagen': imagen,
+        'prioridad': prioridad,
+        'hecha': hecha,
+      },
+      where: 'id = ?',
+      whereArgs: [id],
+    );
 
     log("Tarea actualizada");
   }
 
 // ----------------------- Marcar una tarea como hecha --------------------------
-static Future<void> marcarTareaComoHecha(int? id) async {
-  final db = await _db();
-  await db.update(
-    'tareas',
-    {'hecha': 1},
-    where: 'id = ?',
-    whereArgs: [id],
-  );
-  log("Tarea marcada como hecha");
-}
+  static Future<void> marcarTareaComoHecha(int? id) async {
+    final db = await _db();
+    await db.update(
+      'tareas',
+      {'hecha': 1},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    log("Tarea marcada como hecha");
+  }
+
 // --------------------- Añadir una categoria --------------------------------
   static Future<void> insertarCategoria(String nombre) async {
     final db = await _db();
@@ -159,15 +176,17 @@ static Future<void> marcarTareaComoHecha(int? id) async {
 // ------------------------ Listar categorias ---------------------------------
   static Future<List<String>> categorias() async {
     final db = await _db();
-    final List<Map<String, dynamic>> categoriasMap = await db.query("categoria");
-    return categoriasMap.map((categoriaMap) => categoriaMap['nombre'] as String).toList();
+    final List<Map<String, dynamic>> categoriasMap =
+        await db.query("categoria");
+    return categoriasMap
+        .map((categoriaMap) => categoriaMap['nombre'] as String)
+        .toList();
   }
 
 // --------------------- Borrar una categoria ---------------------------------
   static Future<void> eliminarCategoria(String nombre) async {
-  final db = await _db();
-  await db.delete('categoria', where: 'nombre = ?', whereArgs: [nombre]);
-  log("Categoría borrada");
-}
-
+    final db = await _db();
+    await db.delete('categoria', where: 'nombre = ?', whereArgs: [nombre]);
+    log("Categoría borrada");
+  }
 }

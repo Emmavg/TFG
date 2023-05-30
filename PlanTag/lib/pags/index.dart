@@ -30,26 +30,24 @@ class _IndexState extends State<Index> {
     // ***************************** carga las tareas al principio :) ********************************************
     Future<List<Tarea>> lista = SQLHelper.tareas();
     lista.then((miLista) {
-    // paso los elementos de tareas a appointments que se pueden meter en el calendario
-    List<Appointment> appointments = [];
+      // paso los elementos de tareas a appointments que se pueden meter en el calendario
+      List<Appointment> appointments = [];
 
-    for (Tarea tarea in miLista) {
+      for (Tarea tarea in miLista) {
+        Appointment appointment = Appointment(
+          startTime: tarea.fechaInicio,
+          endTime: tarea.fechaFin,
+          subject: tarea.titulo,
+          notes: tarea.descripcion,
+          color: Colors.blue,
+        );
 
-      Appointment appointment = Appointment(
-        startTime: tarea.fechaInicio,
-        endTime: tarea.fechaFin,
-        subject: tarea.titulo,
-        notes: tarea.descripcion,
-        color: Colors.blue,
-      );
+        appointments.add(appointment);
+        //print(appointments[0].subject);
+      }
 
-    appointments.add(appointment);
-    //print(appointments[0].subject);
-}
-    
-    // aqui hay que cargar el calendario :)
-    
-});
+      // aqui hay que cargar el calendario :)
+    });
     return Scaffold(
 // ********************************************************** Barra superior **********************************************
 
@@ -115,12 +113,14 @@ class _IndexState extends State<Index> {
                 foregroundColor: Colors.white,
                 label: 'Categorías',
                 labelStyle: const TextStyle(fontSize: 15.0),
-                onTap: () { Navigator.push(
+                onTap: () {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>  CategoriasPage(),
+                      builder: (context) => const CategoriasPage(),
                     ),
-                  );},
+                  );
+                },
                 onLongPress: () {},
               ),
 
@@ -160,9 +160,10 @@ class _IndexState extends State<Index> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Dentro del contenedor le metemos la clase que muestra el calendario
-            Expanded(child: Calendario(botones: true,)
-            )
-            
+            Expanded(
+                child: Calendario(
+              botones: true,
+            ))
           ],
         ),
       ),
@@ -179,7 +180,6 @@ class _IndexState extends State<Index> {
               builder: (context) => const VistaLista2(),
             ),
           );
-          
         },
         backgroundColor: Colors.deepPurple,
         child: const Icon(Icons.list_alt_outlined),

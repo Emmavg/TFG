@@ -7,10 +7,12 @@ import 'package:plantag/database_helper.dart';
 import 'package:intl/intl.dart';
 
 class DialogoTareas extends StatefulWidget {
-
   DateTime? fechaSeleccionada;
 
-  DialogoTareas({ this.fechaSeleccionada, Key? key,}) : super(key: key);
+  DialogoTareas({
+    this.fechaSeleccionada,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<DialogoTareas> createState() => _DialogoTareasState();
@@ -18,14 +20,14 @@ class DialogoTareas extends StatefulWidget {
 
 class _DialogoTareasState extends State<DialogoTareas> {
   final _key = GlobalKey<FormState>();
-  final List<String> _imagenes = ['Tulipan', 'Rosa',"Margarita","Hibisco"];
+  final List<String> _imagenes = ['Tulipan', 'Rosa', "Margarita", "Hibisco"];
 
   // Para saber siempre el tamaño de la columna del formulario de forma dinámica aunque vaya cambiando por la panatalla
   final _keyTamColum = GlobalKey<FormState>();
 
   final _nomFld = TextEditingController();
   final _descFld = TextEditingController();
-  late DateTime _fechaFin =widget.fechaSeleccionada!;
+  late DateTime _fechaFin = widget.fechaSeleccionada!;
   late String _imgFld;
 
   Future<void> _selectFechaFin(BuildContext context) async {
@@ -41,6 +43,7 @@ class _DialogoTareasState extends State<DialogoTareas> {
       });
     }
   }
+
   @override
   void initState() {
     super.initState();
@@ -110,24 +113,24 @@ class _DialogoTareasState extends State<DialogoTareas> {
                 // Depende de si está definido el contexto o no y de si está o no asignada la key a este componente por lo que arriba lo evaluamos con una condicion
                 // y ponemos la ! para decirle a flutter que nos aseguramos que recibe esa variable
 
-               // print(_key.currentContext!.size);
+                // print(_key.currentContext!.size);
                 // Validamos si es correcto el formulario y están todos los campos rellenos o falta alguno obligatorio
                 if (_key.currentState!.validate()) {
                   // Process data.
                   // Cerramos la ventana cuando pulsemos el botón
-                  // Insertar tarea 
-                              Tarea tarea = Tarea(
-                                titulo: _nomFld.text,
-                                descripcion: _descFld.text,
-                                fechaInicio :widget.fechaSeleccionada! ,
-                                fechaFin:_fechaFin,
-                                categoria: "Otros",
-                                dificultad: 3,
-                                imagen: _imgFld,
-                                prioridad: 3,
-                                hecha:0,
-                              );
-                            SQLHelper.insertarTarea(tarea);
+                  // Insertar tarea
+                  Tarea tarea = Tarea(
+                    titulo: _nomFld.text,
+                    descripcion: _descFld.text,
+                    fechaInicio: widget.fechaSeleccionada!,
+                    fechaFin: _fechaFin,
+                    categoria: "Otros",
+                    dificultad: 3,
+                    imagen: _imgFld,
+                    prioridad: 3,
+                    hecha: 0,
+                  );
+                  SQLHelper.insertarTarea(tarea);
                   Navigator.pop(context);
                 }
               },
@@ -181,7 +184,7 @@ class _DialogoTareasState extends State<DialogoTareas> {
 
                   // Le añadimos un espacio para que no estén tan pegados como si fuera un br
                   const SizedBox(height: 10),
-                  
+
                   // -------------------------------------- TxtFld Descripcion ----------------------------------------
                   TextFormField(
                     controller: _descFld,
@@ -234,7 +237,9 @@ class _DialogoTareasState extends State<DialogoTareas> {
                     },
                     controller: TextEditingController(
                       // ignore: unnecessary_null_comparison
-                      text: _fechaFin != null ? DateFormat.yMd().format(_fechaFin)  : '',
+                      text: _fechaFin != null
+                          ? DateFormat.yMd().format(_fechaFin)
+                          : '',
                     ),
                   ),
                 ],
