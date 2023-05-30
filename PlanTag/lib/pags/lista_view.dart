@@ -31,6 +31,7 @@ class _VistaLista2State extends State<VistaLista2> {
   @override
   void initState() {
     super.initState();
+    _orderSelected = "Por fecha";
     cargarTareas();
   }
 
@@ -137,18 +138,14 @@ class _VistaLista2State extends State<VistaLista2> {
                                             child:
                                                 // ------------------------------ Lista desplegable seleccionar que tiene un filtro -------------------------
                                                 DropdownButton(
-                                                    items: <String>[
-                                                      "Por fecha",
-                                                      "Por creación"
-                                                    ]
-                                                        .map((i) => DropdownMenuItem<
-                                                                String>(
-                                                            value: i,
-                                                            child: Text(i,
-                                                                style: const TextStyle(
-                                                                    color: Colors
-                                                                        .deepOrange))))
-                                                        .toList(),
+                                                  value: _orderSelected, 
+                                                  items: <String>[
+                                                    "Por fecha",
+                                                    "Por creación"
+                                                  ].map((i) => DropdownMenuItem<String>(
+                                                      value: i,
+                                                      child: Text(i, style: const TextStyle(color: Colors.deepOrange)),
+                                                  )).toList(),
                                                     // Le colocamos texto inicial al menú deslegable, si la propiedad orderselected es "" entonces le ponemos el txt de la const
                                                     hint: _orderSelected == ""
                                                         ? const Text(
@@ -167,10 +164,23 @@ class _VistaLista2State extends State<VistaLista2> {
                                                     // --------------------------------- ACCION CUANDO SE SELECCIONE UN VALOR --------------------------
                                                     onChanged: (value) {
                                                       setState(() {
-                                                        _orderSelected =
-                                                            value.toString();
+                                                        _orderSelected = value.toString();
+                                                        // Perform filtering based on the selected filter value
+                                                        if (_orderSelected == "Por fecha") {
+                                                          tareasFiltradas = List.from(tareas)
+                                                            ..sort((a, b) =>
+                                                                a.fechaInicio.compareTo(b.fechaInicio));
+                                                        } else if (_orderSelected == "Por creación") {
+                                                          tareasFiltradas = List.from(tareas);
+                                                          tareasFiltradas.sort((a, b) =>
+                                                              a.id == b.id ? 0 : (a.id! > b.id! ? 1 : -1));
+                                                        } else {
+                                                          tareasFiltradas = List.from(tareas);
+                                                        }
                                                       });
-                                                    }),
+                                                    },
+
+                                                    ),
                                           ),
 
                                           // Lista
