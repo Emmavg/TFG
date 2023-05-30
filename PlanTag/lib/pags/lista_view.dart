@@ -165,7 +165,6 @@ class _VistaLista2State extends State<VistaLista2> {
                                                     onChanged: (value) {
                                                       setState(() {
                                                         _orderSelected = value.toString();
-                                                        // Perform filtering based on the selected filter value
                                                         if (_orderSelected == "Por fecha") {
                                                           tareasFiltradas = List.from(tareas)
                                                             ..sort((a, b) =>
