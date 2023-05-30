@@ -63,12 +63,12 @@ class _CalendarioState extends State<Calendario> {
                   print('Dialog closed with result: $result');
                 }
               }
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MyApp(),
-                ),
-              );
+              Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const MyApp(),
+              ),
+            );
             },
           );
         } else {

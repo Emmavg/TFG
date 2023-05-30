@@ -67,7 +67,7 @@ class _VistaLista2State extends State<VistaLista2> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => const MyApp(),
@@ -451,7 +451,7 @@ class _VistaLista2State extends State<VistaLista2> {
                 ),
               ).then((value) {
                 if (value == true) {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const VistaLista2(),
@@ -492,6 +492,7 @@ List<Lista> tareasFiltradas = [];
 List<Lista> tareas = [];
 
 void _mostrarDetallesTarea(BuildContext context, Tarea tarea) {
+  
   Navigator.push(
     context,
     MaterialPageRoute(
