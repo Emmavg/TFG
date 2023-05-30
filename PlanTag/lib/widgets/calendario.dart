@@ -47,14 +47,21 @@ class _CalendarioState extends State<Calendario> {
           return SfCalendar(
             view: CalendarView.month,
             dataSource: _DataSource(appointments),
-            onTap: (CalendarTapDetails details) {
+            onTap: (CalendarTapDetails details) async {
               if (details.targetElement == CalendarElement.calendarCell) {
-                showDialog(
+                // Show the dialog and wait for it to close
+                final result = await showDialog(
                   context: context,
                   builder: (BuildContext context) => DialogoTareas(
                     fechaSeleccionada: details.date!,
                   ),
                 );
+
+                // Handle the result when the dialog is closed
+                if (result != null) {
+                  // Refresh the calendar or perform any other action based on the result
+                  print('Dialog closed with result: $result');
+                }
               }
               Navigator.push(
                 context,

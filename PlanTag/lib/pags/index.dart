@@ -6,6 +6,7 @@ import 'package:plantag/models/tarea.dart';
 import '../main.dart';
 import 'lista_view.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Index extends StatefulWidget {
@@ -48,7 +49,33 @@ class _IndexState extends State<Index> {
 
       // aqui hay que cargar el calendario :)
     });
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        // Show dialog and handle user's choice
+        bool exit = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("Seguro?"),
+            content: const Text("Salir de Plantag?"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text("No"),
+              ),
+              TextButton(
+               onPressed: () {
+                Navigator.of(context).pop(true);
+                _exitApp();
+              },
+                child: const Text("Si"),
+              ),
+            ],
+          ),
+        );
+
+        return exit; 
+      },
+      child: Scaffold(
 // ********************************************************** Barra superior **********************************************
 
       appBar: AppBar(
@@ -185,6 +212,9 @@ class _IndexState extends State<Index> {
         child: const Icon(Icons.list_alt_outlined),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
+    ));
   }
+  void _exitApp() {
+  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+}
 }
