@@ -31,7 +31,7 @@ class _VistaLista2State extends State<VistaLista2> {
   @override
   void initState() {
     super.initState();
-    _orderSelected = "Por fecha";
+    _orderSelected = "Por creación";
     cargarTareas();
   }
 
@@ -141,10 +141,12 @@ class _VistaLista2State extends State<VistaLista2> {
                                                   value: _orderSelected, 
                                                   items: <String>[
                                                     "Por fecha",
-                                                    "Por creación"
+                                                    "Por creación",
+                                                    "Por prioridad",
+                                                    "Por categoría"                                            
                                                   ].map((i) => DropdownMenuItem<String>(
                                                       value: i,
-                                                      child: Text(i, style: const TextStyle(color: Colors.deepOrange)),
+                                                      child: Text(i, style: const TextStyle(color: Colors.green)),
                                                   )).toList(),
                                                     // Le colocamos texto inicial al menú deslegable, si la propiedad orderselected es "" entonces le ponemos el txt de la const
                                                     hint: _orderSelected == ""
@@ -167,12 +169,16 @@ class _VistaLista2State extends State<VistaLista2> {
                                                         _orderSelected = value.toString();
                                                         if (_orderSelected == "Por fecha") {
                                                           tareasFiltradas = List.from(tareas)
-                                                            ..sort((a, b) =>
-                                                                a.fechaInicio.compareTo(b.fechaInicio));
+                                                            ..sort((a, b) => a.fechaInicio.compareTo(b.fechaInicio));
                                                         } else if (_orderSelected == "Por creación") {
                                                           tareasFiltradas = List.from(tareas);
-                                                          tareasFiltradas.sort((a, b) =>
-                                                              a.id == b.id ? 0 : (a.id! > b.id! ? 1 : -1));
+                                                          tareasFiltradas.sort((a, b) => a.id == b.id ? 0 : (a.id! > b.id! ? 1 : -1));
+                                                        } else if (_orderSelected == "Por prioridad") {
+                                                          tareasFiltradas = List.from(tareas)
+                                                            ..sort((a, b) => a.prioridad.compareTo(b.prioridad));
+                                                        } else if (_orderSelected == "Por categoría") {
+                                                          tareasFiltradas = List.from(tareas)
+                                                            ..sort((a, b) => a.categoria.compareTo(b.categoria));
                                                         } else {
                                                           tareasFiltradas = List.from(tareas);
                                                         }
